@@ -52,6 +52,7 @@ export default function Navbar() {
               alt="ZeroQueries logo"
               width={60}
               height={40}
+              className="h-auto w-auto"
               priority
             />
             <span className="hidden text-[22px] font-light tracking-tight text-black sm:block">

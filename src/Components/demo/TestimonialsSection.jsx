@@ -59,6 +59,16 @@ export default function TestimonialsSection() {
                 }}
             />
 
+            {/* ============== VIOLET GLOW — BOTTOM RIGHT ============== */}
+            <div
+                className="pointer-events-none absolute -bottom-40 -right-40 w-[750px] h-[750px] rounded-full"
+                style={{
+                    background:
+                        "radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(167, 139, 250, 0.15) 40%, rgba(196, 181, 253, 0) 70%)",
+                    filter: "blur(90px)",
+                }}
+            />
+
             <div className="max-w-6xl mx-auto relative z-10">
                 {/* Heading */}
                 <h2 className="text-4xl md:text-5xl font-light text-center text-black mb-16 tracking-tight">
@@ -90,10 +100,7 @@ export default function TestimonialsSection() {
                                     </div>
 
                                     <div className="flex-1 min-w-0 pr-6">
-                                        <h4
-                                            className={`font-normal text-base ${isActive ? "text-black" : "text-black"
-                                                }`}
-                                        >
+                                        <h4 className="font-normal text-base text-black">
                                             {person.name}
                                         </h4>
                                         <p className="text-sm leading-snug font-light text-black/60">

@@ -54,8 +54,25 @@ export default function Contact() {
       {/* Dot Grid Pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-40" />
 
-      {/* Soft neutral glow */}
-      <div className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[850px] h-[450px] bg-gradient-to-b from-gray-200/50 via-gray-100/30 to-transparent blur-[110px] rounded-full" />
+      {/* ============== VIOLET GLOW — TOP LEFT ============== */}
+      <div
+        className="pointer-events-none absolute -top-40 -left-40 w-[750px] h-[750px] rounded-full"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(167, 139, 250, 0.15) 40%, rgba(196, 181, 253, 0) 70%)",
+          filter: "blur(90px)",
+        }}
+      />
+
+      {/* ============== VIOLET GLOW — BOTTOM RIGHT ============== */}
+      <div
+        className="pointer-events-none absolute -bottom-40 -right-40 w-[750px] h-[750px] rounded-full"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(167, 139, 250, 0.15) 40%, rgba(196, 181, 253, 0) 70%)",
+          filter: "blur(90px)",
+        }}
+      />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-10 lg:px-14">
         {/* ================= HEADING ================= */}
