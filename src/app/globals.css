@@ -1,26 +1,60 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   TYPOGRAPHY SYSTEM & USAGE GUIDELINES (TELLIUS INSPIRATION)
+   ==========================================================================
+   THINGS TO REMEMBER:
+   1. Primary Sans-Serif Font:
+      - The Tellius website primarily uses 'Inter' paired with system fallbacks
+        (-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif).
+      - WHERE TO USE: Headings (h1-h6), body copy, buttons, badges, navigation,
+        and all standard UI components.
+      - TAILWIND CLASS: `font-sans` (Applied by default to <body>).
+
+   2. Monospaced Font:
+      - Falls back to standard monospaced typefaces (ui-monospace, SFMono-Regular,
+        Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace).
+      - WHERE TO USE: Fixed-width elements, data outputs, SQL queries, KPI metrics,
+        raw statistics tables, and code snippets.
+      - TAILWIND CLASS: `font-mono`.
+
+   3. Easy Customization:
+      - If the client requests a font change, update `--font-sans` or `--font-mono`
+        here in the :root selector. It will propagate across the entire project.
+   ========================================================================== */
+
 :root {
+  /* ==========================================================================
+     PRIMARY TYPOGRAPHY CONFIGURATION (SINGLE SOURCE OF TRUTH)
+     Change --font-sans or --font-mono here once to update the entire website!
+     ========================================================================== */
+  --font-sans: var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   --background: #ffffff;
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.font-sans {
+  font-family: var(--font-sans);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.font-mono {
+  font-family: var(--font-mono);
 }
 
-body {
+html,
+body,
+input,
+button,
+select,
+textarea {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  cursor: pointer;
 }
