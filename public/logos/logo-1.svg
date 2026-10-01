@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 40" fill="none" width="140" height="40">
+  <g fill="#0f172a">
+    <path d="M12 9L23 15.5V28.5L12 35L1 28.5V15.5L12 9Z" stroke="#0f172a" stroke-width="2.5" fill="none"/>
+    <circle cx="12" cy="22" r="3.5" fill="#0f172a"/>
+    <path d="M12 9V18.5M23 28.5L14.5 23.5M1 28.5L9.5 23.5" stroke="#0f172a" stroke-width="2"/>
+    <text x="32" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" letter-spacing="1.5">NEXUS</text>
+  </g>
+</svg>

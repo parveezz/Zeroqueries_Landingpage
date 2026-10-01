@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Button } from "@/Components/ui/Button";
 
 const navLinks = [
@@ -15,6 +16,7 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -62,15 +64,25 @@ export default function Navbar() {
 
           {/* Desktop nav links */}
           <div className="hidden items-center gap-7 lg:flex xl:gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="block py-2 text-[15px] font-normal text-black/80 transition-colors hover:text-[#6434F5] focus-visible:outline-none focus-visible:text-[#6434F5]"
-              >
-                {link.name}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const isActive =
+                pathname === link.href ||
+                (link.href !== "/" && pathname?.startsWith(link.href));
+
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`block py-2 text-[15px] transition-colors focus-visible:outline-none focus-visible:text-[#6434F5] ${
+                    isActive
+                      ? "font-medium text-[#6434F5]"
+                      : "font-normal text-black/80 hover:text-[#6434F5]"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
           </div>
         </div>
 
@@ -135,16 +147,26 @@ export default function Navbar() {
       {/* Mobile menu */}
       {mobileMenuOpen && (
         <div className="space-y-4 border-t border-gray-200/50 bg-white/85 backdrop-blur-xl backdrop-saturate-150 px-6 py-5 shadow-xl lg:hidden">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-1.5 text-base font-normal text-black/80 transition-colors hover:text-[#6434F5]"
-            >
-              {link.name}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isActive =
+              pathname === link.href ||
+              (link.href !== "/" && pathname?.startsWith(link.href));
+
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className={`block py-1.5 text-base transition-colors ${
+                  isActive
+                    ? "font-medium text-[#6434F5]"
+                    : "font-normal text-black/80 hover:text-[#6434F5]"
+                }`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
 
           <div className="flex flex-col gap-2.5 border-t border-gray-200/50 pt-3">
             <Link href="#" onClick={() => setMobileMenuOpen(false)}>

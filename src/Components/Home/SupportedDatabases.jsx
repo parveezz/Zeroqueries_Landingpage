@@ -18,7 +18,7 @@ const DATABASES = [
         name: "ClickHouse",
         icon: SiClickhouse,
         color: "#FFCC01",
-        tape: "rgba(255, 204, 1, 0.35)",
+        tape: "rgba(255, 204, 1, 0.4)",
         rotate: "-3deg",
         offset: "translate-y-2",
     },
@@ -26,7 +26,7 @@ const DATABASES = [
         name: "PostgreSQL",
         icon: SiPostgresql,
         color: "#4169E1",
-        tape: "rgba(65, 105, 225, 0.35)",
+        tape: "rgba(65, 105, 225, 0.4)",
         rotate: "2deg",
         offset: "-translate-y-1",
     },
@@ -34,7 +34,7 @@ const DATABASES = [
         name: "MySQL",
         icon: SiMysql,
         color: "#4479A1",
-        tape: "rgba(68, 121, 161, 0.35)",
+        tape: "rgba(68, 121, 161, 0.4)",
         rotate: "-1.5deg",
         offset: "translate-y-3",
     },
@@ -42,7 +42,7 @@ const DATABASES = [
         name: "SQL Server",
         icon: FaMicrosoft,
         color: "#CC2927",
-        tape: "rgba(204, 41, 39, 0.3)",
+        tape: "rgba(204, 41, 39, 0.35)",
         rotate: "3deg",
         offset: "translate-y-0",
     },
@@ -50,7 +50,7 @@ const DATABASES = [
         name: "Oracle",
         icon: GrOracle,
         color: "#F80000",
-        tape: "rgba(248, 0, 0, 0.25)",
+        tape: "rgba(248, 0, 0, 0.3)",
         rotate: "-2.5deg",
         offset: "-translate-y-2",
     },
@@ -58,7 +58,7 @@ const DATABASES = [
         name: "MongoDB",
         icon: SiMongodb,
         color: "#47A248",
-        tape: "rgba(71, 162, 72, 0.35)",
+        tape: "rgba(71, 162, 72, 0.4)",
         rotate: "1.5deg",
         offset: "translate-y-2",
     },
@@ -66,7 +66,7 @@ const DATABASES = [
         name: "Snowflake",
         icon: SiSnowflake,
         color: "#29B5E8",
-        tape: "rgba(41, 181, 232, 0.35)",
+        tape: "rgba(41, 181, 232, 0.4)",
         rotate: "-2deg",
         offset: "translate-y-1",
     },
@@ -74,7 +74,7 @@ const DATABASES = [
         name: "BigQuery",
         icon: SiGooglebigquery,
         color: "#4285F4",
-        tape: "rgba(66, 133, 244, 0.35)",
+        tape: "rgba(66, 133, 244, 0.4)",
         rotate: "2.5deg",
         offset: "-translate-y-1",
     },
@@ -82,7 +82,6 @@ const DATABASES = [
 
 export default function SupportedDatabases() {
     return (
-        // bg-transparent — inherits whatever is behind it
         <section className="relative w-full bg-transparent font-sans text-black py-24 sm:py-28 px-6 sm:px-10 lg:px-14 overflow-hidden">
             <div className="relative z-10 mx-auto max-w-7xl">
                 {/* ============== HEADING ============== */}
@@ -101,17 +100,101 @@ export default function SupportedDatabases() {
                     </p>
                 </div>
 
-                {/* ============== STICKY NOTE ROW ============== */}
-                <div className="overflow-x-auto lg:overflow-visible pb-8 lg:pb-0 -mx-6 sm:-mx-10 lg:mx-0">
-                    <div className="flex flex-nowrap lg:flex-wrap items-start justify-start lg:justify-center gap-5 lg:gap-6 px-6 sm:px-10 lg:px-0 min-w-max lg:min-w-0">
-                        {DATABASES.map((db) => (
-                            <StickyNote key={db.name} db={db} />
-                        ))}
+                {/* ============================================================
+            PIN BOARD / WALL — wraps the sticky notes only
+            So only the notes look "pinned", not the heading
+        ============================================================ */}
+                <div className="relative rounded-3xl overflow-hidden">
+
+                    {/* ============ WARM WALL BASE ============ */}
+                    {/* Cork-board-like warm gradient, subtle but rich */}
+                    <div
+                        className="absolute inset-0 pointer-events-none"
+                        style={{
+                            background:
+                                "linear-gradient(180deg, #f5ede2 0%, #ebe0d1 40%, #e3d6c4 100%)",
+                        }}
+                    />
+
+                    {/* ============ WOOD GRAIN / CORK TEXTURE ============ */}
+                    {/* A repeating subtle radial pattern simulating cork/canvas */}
+                    <div
+                        className="absolute inset-0 pointer-events-none opacity-[0.35] mix-blend-multiply"
+                        style={{
+                            backgroundImage: `
+                radial-gradient(circle at 30% 20%, #b8a68c 0%, transparent 25%),
+                radial-gradient(circle at 70% 60%, #c9b69a 0%, transparent 20%),
+                radial-gradient(circle at 15% 75%, #b8a68c 0%, transparent 22%),
+                radial-gradient(circle at 85% 30%, #c9b69a 0%, transparent 18%),
+                radial-gradient(circle at 50% 90%, #b8a68c 0%, transparent 25%),
+                radial-gradient(circle at 25% 45%, #d4c3aa 0%, transparent 20%)
+              `,
+                            backgroundSize: "400px 400px, 500px 500px, 450px 450px, 380px 380px, 520px 520px, 480px 480px",
+                        }}
+                    />
+
+                    {/* ============ FINE GRAIN DOTS ============ */}
+                    {/* Tiny dot pattern that reads as cork texture at close distance */}
+                    <div
+                        className="absolute inset-0 pointer-events-none opacity-[0.15]"
+                        style={{
+                            backgroundImage:
+                                "radial-gradient(circle, #8b7355 0.8px, transparent 1.2px)",
+                            backgroundSize: "6px 6px",
+                        }}
+                    />
+
+                    {/* ============ TOP-LEFT PURPLE GLOW ============ */}
+                    <div
+                        className="pointer-events-none absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full"
+                        style={{
+                            background:
+                                "radial-gradient(circle, rgba(139, 92, 246, 0.28) 0%, rgba(167, 139, 250, 0.12) 40%, rgba(196, 181, 253, 0) 70%)",
+                            filter: "blur(90px)",
+                        }}
+                    />
+
+                    {/* ============ BOTTOM-RIGHT PURPLE GLOW ============ */}
+                    <div
+                        className="pointer-events-none absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full"
+                        style={{
+                            background:
+                                "radial-gradient(circle, rgba(139, 92, 246, 0.28) 0%, rgba(167, 139, 250, 0.12) 40%, rgba(196, 181, 253, 0) 70%)",
+                            filter: "blur(90px)",
+                        }}
+                    />
+
+                    {/* ============ SOFT VIGNETTE ============ */}
+                    {/* Darkens the edges slightly so notes in the center feel lit */}
+                    <div
+                        className="pointer-events-none absolute inset-0"
+                        style={{
+                            background:
+                                "radial-gradient(ellipse at center, transparent 40%, rgba(90, 70, 50, 0.10) 100%)",
+                        }}
+                    />
+
+                    {/* ============ INNER SHADOW (frame depth) ============ */}
+                    <div
+                        className="pointer-events-none absolute inset-0 rounded-3xl"
+                        style={{
+                            boxShadow:
+                                "inset 0 0 60px rgba(90, 70, 50, 0.08), inset 0 0 12px rgba(90, 70, 50, 0.05)",
+                        }}
+                    />
+
+                    {/* ============ THE STICKY NOTES ============ */}
+                    <div className="relative z-10 overflow-x-auto lg:overflow-visible py-16 sm:py-20 px-6 sm:px-10 lg:px-14">
+                        <div className="flex flex-nowrap lg:flex-wrap items-start justify-start lg:justify-center gap-5 lg:gap-7 min-w-max lg:min-w-0">
+                            {DATABASES.map((db) => (
+                                <StickyNote key={db.name} db={db} />
+                            ))}
+                        </div>
                     </div>
                 </div>
 
                 {/* ============== BOTTOM LINE ============== */}
-                <div className="mt-16 text-center">
+                <div className="mt-14 text-center">
                     <p className="text-sm text-black/60 font-light">
                         Don&apos;t see yours?{" "}
                         <Link
@@ -140,7 +223,7 @@ function StickyNote({ db }) {
                 transition: "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
             }}
             onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "rotate(0deg) translateY(-6px)";
+                e.currentTarget.style.transform = "rotate(0deg) translateY(-8px)";
             }}
             onMouseLeave={(e) => {
                 e.currentTarget.style.transform = `rotate(${db.rotate})`;
@@ -157,9 +240,9 @@ function StickyNote({ db }) {
                         background:
                             "linear-gradient(180deg, #ffffff 0%, #fdfdfd 50%, #fafafa 100%)",
                         boxShadow: `
-              0 1px 2px rgba(0, 0, 0, 0.04),
-              0 6px 16px -4px rgba(0, 0, 0, 0.08),
-              0 12px 32px -8px rgba(0, 0, 0, 0.10)
+              0 2px 4px rgba(0, 0, 0, 0.06),
+              0 8px 20px -4px rgba(0, 0, 0, 0.10),
+              0 16px 40px -8px rgba(0, 0, 0, 0.12)
             `,
                     }}
                 />
@@ -169,7 +252,7 @@ function StickyNote({ db }) {
                     className="absolute inset-0 rounded-[3px] pointer-events-none"
                     style={{
                         background: "transparent",
-                        boxShadow: "0 0 20px 6px rgba(0, 0, 0, 0.02)",
+                        boxShadow: "0 0 20px 6px rgba(0, 0, 0, 0.03)",
                         filter: "blur(6px)",
                     }}
                 />
@@ -180,7 +263,7 @@ function StickyNote({ db }) {
                     style={{
                         backgroundColor: db.tape,
                         boxShadow:
-                            "inset 0 0 8px rgba(255, 255, 255, 0.6), 0 1px 3px rgba(0, 0, 0, 0.05)",
+                            "inset 0 0 8px rgba(255, 255, 255, 0.6), 0 1px 3px rgba(0, 0, 0, 0.08)",
                         backdropFilter: "blur(2px)",
                         transform: "translateX(-50%) rotate(-1.5deg)",
                     }}
@@ -189,28 +272,24 @@ function StickyNote({ db }) {
                 {/* ============ CONTENT ============ */}
                 <div className="relative z-10 h-full flex flex-col items-center justify-center gap-4 px-4">
                     <div className="relative">
-                        {/* Soft blur halo behind icon */}
                         <div
                             className="absolute inset-0 rounded-full pointer-events-none"
                             style={{
                                 background: db.color,
-                                opacity: 0.1,
+                                opacity: 0.12,
                                 filter: "blur(12px)",
                             }}
                         />
 
-                        {/* Icon container */}
                         <div className="relative flex items-center justify-center w-14 h-14 rounded-full bg-gray-50 border border-gray-100/80 transition-transform duration-300 group-hover:scale-110">
                             <Icon className="w-7 h-7" style={{ color: db.color }} />
                         </div>
                     </div>
 
-                    {/* Name */}
                     <span className="text-sm font-medium text-black text-center leading-tight tracking-tight">
                         {db.name}
                     </span>
 
-                    {/* Bottom-right corner arrow */}
                     <FiArrowUpRight className="absolute bottom-3 right-3 w-3.5 h-3.5 text-black/30 group-hover:text-black transition-colors" />
                 </div>
 
@@ -219,7 +298,7 @@ function StickyNote({ db }) {
                     className="absolute bottom-0 right-0 w-6 h-6 pointer-events-none"
                     style={{
                         background:
-                            "linear-gradient(315deg, rgba(0,0,0,0.04) 0%, transparent 50%)",
+                            "linear-gradient(315deg, rgba(0,0,0,0.05) 0%, transparent 50%)",
                         borderTopLeftRadius: "100%",
                         filter: "blur(1px)",
                     }}
@@ -229,7 +308,7 @@ function StickyNote({ db }) {
                 <div
                     className="absolute inset-0 rounded-[3px] pointer-events-none"
                     style={{
-                        boxShadow: "inset 0 0 4px rgba(0, 0, 0, 0.02)",
+                        boxShadow: "inset 0 0 4px rgba(0, 0, 0, 0.03)",
                     }}
                 />
             </Link>

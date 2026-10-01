@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 40" fill="none" width="140" height="40">
+  <g fill="#0f172a">
+    <path d="M7 12L13 28L19 12" stroke="#e11d48" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="13" cy="8" r="2.5" fill="#e11d48"/>
+    <text x="28" y="27" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="700" letter-spacing="-0.5">valora</text>
+  </g>
+</svg>
