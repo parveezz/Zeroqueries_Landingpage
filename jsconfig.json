@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/Components/*"],
+      "@/components/ui/input": ["./src/Components/ui/Input.jsx"],
+      "@/components/ui/button": ["./src/Components/ui/Button.jsx"]
     }
   }
 }

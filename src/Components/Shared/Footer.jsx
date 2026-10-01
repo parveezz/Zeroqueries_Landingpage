@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { FiGithub, FiTwitter, FiLinkedin, FiYoutube, FiArrowUpRight } from "react-icons/fi";
+import { FiArrowUpRight } from "react-icons/fi";
+import { FaFacebookF, FaInstagram, FaXTwitter, FaLinkedinIn } from "react-icons/fa6";
 
 const footerNavigation = {
   platform: [
@@ -26,8 +27,8 @@ const footerNavigation = {
     { name: "Customers & Case Studies", href: "/customers" },
     { name: "Careers", href: "/careers", badge: "We're hiring" },
     { name: "News & Press", href: "/press" },
-    { name: "Leadership", href: "/company#leadership" },
-    { name: "Contact Sales", href: "#demo" },
+    { name: "Contact Us", href: "/contact" },
+    { name: "Book a Demo", href: "/demo" },
   ],
   resources: [
     { name: "Documentation", href: "/resources#docs" },
@@ -40,19 +41,34 @@ const footerNavigation = {
 };
 
 const socialLinks = [
-  { name: "LinkedIn", href: "https://linkedin.com", icon: FiLinkedin },
-  { name: "Twitter", href: "https://twitter.com", icon: FiTwitter },
-  { name: "GitHub", href: "https://github.com", icon: FiGithub },
-  { name: "YouTube", href: "https://youtube.com", icon: FiYoutube },
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/company/invertio-software-solution/home/",
+    icon: FaLinkedinIn,
+  },
+  {
+    name: "X (Twitter)",
+    href: "https://x.com/Invertio_s",
+    icon: FaXTwitter,
+  },
+  {
+    name: "Instagram",
+    href: "https://www.instagram.com/invertiotechsolutions?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw%3D%3D",
+    icon: FaInstagram,
+  },
+  {
+    name: "Facebook",
+    href: "https://www.facebook.com/people/Invertio-Software-Solutions/61554332513059/",
+    icon: FaFacebookF,
+  },
 ];
 
 export default function Footer() {
   return (
-    <footer className="w-full border-t border-gray-200/80 bg-gray-50/70 font-sans text-gray-900">
+    <footer className="w-full border-t border-gray-200/80 bg-gray-50/70 font-sans text-black">
       <div className="mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-14 pt-16 pb-12">
         {/* Top Grid: Brand & Links */}
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
-          
           {/* Brand Info & Status */}
           <div className="lg:col-span-4 xl:col-span-4 space-y-6">
             <Link href="/" className="inline-flex items-center gap-2.5">
@@ -63,20 +79,21 @@ export default function Footer() {
                 height={35}
                 className="h-9 w-auto object-contain"
               />
-              <span className="text-[22px] font-bold tracking-tight text-[#1a1b1e]">
+              <span className="text-[22px] font-light tracking-tight text-black">
                 ZeroQueries
               </span>
             </Link>
 
-            <p className="text-sm sm:text-[15px] leading-relaxed text-gray-600 max-w-sm">
-              AI-Powered Decision Intelligence. Transform raw enterprise data into instant, verified answers without query friction.
+            <p className="text-sm sm:text-[15px] leading-relaxed text-black/60 font-light max-w-sm">
+              AI-Powered Decision Intelligence. Transform raw enterprise data
+              into instant, verified answers without query friction.
             </p>
 
             {/* Status Indicator */}
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-gray-200 bg-gray-50/80 px-3.5 py-1.5 text-xs font-medium text-gray-700">
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-gray-200 bg-white/70 px-3.5 py-1.5 text-xs font-normal text-black/70">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
               </span>
               <span>All Systems Operational</span>
             </div>
@@ -92,7 +109,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={item.name}
-                    className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-600 transition-colors hover:border-[#6434F5] hover:bg-purple-50 hover:text-[#6434F5]"
+                    className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 bg-white text-black/60 transition-colors hover:border-[#6434F5] hover:bg-purple-50 hover:text-[#6434F5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6434F5] focus-visible:ring-offset-2"
                   >
                     <Icon className="h-4 w-4" />
                   </a>
@@ -103,10 +120,9 @@ export default function Footer() {
 
           {/* Links Columns */}
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 lg:col-span-8 xl:col-span-8">
-            
             {/* Column 1: Platform */}
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400">
+              <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-black/40">
                 Platform
               </h3>
               <ul className="mt-4 space-y-3">
@@ -114,7 +130,7 @@ export default function Footer() {
                   <li key={link.name}>
                     <Link
                       href={link.href}
-                      className="text-sm font-medium text-gray-700 transition-colors hover:text-[#6434F5]"
+                      className="text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
                     >
                       {link.name}
                     </Link>
@@ -125,7 +141,7 @@ export default function Footer() {
 
             {/* Column 2: Solutions */}
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400">
+              <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-black/40">
                 Solutions
               </h3>
               <ul className="mt-4 space-y-3">
@@ -133,7 +149,7 @@ export default function Footer() {
                   <li key={link.name}>
                     <Link
                       href={link.href}
-                      className="text-sm font-medium text-gray-700 transition-colors hover:text-[#6434F5]"
+                      className="text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
                     >
                       {link.name}
                     </Link>
@@ -144,7 +160,7 @@ export default function Footer() {
 
             {/* Column 3: Company */}
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400">
+              <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-black/40">
                 Company
               </h3>
               <ul className="mt-4 space-y-3">
@@ -152,11 +168,11 @@ export default function Footer() {
                   <li key={link.name}>
                     <Link
                       href={link.href}
-                      className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-700 transition-colors hover:text-[#6434F5]"
+                      className="inline-flex items-center gap-1.5 text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
                     >
                       <span>{link.name}</span>
                       {link.badge && (
-                        <span className="rounded-full bg-purple-100 px-2 py-0.5 text-[10px] font-bold text-[#6434F5]">
+                        <span className="rounded-full bg-purple-100 px-2 py-0.5 text-[10px] font-medium text-[#6434F5]">
                           {link.badge}
                         </span>
                       )}
@@ -168,7 +184,7 @@ export default function Footer() {
 
             {/* Column 4: Resources */}
             <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400">
+              <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-black/40">
                 Resources
               </h3>
               <ul className="mt-4 space-y-3">
@@ -179,7 +195,7 @@ export default function Footer() {
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-sm font-medium text-gray-700 transition-colors hover:text-[#6434F5]"
+                        className="inline-flex items-center gap-1 text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
                       >
                         <span>{link.name}</span>
                         <FiArrowUpRight className="h-3.5 w-3.5 opacity-60" />
@@ -187,7 +203,7 @@ export default function Footer() {
                     ) : (
                       <Link
                         href={link.href}
-                        className="text-sm font-medium text-gray-700 transition-colors hover:text-[#6434F5]"
+                        className="text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
                       >
                         {link.name}
                       </Link>
@@ -196,16 +212,14 @@ export default function Footer() {
                 ))}
               </ul>
             </div>
-
           </div>
-
         </div>
 
         {/* Bottom Sub-footer */}
-        <div className="mt-14 pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-gray-500">
+        <div className="mt-14 pt-8 border-t border-gray-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-black/50 font-light">
           <p>© {new Date().getFullYear()} ZeroQueries, Inc. All rights reserved.</p>
 
-          <div className="flex flex-wrap items-center gap-6 text-gray-600">
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
             <Link href="/privacy" className="hover:text-[#6434F5] transition-colors">
               Privacy Policy
             </Link>

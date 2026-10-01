@@ -1,38 +1,65 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   TYPOGRAPHY SYSTEM & USAGE GUIDELINES (TELLIUS INSPIRATION)
+   DESIGN SYSTEM & TYPOGRAPHY (ZEROQUERIES)
    ==========================================================================
-   THINGS TO REMEMBER:
-   1. Primary Sans-Serif Font:
-      - The Tellius website primarily uses 'Inter' paired with system fallbacks
-        (-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif).
-      - WHERE TO USE: Headings (h1-h6), body copy, buttons, badges, navigation,
-        and all standard UI components.
-      - TAILWIND CLASS: `font-sans` (Applied by default to <body>).
-
-   2. Monospaced Font:
-      - Falls back to standard monospaced typefaces (ui-monospace, SFMono-Regular,
-        Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace).
-      - WHERE TO USE: Fixed-width elements, data outputs, SQL queries, KPI metrics,
-        raw statistics tables, and code snippets.
-      - TAILWIND CLASS: `font-mono`.
-
-   3. Easy Customization:
-      - If the client requests a font change, update `--font-sans` or `--font-mono`
-        here in the :root selector. It will propagate across the entire project.
+   Single source of truth for:
+   - Fonts (Inter + mono fallback)
+   - Brand colors (#6434F5 purple)
+   - Focus rings
+   - Base typography weights
+   - Smooth rendering
    ========================================================================== */
 
 :root {
-  /* ==========================================================================
-     PRIMARY TYPOGRAPHY CONFIGURATION (SINGLE SOURCE OF TRUTH)
-     Change --font-sans or --font-mono here once to update the entire website!
-     ========================================================================== */
-  --font-sans: var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  /* Fonts */
+  --font-sans: var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+
+  /* Base colors */
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Brand colors — the purple used site-wide */
+  --brand: #6434F5;
+  --brand-hover: #5527e0;
+  --brand-soft: #f3f0ff;
+  --brand-soft-2: #ede9fe;
 }
+
+/* ==========================================================================
+   BASE ELEMENT STYLES
+   ========================================================================== */
+
+html,
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Form elements inherit the sans font */
+input,
+button,
+select,
+textarea {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   FONT UTILITY CLASSES
+   ========================================================================== */
 
 .font-sans {
   font-family: var(--font-sans);
@@ -42,19 +69,77 @@
   font-family: var(--font-mono);
 }
 
-html,
-body,
-input,
-button,
-select,
-textarea {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* ==========================================================================
+   BASE LAYER — Typography defaults
+   ========================================================================== */
+
+@layer base {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-sans);
+    letter-spacing: -0.025em;
+    /* Lighter default weight — matches site's editorial style */
+    font-weight: 300;
+  }
+
+  p {
+    /* Light body text — matches site-wide typography */
+    font-weight: 300;
+  }
+
+  code,
+  pre,
+  kbd,
+  .mono-data {
+    font-family: var(--font-mono);
+  }
+
+  /* Consistent focus ring across the site */
+  :focus-visible {
+    outline: none;
+    ring: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
 }
 
-button {
-  cursor: pointer;
+/* ==========================================================================
+   BRAND COLOR UTILITIES (optional — use instead of hardcoded hex)
+   Usage: bg-brand, text-brand, border-brand, hover:bg-brand-hover
+   ========================================================================== */
+
+@layer utilities {
+  .bg-brand {
+    background-color: var(--brand);
+  }
+
+  .bg-brand-hover {
+    background-color: var(--brand-hover);
+  }
+
+  .bg-brand-soft {
+    background-color: var(--brand-soft);
+  }
+
+  .text-brand {
+    color: var(--brand);
+  }
+
+  .border-brand {
+    border-color: var(--brand);
+  }
+
+  /* Hide scrollbar but keep scroll functionality */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
