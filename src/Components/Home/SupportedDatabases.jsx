@@ -18,54 +18,72 @@ const DATABASES = [
     {
         name: "MongoDB",
         icon: SiMongodb,
+        color: "#13AA52",
+        bg: "rgba(19, 170, 82, 0.08)",
         rotate: "-3deg",
         offset: "translate-y-2",
     },
     {
         name: "PostgreSQL",
         icon: SiPostgresql,
+        color: "#336791",
+        bg: "rgba(51, 103, 145, 0.08)",
         rotate: "2deg",
         offset: "-translate-y-1",
     },
     {
         name: "Oracle",
         icon: GrOracle,
+        color: "#EA1B22",
+        bg: "rgba(234, 27, 34, 0.08)",
         rotate: "-1.5deg",
         offset: "translate-y-3",
     },
     {
         name: "MySQL",
         icon: SiMysql,
+        color: "#00758F",
+        bg: "rgba(0, 117, 143, 0.08)",
         rotate: "3deg",
         offset: "translate-y-0",
     },
     {
         name: "SQL Server",
         icon: FaMicrosoft,
+        color: "#CC292B",
+        bg: "rgba(204, 41, 43, 0.08)",
         rotate: "-2.5deg",
         offset: "-translate-y-2",
     },
     {
         name: "ClickHouse",
         icon: SiClickhouse,
+        color: "#F9AB00",
+        bg: "rgba(249, 171, 0, 0.10)",
         rotate: "1.5deg",
         offset: "translate-y-2",
     },
     {
         name: "Snowflake",
         icon: SiSnowflake,
+        color: "#29B5E8",
+        bg: "rgba(41, 181, 232, 0.08)",
         rotate: "-2deg",
         offset: "translate-y-1",
     },
     {
         name: "BigQuery",
         icon: SiGooglebigquery,
+        color: "#4285F4",
+        bg: "rgba(66, 133, 244, 0.08)",
         rotate: "2.5deg",
         offset: "-translate-y-1",
     },
     {
         name: "Excel Sheets",
         icon: FaFileExcel,
+        color: "#107C41",
+        bg: "rgba(16, 124, 65, 0.08)",
         rotate: "-1.8deg",
         offset: "translate-y-2",
     },
@@ -242,15 +260,24 @@ function StickyNote({ db }) {
                         <div
                             className="absolute inset-0 rounded-full pointer-events-none"
                             style={{
-                                background: "#000",
-                                opacity: 0.06,
+                                background: db.color || "#000",
+                                opacity: 0.15,
                                 filter: "blur(12px)",
                             }}
                         />
 
                         {/* Icon container */}
-                        <div className="relative flex items-center justify-center w-14 h-14 rounded-full bg-gray-50 border border-gray-100/80 transition-transform duration-300 group-hover:scale-110">
-                            <Icon className="w-7 h-7 text-black/70" />
+                        <div
+                            className="relative flex items-center justify-center w-14 h-14 rounded-full border transition-all duration-300 group-hover:scale-110"
+                            style={{
+                                backgroundColor: db.bg || "#f9fafb",
+                                borderColor: `${db.color}30`,
+                            }}
+                        >
+                            <Icon
+                                className="w-7 h-7 transition-transform duration-300"
+                                style={{ color: db.color }}
+                            />
                         </div>
                     </div>
 

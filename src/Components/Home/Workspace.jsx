@@ -241,6 +241,36 @@ export default function Workspace() {
             {/* Dot grid */}
             <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-40" />
 
+            {/* ============== VIOLET GLOW — TOP (BEHIND HEADING TEXT) ============== */}
+            <div
+                className="pointer-events-none absolute -top-24 sm:-top-40 left-1/2 -translate-x-1/2 w-[340px] sm:w-[650px] lg:w-[850px] h-[320px] sm:h-[500px] lg:h-[600px] rounded-full"
+                style={{
+                    background:
+                        "radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(167, 139, 250, 0.15) 40%, rgba(196, 181, 253, 0) 70%)",
+                    filter: "blur(90px)",
+                }}
+            />
+
+            {/* ============== VIOLET GLOW — TOP LEFT ============== */}
+            <div
+                className="pointer-events-none absolute -top-24 sm:-top-40 -left-24 sm:-left-40 w-[320px] sm:w-[550px] lg:w-[750px] h-[320px] sm:h-[550px] lg:h-[750px] rounded-full"
+                style={{
+                    background:
+                        "radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(167, 139, 250, 0.15) 40%, rgba(196, 181, 253, 0) 70%)",
+                    filter: "blur(90px)",
+                }}
+            />
+
+            {/* ============== VIOLET GLOW — BOTTOM RIGHT ============== */}
+            <div
+                className="pointer-events-none absolute -bottom-24 sm:-bottom-40 -right-24 sm:-right-40 w-[320px] sm:w-[550px] lg:w-[750px] h-[320px] sm:h-[550px] lg:h-[750px] rounded-full"
+                style={{
+                    background:
+                        "radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(167, 139, 250, 0.15) 40%, rgba(196, 181, 253, 0) 70%)",
+                    filter: "blur(90px)",
+                }}
+            />
+
             <div className="relative z-10 mx-auto max-w-[1400px] w-full">
                 {/* ================= HEADING ================= */}
                 <div
@@ -463,11 +493,10 @@ export default function Workspace() {
                                         <button
                                             type="button"
                                             onClick={() => handleModeChange("chat")}
-                                            className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[10.5px] sm:text-[11px] font-normal transition-all cursor-pointer ${
-                                                inputMode === "chat"
+                                            className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[10.5px] sm:text-[11px] font-normal transition-all cursor-pointer ${inputMode === "chat"
                                                     ? "bg-black text-white shadow-xs"
                                                     : "bg-gray-100 hover:bg-gray-200 text-black"
-                                            }`}
+                                                }`}
                                         >
                                             <FiMessageSquare className={`w-3 h-3 ${inputMode === "chat" ? "text-white" : "text-black"}`} />
                                             Chat
@@ -475,11 +504,10 @@ export default function Workspace() {
                                         <button
                                             type="button"
                                             onClick={() => handleModeChange("report")}
-                                            className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[10.5px] sm:text-[11px] font-normal transition-all cursor-pointer ${
-                                                inputMode === "report"
+                                            className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[10.5px] sm:text-[11px] font-normal transition-all cursor-pointer ${inputMode === "report"
                                                     ? "bg-black text-white shadow-xs"
                                                     : "bg-gray-100 hover:bg-gray-200 text-black"
-                                            }`}
+                                                }`}
                                         >
                                             <FiFileText className={`w-3 h-3 ${inputMode === "report" ? "text-white" : "text-black"}`} />
                                             Report
@@ -496,18 +524,16 @@ export default function Workspace() {
                                                 setPhase("sending");
                                             }
                                         }}
-                                        className={`w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full flex items-center justify-center transition-all shadow-xs ${
-                                            phase === "sending"
+                                        className={`w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full flex items-center justify-center transition-all shadow-xs ${phase === "sending"
                                                 ? "bg-gray-200 text-gray-500 scale-95 cursor-wait"
                                                 : "bg-black hover:bg-gray-800 text-white active:scale-95 cursor-pointer"
-                                        }`}
+                                            }`}
                                     >
                                         <FaTelegramPlane
-                                            className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 ${
-                                                phase === "sending"
+                                            className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 ${phase === "sending"
                                                     ? "translate-x-0.5 -translate-y-0.5 opacity-60 scale-90"
                                                     : "hover:translate-x-0.5 hover:-translate-y-0.5"
-                                            }`}
+                                                }`}
                                         />
                                     </button>
                                 </div>

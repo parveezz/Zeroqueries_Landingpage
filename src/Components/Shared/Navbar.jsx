@@ -10,7 +10,6 @@ const navLinks = [
   { name: "Platform", href: "/platform" },
   { name: "Solutions", href: "/solutions" },
   { name: "Pricing", href: "/pricing" },
-  { name: "Customers", href: "/customers" },
   { name: "Contact", href: "/contact" },
   { name: "Resources", href: "/resources" },
 ];
@@ -48,8 +47,8 @@ export default function Navbar() {
     <>
       <nav
         className={`sticky top-0 z-50 w-full font-sans transition-all duration-300 ${isScrolled || mobileMenuOpen
-            ? "bg-white/85 backdrop-blur-xl backdrop-saturate-150 border-b border-gray-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.06)]"
-            : "bg-white/65 backdrop-blur-lg backdrop-saturate-150 border-b border-gray-200/50 shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
+          ? "bg-white/85 backdrop-blur-xl backdrop-saturate-150 border-b border-gray-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.06)]"
+          : "bg-white/65 backdrop-blur-lg backdrop-saturate-150 border-b border-gray-200/50 shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
           } text-black`}
       >
         <div className="mx-auto flex h-[70px] max-w-[1440px] items-center justify-between pl-4 pr-0 sm:px-10 lg:px-14">
@@ -80,11 +79,10 @@ export default function Navbar() {
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`block py-2 text-[15px] transition-colors focus-visible:outline-none focus-visible:text-[#6434F5] ${
-                      isActive
-                        ? "font-medium text-[#6434F5]"
-                        : "font-normal text-black/80 hover:text-[#6434F5]"
-                    }`}
+                    className={`block py-2 text-[15px] transition-colors focus-visible:outline-none focus-visible:text-[#6434F5] ${isActive
+                      ? "font-medium text-[#6434F5]"
+                      : "font-normal text-black/80 hover:text-[#6434F5]"
+                      }`}
                   >
                     {link.name}
                   </Link>
@@ -174,11 +172,10 @@ export default function Navbar() {
                     key={link.name}
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[15px] transition-colors ${
-                      isActive
-                        ? "bg-[#6434F5]/10 font-medium text-[#6434F5]"
-                        : "font-normal text-black/80 hover:bg-gray-100/70 hover:text-black active:bg-gray-100"
-                    }`}
+                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[15px] transition-colors ${isActive
+                      ? "bg-[#6434F5]/10 font-medium text-[#6434F5]"
+                      : "font-normal text-black/80 hover:bg-gray-100/70 hover:text-black active:bg-gray-100"
+                      }`}
                   >
                     <span>{link.name}</span>
                     {isActive && (
