@@ -66,20 +66,20 @@ const socialLinks = [
 export default function Footer() {
   return (
     <footer className="w-full border-t border-gray-200/80 bg-gray-50/70 font-sans text-black">
-      <div className="mx-auto max-w-[1440px] px-6 sm:px-10 lg:px-14 pt-16 pb-12">
+      <div className="mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-14 pt-12 sm:pt-16 pb-8 sm:pb-12">
         {/* Top Grid: Brand & Links */}
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
           {/* Brand Info & Status */}
-          <div className="lg:col-span-4 xl:col-span-4 space-y-6">
+          <div className="lg:col-span-4 xl:col-span-4 space-y-5 sm:space-y-6">
             <Link href="/" className="inline-flex items-center gap-2.5">
               <Image
                 src="/zerologo.png"
                 alt="ZeroQueries logo"
                 width={50}
                 height={35}
-                className="h-9 w-auto object-contain"
+                className="h-8 sm:h-9 w-auto object-contain"
               />
-              <span className="text-[22px] font-light tracking-tight text-black">
+              <span className="text-[20px] sm:text-[22px] font-light tracking-tight text-black">
                 ZeroQueries
               </span>
             </Link>
@@ -90,7 +90,7 @@ export default function Footer() {
             </p>
 
             {/* Status Indicator */}
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-gray-200 bg-white/70 px-3.5 py-1.5 text-xs font-normal text-black/70">
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-gray-200/90 bg-white/80 px-3.5 py-1.5 text-xs font-normal text-black/70">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
@@ -99,7 +99,7 @@ export default function Footer() {
             </div>
 
             {/* Social Icons */}
-            <div className="flex items-center gap-3 pt-2">
+            <div className="flex items-center gap-2.5 sm:gap-3 pt-1 sm:pt-2">
               {socialLinks.map((item) => {
                 const Icon = item.icon;
                 return (
@@ -109,7 +109,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={item.name}
-                    className="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 bg-white text-black/60 transition-colors hover:border-[#6434F5] hover:bg-purple-50 hover:text-[#6434F5] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6434F5] focus-visible:ring-offset-2"
+                    className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl border border-gray-200 bg-white text-black/60 transition-colors hover:border-[#6434F5] hover:bg-purple-50 hover:text-[#6434F5] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6434F5] focus-visible:ring-offset-2"
                   >
                     <Icon className="h-4 w-4" />
                   </a>
@@ -119,18 +119,18 @@ export default function Footer() {
           </div>
 
           {/* Links Columns */}
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 lg:col-span-8 xl:col-span-8">
+          <div className="grid grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-4 sm:gap-8 lg:col-span-8 xl:col-span-8 pt-2 lg:pt-0">
             {/* Column 1: Platform */}
             <div>
               <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-black/40">
                 Platform
               </h3>
-              <ul className="mt-4 space-y-3">
+              <ul className="mt-4 space-y-2.5 sm:space-y-3">
                 {footerNavigation.platform.map((link) => (
                   <li key={link.name}>
                     <Link
                       href={link.href}
-                      className="text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
+                      className="inline-block py-0.5 text-[13.5px] sm:text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
                     >
                       {link.name}
                     </Link>
@@ -144,12 +144,12 @@ export default function Footer() {
               <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-black/40">
                 Solutions
               </h3>
-              <ul className="mt-4 space-y-3">
+              <ul className="mt-4 space-y-2.5 sm:space-y-3">
                 {footerNavigation.solutions.map((link) => (
                   <li key={link.name}>
                     <Link
                       href={link.href}
-                      className="text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
+                      className="inline-block py-0.5 text-[13.5px] sm:text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
                     >
                       {link.name}
                     </Link>
@@ -163,16 +163,16 @@ export default function Footer() {
               <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-black/40">
                 Company
               </h3>
-              <ul className="mt-4 space-y-3">
+              <ul className="mt-4 space-y-2.5 sm:space-y-3">
                 {footerNavigation.company.map((link) => (
                   <li key={link.name}>
                     <Link
                       href={link.href}
-                      className="inline-flex items-center gap-1.5 text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
+                      className="inline-flex flex-wrap items-center gap-1.5 py-0.5 text-[13.5px] sm:text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
                     >
                       <span>{link.name}</span>
                       {link.badge && (
-                        <span className="rounded-full bg-purple-100 px-2 py-0.5 text-[10px] font-medium text-[#6434F5]">
+                        <span className="rounded-full bg-purple-100 px-2 py-0.5 text-[10px] font-medium text-[#6434F5] whitespace-nowrap">
                           {link.badge}
                         </span>
                       )}
@@ -187,7 +187,7 @@ export default function Footer() {
               <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-black/40">
                 Resources
               </h3>
-              <ul className="mt-4 space-y-3">
+              <ul className="mt-4 space-y-2.5 sm:space-y-3">
                 {footerNavigation.resources.map((link) => (
                   <li key={link.name}>
                     {link.external ? (
@@ -195,7 +195,7 @@ export default function Footer() {
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
+                        className="inline-flex items-center gap-1 py-0.5 text-[13.5px] sm:text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
                       >
                         <span>{link.name}</span>
                         <FiArrowUpRight className="h-3.5 w-3.5 opacity-60" />
@@ -203,7 +203,7 @@ export default function Footer() {
                     ) : (
                       <Link
                         href={link.href}
-                        className="text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
+                        className="inline-block py-0.5 text-[13.5px] sm:text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
                       >
                         {link.name}
                       </Link>
@@ -216,20 +216,20 @@ export default function Footer() {
         </div>
 
         {/* Bottom Sub-footer */}
-        <div className="mt-14 pt-8 border-t border-gray-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-black/50 font-light">
+        <div className="mt-12 sm:mt-14 pt-6 sm:pt-8 border-t border-gray-200/80 flex flex-col-reverse sm:flex-row items-center justify-between gap-4 text-center sm:text-left text-xs sm:text-sm text-black/50 font-light">
           <p>© {new Date().getFullYear()} ZeroQueries, Inc. All rights reserved.</p>
 
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-            <Link href="/privacy" className="hover:text-[#6434F5] transition-colors">
+          <div className="flex flex-wrap items-center justify-center sm:justify-end gap-x-4 sm:gap-x-6 gap-y-2">
+            <Link href="/privacy" className="hover:text-[#6434F5] transition-colors py-0.5">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="hover:text-[#6434F5] transition-colors">
+            <Link href="/terms" className="hover:text-[#6434F5] transition-colors py-0.5">
               Terms of Service
             </Link>
-            <Link href="/security" className="hover:text-[#6434F5] transition-colors">
+            <Link href="/security" className="hover:text-[#6434F5] transition-colors py-0.5">
               Security & Compliance
             </Link>
-            <Link href="/cookies" className="hover:text-[#6434F5] transition-colors">
+            <Link href="/cookies" className="hover:text-[#6434F5] transition-colors py-0.5">
               Cookie Preferences
             </Link>
           </div>

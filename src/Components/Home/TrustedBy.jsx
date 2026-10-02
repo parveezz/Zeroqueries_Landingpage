@@ -16,21 +16,21 @@ const LOGOS = [
 
 export default function TrustedBy() {
     return (
-        <section className="relative w-full bg-gray-50 font-sans text-black py-16 sm:py-20 overflow-hidden">
+        <section className="relative w-full bg-gray-50 font-sans text-black py-10 sm:py-16 lg:py-20 overflow-hidden">
             {/* Heading */}
-            <div className="text-center mb-12">
-                <p className="text-sm sm:text-base text-black/60 font-light tracking-wide">
+            <div className="text-center mb-6 sm:mb-10 px-4">
+                <p className="text-xs sm:text-sm lg:text-base text-black/60 font-light tracking-wide">
                     Trusted by the world&apos;s most innovative teams
                 </p>
             </div>
 
             {/* Marquee container */}
             <div className="relative w-full">
-                {/* Left fade */}
-                <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-24 sm:w-40 bg-gradient-to-r from-gray-50 to-transparent z-10" />
+                {/* Left fade — narrower on mobile so logos remain visible */}
+                <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-10 sm:w-28 lg:w-40 bg-gradient-to-r from-gray-50 to-transparent z-10" />
 
-                {/* Right fade */}
-                <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-24 sm:w-40 bg-gradient-to-l from-gray-50 to-transparent z-10" />
+                {/* Right fade — narrower on mobile */}
+                <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 sm:w-28 lg:w-40 bg-gradient-to-l from-gray-50 to-transparent z-10" />
 
                 {/* Scrolling track */}
                 <div className="flex animate-marquee w-max">
@@ -38,7 +38,7 @@ export default function TrustedBy() {
                     {LOGOS.map((logo, i) => (
                         <div
                             key={`a-${i}`}
-                            className="flex items-center justify-center px-10 sm:px-14 shrink-0"
+                            className="flex items-center justify-center px-6 sm:px-10 lg:px-14 shrink-0"
                         >
                             <LogoPlaceholder name={logo.name} src={logo.src} />
                         </div>
@@ -47,7 +47,7 @@ export default function TrustedBy() {
                     {LOGOS.map((logo, i) => (
                         <div
                             key={`b-${i}`}
-                            className="flex items-center justify-center px-10 sm:px-14 shrink-0"
+                            className="flex items-center justify-center px-6 sm:px-10 lg:px-14 shrink-0"
                         >
                             <LogoPlaceholder name={logo.name} src={logo.src} />
                         </div>
@@ -60,8 +60,8 @@ export default function TrustedBy() {
 
 function LogoPlaceholder({ name, src }) {
     return (
-        <div className="flex items-center justify-center h-10 w-[140px] opacity-60 hover:opacity-100 transition-opacity duration-300">
-            <span className="text-sm font-medium text-black/50 tracking-tight whitespace-nowrap">
+        <div className="flex items-center justify-center h-8 sm:h-10 w-[110px] sm:w-[140px] opacity-60 hover:opacity-100 transition-opacity duration-300">
+            <span className="text-xs sm:text-sm font-medium text-black/50 tracking-tight whitespace-nowrap">
                 {name}
             </span>
             {/* When you have real logos, uncomment this and delete the <span> above: */}
@@ -71,7 +71,7 @@ function LogoPlaceholder({ name, src }) {
         alt={name}
         width={140}
         height={40}
-        className="object-contain max-h-10 w-auto"
+        className="object-contain max-h-8 sm:max-h-10 w-auto"
       />
       */}
         </div>

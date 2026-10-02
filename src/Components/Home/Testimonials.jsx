@@ -48,24 +48,24 @@ export default function Testimonials() {
     const halfCards = testimonials.filter((t) => t.layout === "half");
 
     return (
-        <section className="relative w-full bg-gray-50 font-sans text-black py-20 px-6 sm:px-10 lg:px-14 overflow-hidden">
+        <section className="relative w-full bg-gray-50 font-sans text-black py-14 sm:py-20 lg:py-24 px-4 sm:px-8 lg:px-14 overflow-hidden">
             {/* Dot grid */}
             <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-30" />
 
             <div className="relative z-10 mx-auto max-w-6xl">
-                {/* Optional heading */}
-                <div className="text-center max-w-2xl mx-auto mb-14">
-                    <span className="text-xs font-medium tracking-[0.2em] text-black/60 uppercase">
+                {/* Heading */}
+                <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12 lg:mb-14">
+                    <span className="text-[10.5px] sm:text-xs font-medium tracking-[0.2em] text-black/60 uppercase">
                         Customer Stories
                     </span>
-                    <h2 className="mt-3 text-3xl sm:text-4xl lg:text-[40px] font-light tracking-tight text-black leading-[1.15]">
+                    <h2 className="mt-2.5 sm:mt-3 text-2xl sm:text-4xl lg:text-[40px] font-light tracking-tight text-black leading-[1.15]">
                         Real teams. Real decisions.{" "}
                         <span className="text-black/50">Real speed.</span>
                     </h2>
                 </div>
 
                 {/* Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
                     {/* Wide card — spans both columns */}
                     {wideCard && <TestimonialCard testimonial={wideCard} wide />}
 
@@ -81,7 +81,7 @@ export default function Testimonials() {
 
 // --- Card component ---
 function TestimonialCard({ testimonial, wide = false }) {
-    const { quote, name, role, avatar, logo, logoAlt, bgTint } = testimonial;
+    const { quote, name, role, logoAlt, bgTint } = testimonial;
 
     return (
         <div
@@ -92,35 +92,30 @@ function TestimonialCard({ testimonial, wide = false }) {
         ${wide ? "lg:col-span-2" : ""}
       `}
         >
-            {/* Avatar block */}
+            {/* Avatar block — compact banner on mobile, column on sm+ */}
             <div
-                className={`${bgTint} flex items-center justify-center shrink-0 overflow-hidden
-          ${wide ? "sm:w-[280px] lg:w-[320px]" : "sm:w-[200px] lg:w-[220px]"}
+                className={`${bgTint} flex items-center justify-center shrink-0 overflow-hidden w-full
+          ${wide ? "h-32 sm:h-auto sm:w-[260px] lg:w-[320px]" : "h-28 sm:h-auto sm:w-[190px] lg:w-[220px]"}
         `}
             >
-                <div
-                    className={`relative w-full ${wide ? "h-[240px] sm:h-[280px]" : "h-[220px] sm:h-[240px]"}`}
-                >
-                    {/* Placeholder avatar — replace with <Image /> later */}
-                    <div className="w-full h-full flex items-center justify-center">
-                        <div className="w-24 h-24 rounded-full bg-white/60 border border-white flex items-center justify-center text-black/30 text-xs font-medium transition-transform duration-500 group-hover:scale-105">
-                            Avatar
-                        </div>
+                <div className="w-full h-full flex items-center justify-center">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full bg-white/70 border border-white flex items-center justify-center text-black/35 text-xs font-medium shadow-xs transition-transform duration-500 group-hover:scale-105">
+                        Avatar
                     </div>
                 </div>
             </div>
 
             {/* Content block */}
-            <div className="flex-1 flex flex-col justify-between p-6 sm:p-8">
+            <div className="flex-1 flex flex-col justify-between p-5 sm:p-7 lg:p-8">
                 <div>
-                    {/* Quote icon — subtle rotate on hover */}
-                    <FaQuoteRight className="text-gray-200 w-5 h-5 mb-4 transition-transform duration-300 group-hover:-rotate-6 group-hover:text-gray-300" />
+                    {/* Quote icon */}
+                    <FaQuoteRight className="text-gray-200 w-4 h-4 sm:w-5 sm:h-5 mb-3 sm:mb-4 transition-transform duration-300 group-hover:-rotate-6 group-hover:text-gray-300" />
 
                     {/* Quote */}
                     <p
                         className={`text-black font-light leading-relaxed ${wide
-                                ? "text-base sm:text-[17px] leading-[1.65]"
-                                : "text-[15px] sm:text-base leading-[1.6]"
+                                ? "text-[14.5px] sm:text-[17px] leading-[1.65]"
+                                : "text-[13.5px] sm:text-base leading-[1.6]"
                             }`}
                     >
                         {quote}
@@ -128,7 +123,7 @@ function TestimonialCard({ testimonial, wide = false }) {
                 </div>
 
                 {/* Bottom: name + role + logo */}
-                <div className="mt-6 pt-5 border-t border-gray-100">
+                <div className="mt-4 sm:mt-6 pt-4 sm:pt-5 border-t border-gray-100">
                     <div className="font-medium text-black text-sm sm:text-[15px]">
                         {name}
                     </div>
@@ -136,9 +131,9 @@ function TestimonialCard({ testimonial, wide = false }) {
                         {role}
                     </div>
 
-                    {/* Company logo */}
-                    <div className="mt-4 h-6 flex items-center">
-                        <span className="text-black/70 font-medium text-sm tracking-tight transition-colors duration-300 group-hover:text-black">
+                    {/* Company logo text */}
+                    <div className="mt-3 sm:mt-4 h-5 sm:h-6 flex items-center">
+                        <span className="text-black/70 font-medium text-xs sm:text-sm tracking-tight transition-colors duration-300 group-hover:text-black">
                             {logoAlt}
                         </span>
                     </div>

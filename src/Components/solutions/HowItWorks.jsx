@@ -234,7 +234,7 @@ export default function HowItWorks() {
                     </svg>
 
                     {/* ============ STICKY NOTES ============ */}
-                    <div className="relative z-10 overflow-x-auto lg:overflow-visible py-16 sm:py-20 px-6 sm:px-10 lg:px-14">
+                    <div className="relative z-10 overflow-x-auto lg:overflow-visible py-16 sm:py-20 px-6 sm:px-10 lg:px-14 no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                         <div className="flex flex-nowrap lg:flex-wrap items-start justify-start lg:justify-center gap-5 lg:gap-6 min-w-max lg:min-w-0">
                             {STEPS.map((step, i) => (
                                 <StickyStep

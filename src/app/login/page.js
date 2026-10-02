@@ -44,19 +44,19 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="relative min-h-[calc(100vh-70px)] w-full bg-gray-50 font-sans text-black py-12 sm:py-16 px-6 sm:px-10 lg:px-14 flex items-center justify-center overflow-hidden">
+    <main className="relative min-h-[calc(100vh-70px)] w-full bg-gray-50 font-sans text-black py-8 sm:py-16 px-4 sm:px-8 lg:px-14 flex items-center justify-center overflow-hidden">
       {/* Background Dot Grid */}
       <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-40" />
 
       <div className="relative z-10 w-full max-w-[440px]">
 
         {/* Card */}
-        <div className="rounded-3xl border border-gray-200 bg-white p-7 sm:p-9">
+        <div className="rounded-2xl sm:rounded-3xl border border-gray-200/90 bg-white p-5 xs:p-6 sm:p-9 shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
           {/* Brand header */}
-          <div className="text-center mb-8">
+          <div className="text-center mb-6 sm:mb-8">
             <Link
               href="/"
-              className="inline-flex items-center justify-center gap-2 mb-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-4 rounded-md"
+              className="inline-flex items-center justify-center gap-2 mb-2.5 sm:mb-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-4 rounded-md"
             >
               <Image
                 src="/zerologo.png"
@@ -67,16 +67,16 @@ export default function LoginPage() {
                 priority
               />
             </Link>
-            <h1 className="text-2xl sm:text-[26px] font-normal tracking-tight text-black">
+            <h1 className="text-xl sm:text-2xl lg:text-[26px] font-normal tracking-tight text-black">
               Welcome back
             </h1>
-            <p className="mt-2 text-xs sm:text-sm text-black/60 font-light">
+            <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-black/60 font-light">
               Log in to access your ZeroQueries workspace
             </p>
           </div>
 
           {isSuccess ? (
-            <div className="text-center py-8">
+            <div className="text-center py-6 sm:py-8">
               <div className="mx-auto flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 border border-gray-200 text-black mb-4">
                 <FiCheck className="w-6 h-6" strokeWidth={2.5} />
               </div>
@@ -97,7 +97,7 @@ export default function LoginPage() {
           ) : (
             <>
               {/* ================= FORM (primary) ================= */}
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4">
                 {/* Email */}
                 <div>
                   <label
@@ -116,7 +116,7 @@ export default function LoginPage() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="alex@company.com"
-                      className="w-full rounded-xl border border-gray-200 bg-gray-50 pl-10 pr-4 py-2.5 text-xs sm:text-sm text-black placeholder:text-black/40 focus:bg-white focus:border-black focus:outline-none transition-colors"
+                      className="w-full h-11 rounded-xl border border-gray-200 bg-gray-50 pl-10 pr-4 text-xs sm:text-sm text-black placeholder:text-black/40 focus:bg-white focus:border-black focus:outline-none transition-colors"
                     />
                   </div>
                 </div>
@@ -147,12 +147,12 @@ export default function LoginPage() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••••••"
-                      className="w-full rounded-xl border border-gray-200 bg-gray-50 pl-10 pr-10 py-2.5 text-xs sm:text-sm text-black placeholder:text-black/40 focus:bg-white focus:border-black focus:outline-none transition-colors"
+                      className="w-full h-11 rounded-xl border border-gray-200 bg-gray-50 pl-10 pr-10 text-xs sm:text-sm text-black placeholder:text-black/40 focus:bg-white focus:border-black focus:outline-none transition-colors"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-md text-black/40 hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-md text-black/40 hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
                       aria-label={showPassword ? "Hide password" : "Show password"}
                     >
                       {showPassword ? (
@@ -165,7 +165,7 @@ export default function LoginPage() {
                 </div>
 
                 {/* Remember me */}
-                <div className="flex items-center justify-between pt-1">
+                <div className="flex items-center justify-between pt-0.5">
                   <label className="flex items-center gap-2 cursor-pointer select-none">
                     <input
                       type="checkbox"
@@ -193,28 +193,28 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full mt-2 rounded-xl bg-black py-2.5 px-4 text-sm font-medium text-white hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-wait focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+                  className="w-full mt-2 h-11 sm:h-12 rounded-xl bg-black px-4 text-sm font-medium text-white hover:bg-gray-800 active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-wait focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 shadow-sm"
                 >
                   {isLoading ? "Signing in…" : "Sign In"}
                 </button>
               </form>
 
               {/* ================= DIVIDER ================= */}
-              <div className="relative flex items-center justify-center my-6">
+              <div className="relative flex items-center justify-center my-5 sm:my-6">
                 <div className="w-full border-t border-gray-200" />
                 <span className="absolute bg-white px-3 text-[11px] font-medium tracking-wider text-black/40 uppercase">
                   or continue with
                 </span>
               </div>
 
-              {/* ================= SSO BUTTONS (moved below) ================= */}
+              {/* ================= SSO BUTTONS ================= */}
               <div className="space-y-2.5">
                 <button
                   type="button"
                   onClick={() => {
                     // window.location.href = "/api/auth/google";
                   }}
-                  className="w-full flex items-center justify-center gap-3 rounded-xl border border-gray-200 bg-white py-2.5 px-4 text-xs sm:text-sm font-medium text-black hover:bg-gray-50 hover:border-gray-400 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+                  className="w-full h-11 flex items-center justify-center gap-2.5 sm:gap-3 rounded-xl border border-gray-200 bg-white px-4 text-xs sm:text-sm font-medium text-black hover:bg-gray-50 hover:border-gray-400 active:scale-[0.99] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
                 >
                   <FcGoogle className="w-4 h-4 shrink-0" />
                   <span>Continue with Google</span>
@@ -225,7 +225,7 @@ export default function LoginPage() {
                   onClick={() => {
                     // window.location.href = "/api/auth/microsoft";
                   }}
-                  className="w-full flex items-center justify-center gap-3 rounded-xl border border-gray-200 bg-white py-2.5 px-4 text-xs sm:text-sm font-medium text-black hover:bg-gray-50 hover:border-gray-400 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+                  className="w-full h-11 flex items-center justify-center gap-2.5 sm:gap-3 rounded-xl border border-gray-200 bg-white px-4 text-xs sm:text-sm font-medium text-black hover:bg-gray-50 hover:border-gray-400 active:scale-[0.99] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
                 >
                   <FaMicrosoft className="w-3.5 h-3.5 text-black shrink-0" />
                   <span>Continue with Microsoft</span>
@@ -233,7 +233,7 @@ export default function LoginPage() {
               </div>
 
               {/* Sign up prompt */}
-              <div className="mt-6 text-center text-xs text-black/60 font-light">
+              <div className="mt-5 sm:mt-6 text-center text-xs text-black/60 font-light leading-relaxed">
                 Don&apos;t have an account?{" "}
                 <Link
                   href="/demo"
@@ -254,9 +254,11 @@ export default function LoginPage() {
         </div>
 
         {/* Security badge */}
-        <p className="mt-6 text-center text-[11px] text-black/40 font-light flex items-center justify-center gap-1.5">
-          <FiLock className="w-3 h-3 text-black/40" />
-          <span>SOC 2 Type II Certified · 256-bit SSL Encrypted</span>
+        <p className="mt-5 sm:mt-6 text-center text-[11px] text-black/40 font-light flex flex-wrap items-center justify-center gap-1 sm:gap-1.5">
+          <FiLock className="w-3 h-3 text-black/40 shrink-0" />
+          <span>SOC 2 Type II Certified</span>
+          <span className="hidden xs:inline">·</span>
+          <span>256-bit SSL Encrypted</span>
         </p>
       </div>
     </main>

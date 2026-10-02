@@ -31,25 +31,25 @@ const STATS = [
 
 export default function CostOfDelay() {
     return (
-        <section className="relative w-full bg-gray-50 font-sans text-black py-24 sm:py-28 px-6 sm:px-10 lg:px-14 overflow-hidden">
+        <section className="relative w-full bg-gray-50 font-sans text-black py-14 sm:py-20 lg:py-28 px-4 sm:px-8 lg:px-14 overflow-hidden">
             {/* Dot grid */}
             <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-30" />
 
             <div className="relative z-10 mx-auto max-w-7xl">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-14 lg:gap-20 items-center">
                     {/* ================= LEFT: COPY + STATS ================= */}
                     <div>
-                        <span className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
+                        <span className="inline-flex items-center gap-2 text-[10.5px] sm:text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB]" />
                             Why Teams Switch
                         </span>
 
-                        <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[44px] font-light tracking-tight text-black leading-[1.15]">
+                        <h2 className="mt-3 sm:mt-4 text-2xl sm:text-3xl lg:text-[44px] font-light tracking-tight text-black leading-[1.15]">
                             The real cost of{" "}
                             <span className="text-black/50">slow data access.</span>
                         </h2>
 
-                        <p className="mt-6 text-base text-black/70 leading-relaxed font-light max-w-xl">
+                        <p className="mt-4 sm:mt-6 text-sm sm:text-base text-black/70 leading-relaxed font-light max-w-xl">
                             Every day your team waits on analysts, refreshes dashboards, or
                             hand-tunes spreadsheets, they&apos;re making decisions blind. The
                             numbers below are the cost of that delay — and the exact problem
@@ -57,16 +57,16 @@ export default function CostOfDelay() {
                         </p>
 
                         {/* Stats grid */}
-                        <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div className="mt-6 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                             {STATS.map((stat) => {
                                 const Icon = stat.icon;
                                 return (
                                     <div
                                         key={stat.value}
-                                        className="relative flex flex-col rounded-2xl border border-gray-200 bg-white p-5 transition-all hover:border-gray-400"
+                                        className="relative flex flex-col rounded-xl sm:rounded-2xl border border-gray-200 bg-white p-4 sm:p-5 transition-all hover:border-gray-400"
                                     >
                                         <div
-                                            className={`flex items-center justify-center w-9 h-9 rounded-lg ${stat.iconBg} ${stat.iconColor} mb-4`}
+                                            className={`flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-lg ${stat.iconBg} ${stat.iconColor} mb-3 sm:mb-4`}
                                         >
                                             <Icon className="h-4 w-4" />
                                         </div>
@@ -75,11 +75,11 @@ export default function CostOfDelay() {
                                             {stat.value}
                                         </div>
 
-                                        <div className="mt-2 text-[11px] font-medium text-black/60 uppercase tracking-[0.1em]">
+                                        <div className="mt-1.5 sm:mt-2 text-[10.5px] sm:text-[11px] font-medium text-black/60 uppercase tracking-[0.1em]">
                                             {stat.label}
                                         </div>
 
-                                        <div className="mt-2 text-xs text-black/60 leading-relaxed font-light">
+                                        <div className="mt-1.5 sm:mt-2 text-[12px] sm:text-xs text-black/60 leading-relaxed font-light">
                                             {stat.sublabel}
                                         </div>
                                     </div>
@@ -90,7 +90,7 @@ export default function CostOfDelay() {
 
                     {/* ================= RIGHT: ANIMATED VISUAL ================= */}
                     <div className="relative">
-                        <div className="relative aspect-square max-w-[520px] mx-auto overflow-hidden">
+                        <div className="relative aspect-square w-full max-w-[320px] xs:max-w-[380px] sm:max-w-[460px] lg:max-w-[520px] mx-auto overflow-hidden">
                             {/* Soft radial glow behind the rings — blue/violet */}
                             <div
                                 className="absolute inset-0 pointer-events-none"
@@ -100,9 +100,9 @@ export default function CostOfDelay() {
                                 }}
                             />
 
-                            {/* Concentric dashed rings + center badge — now animated */}
+                            {/* Concentric dashed rings + center badge — scalable for mobile */}
                             <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="relative flex items-center justify-center">
+                                <div className="relative flex items-center justify-center scale-[0.68] xs:scale-[0.8] sm:scale-[0.9] lg:scale-100 transition-transform duration-300">
 
                                     {/* Outer ring — slowest rotation, counter-clockwise */}
                                     <div
@@ -147,15 +147,15 @@ export default function CostOfDelay() {
                                             />
                                         </div>
                                     </div>
+
+                                    {/* Floating pulse dots — inside scaled wrapper */}
+                                    <OrbitingDots />
                                 </div>
                             </div>
-
-                            {/* Floating pulse dots — now slowly orbiting */}
-                            <OrbitingDots />
                         </div>
 
                         {/* Caption below the visual */}
-                        <p className="mt-6 text-center text-xs text-black/50 font-light">
+                        <p className="mt-4 sm:mt-6 text-center text-[11px] sm:text-xs text-black/50 font-light max-w-sm mx-auto">
                             ZeroQueries eliminates the delay — every answer, one question away.
                         </p>
                     </div>

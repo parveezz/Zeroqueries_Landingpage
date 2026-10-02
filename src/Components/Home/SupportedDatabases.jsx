@@ -73,19 +73,19 @@ const DATABASES = [
 
 export default function SupportedDatabases() {
     return (
-        <section className="relative w-full bg-transparent font-sans text-black py-24 sm:py-28 px-6 sm:px-10 lg:px-14 overflow-hidden">
+        <section className="relative w-full bg-transparent font-sans text-black py-14 sm:py-20 lg:py-28 px-4 sm:px-8 lg:px-14 overflow-hidden">
             <div className="relative z-10 mx-auto max-w-7xl">
                 {/* ============== HEADING ============== */}
-                <div className="text-center max-w-2xl mx-auto mb-16">
-                    <span className="text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
+                <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12 lg:mb-16">
+                    <span className="text-[10.5px] sm:text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
                         Connect Your Stack
                     </span>
 
-                    <h2 className="mt-3 text-3xl sm:text-4xl lg:text-[44px] font-light tracking-tight text-black leading-[1.15]">
+                    <h2 className="mt-2.5 sm:mt-3 text-2xl sm:text-3xl lg:text-[44px] font-light tracking-tight text-black leading-[1.15]">
                         Every source, one place.
                     </h2>
 
-                    <p className="mt-4 text-base text-black/60 leading-relaxed font-light">
+                    <p className="mt-3 sm:mt-4 text-sm sm:text-base text-black/60 leading-relaxed font-light">
                         ZeroQueries speaks natively to the databases, warehouses, and
                         spreadsheets your team already runs. Connect in minutes.
                     </p>
@@ -94,7 +94,7 @@ export default function SupportedDatabases() {
                 {/* ============================================================
             CORK BOARD
         ============================================================ */}
-                <div className="relative rounded-3xl overflow-hidden">
+                <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm">
                     {/* ============ WARM WALL BASE ============ */}
                     <div
                         className="absolute inset-0 pointer-events-none"
@@ -142,7 +142,7 @@ export default function SupportedDatabases() {
 
                     {/* ============ INNER SHADOW ============ */}
                     <div
-                        className="pointer-events-none absolute inset-0 rounded-3xl"
+                        className="pointer-events-none absolute inset-0 rounded-2xl sm:rounded-3xl"
                         style={{
                             boxShadow:
                                 "inset 0 0 60px rgba(90, 70, 50, 0.08), inset 0 0 12px rgba(90, 70, 50, 0.05)",
@@ -150,8 +150,8 @@ export default function SupportedDatabases() {
                     />
 
                     {/* ============ THE STICKY NOTES ============ */}
-                    <div className="relative z-10 overflow-x-auto lg:overflow-visible py-16 sm:py-20 px-6 sm:px-10 lg:px-14">
-                        <div className="flex flex-nowrap lg:flex-wrap items-start justify-start lg:justify-center gap-5 lg:gap-6 min-w-max lg:min-w-0">
+                    <div className="relative z-10 overflow-x-auto lg:overflow-visible py-10 sm:py-16 lg:py-20 px-4 sm:px-10 lg:px-14 no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                        <div className="flex flex-nowrap lg:flex-wrap items-start justify-start lg:justify-center gap-4 sm:gap-5 lg:gap-6 min-w-max lg:min-w-0">
                             {DATABASES.map((db) => (
                                 <StickyNote key={db.name} db={db} />
                             ))}
@@ -160,8 +160,8 @@ export default function SupportedDatabases() {
                 </div>
 
                 {/* ============== BOTTOM LINE ============== */}
-                <div className="mt-14 text-center">
-                    <p className="text-sm text-black/60 font-light">
+                <div className="mt-8 sm:mt-12 lg:mt-14 text-center">
+                    <p className="text-xs sm:text-sm text-black/60 font-light">
                         Don&apos;t see yours?{" "}
                         <Link
                             href="/contact"
@@ -197,7 +197,7 @@ function StickyNote({ db }) {
         >
             <Link
                 href={`/integrations/${db.name.toLowerCase().replace(/\s+/g, "-")}`}
-                className="block relative w-[150px] h-[180px] sm:w-[165px] sm:h-[195px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-4"
+                className="block relative w-[135px] h-[165px] sm:w-[165px] sm:h-[195px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-4"
             >
                 {/* ============ THE PAPER ============ */}
                 <div

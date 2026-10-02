@@ -49,7 +49,7 @@ export default function TestimonialsSection() {
     const goPrev = () => setCurrent((i) => (i - 1 + reviews.length) % reviews.length);
 
     return (
-        <section className="w-full bg-gray-50 py-24 px-6 md:px-12 lg:px-20 relative overflow-hidden">
+        <section className="w-full bg-gray-50 py-12 sm:py-16 lg:py-24 px-4 sm:px-8 lg:px-14 relative overflow-hidden">
             {/* Dot grid background */}
             <div
                 className="absolute inset-0 pointer-events-none opacity-[0.15]"
@@ -61,7 +61,7 @@ export default function TestimonialsSection() {
 
             {/* ============== VIOLET GLOW — BOTTOM RIGHT ============== */}
             <div
-                className="pointer-events-none absolute -bottom-40 -right-40 w-[750px] h-[750px] rounded-full"
+                className="pointer-events-none absolute -bottom-24 sm:-bottom-40 -right-24 sm:-right-40 w-[320px] sm:w-[550px] lg:w-[750px] h-[320px] sm:h-[550px] lg:h-[750px] rounded-full"
                 style={{
                     background:
                         "radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(167, 139, 250, 0.15) 40%, rgba(196, 181, 253, 0) 70%)",
@@ -71,84 +71,84 @@ export default function TestimonialsSection() {
 
             <div className="max-w-6xl mx-auto relative z-10">
                 {/* Heading */}
-                <h2 className="text-4xl md:text-5xl font-light text-center text-black mb-16 tracking-tight">
+                <h2 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-light text-center text-black mb-10 sm:mb-14 lg:mb-16 tracking-tight leading-[1.15]">
                     What Teams Say About{" "}
                     <span className="text-black/50">ZeroQueries</span>
                 </h2>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-start lg:items-center">
                     {/* LEFT: Selectable reviewer cards */}
-                    <div className="flex flex-col gap-6 relative">
+                    <div className="flex flex-col gap-3 sm:gap-4 lg:gap-5 w-full max-w-xl mx-auto lg:max-w-none relative">
                         {reviews.map((person, index) => {
                             const isActive = index === current;
                             return (
                                 <button
                                     key={person.id}
                                     onClick={() => setCurrent(index)}
-                                    className={`relative text-left w-full max-w-md rounded-r-xl p-4 transition-all duration-300 flex items-center gap-4
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2
+                                    className={`relative text-left w-full rounded-xl sm:rounded-r-xl p-3.5 sm:p-4 transition-all duration-200 flex items-center gap-3 sm:gap-4
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 active:scale-[0.99]
                     ${isActive
-                                            ? "bg-gray-100 border-l-4 border-l-black"
-                                            : "bg-white border border-gray-200 hover:border-gray-400"
+                                            ? "bg-white sm:bg-gray-100 border-l-4 border-l-black shadow-sm"
+                                            : "bg-white/80 border border-gray-200 hover:border-gray-400"
                                         }
                   `}
                                 >
                                     <div
-                                        className={`w-12 h-12 rounded-full ${person.color} flex items-center justify-center text-white font-normal text-sm shrink-0`}
+                                        className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full ${person.color} flex items-center justify-center text-white font-medium text-xs sm:text-sm shrink-0 shadow-sm`}
                                     >
                                         {person.initials}
                                     </div>
 
                                     <div className="flex-1 min-w-0 pr-6">
-                                        <h4 className="font-normal text-base text-black">
+                                        <h4 className="font-normal text-sm sm:text-base text-black truncate">
                                             {person.name}
                                         </h4>
-                                        <p className="text-sm leading-snug font-light text-black/60">
+                                        <p className="text-xs sm:text-sm leading-snug font-light text-black/60 truncate">
                                             {person.role}
                                         </p>
                                     </div>
 
-                                    <FaQuoteRight className="absolute top-3 right-3 text-gray-400 opacity-40 w-4 h-4" />
+                                    <FaQuoteRight className="absolute top-3.5 right-3.5 text-gray-400 opacity-40 w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                 </button>
                             );
                         })}
                     </div>
 
                     {/* RIGHT: Quote panel with arrows on the right */}
-                    <div className="flex flex-col justify-center relative">
+                    <div className="flex flex-col justify-center relative bg-white sm:bg-transparent p-5 sm:p-0 rounded-2xl sm:rounded-none border border-gray-200/90 sm:border-0 shadow-sm sm:shadow-none w-full max-w-xl mx-auto lg:max-w-none">
                         {/* Big decorative quote — hidden on mobile */}
                         <FaQuoteRight className="hidden md:block absolute -top-12 -left-8 text-[#E5E7EB] opacity-60 pointer-events-none select-none w-44 h-44" />
 
                         {/* Quote text */}
-                        <div className="relative z-10 space-y-6 text-black/70 text-[17px] leading-relaxed font-light">
+                        <div className="relative z-10 space-y-4 sm:space-y-6 text-black/75 text-[15px] sm:text-[17px] leading-relaxed font-light">
                             <p>{review.primary}</p>
-                            <p>{review.secondary}</p>
+                            <p className="text-black/60">{review.secondary}</p>
                         </div>
 
                         {/* Bottom row: stars on left, arrows on right */}
-                        <div className="flex items-center justify-between mt-8">
+                        <div className="flex items-center justify-between mt-6 sm:mt-8 pt-4 sm:pt-0 border-t border-gray-100 sm:border-0">
                             {/* Star rating */}
                             <div className="flex gap-1">
                                 {[...Array(5)].map((_, i) => (
-                                    <FaStar key={i} className="text-amber-400 w-4 h-4" />
+                                    <FaStar key={i} className="text-amber-400 w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                 ))}
                             </div>
 
                             {/* Navigation arrows pushed to the right */}
-                            <div className="flex gap-3 ml-auto">
+                            <div className="flex gap-2.5 sm:gap-3 ml-auto">
                                 <button
                                     onClick={goPrev}
                                     aria-label="Previous review"
-                                    className="w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+                                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-black active:scale-95 transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
                                 >
-                                    <FaChevronLeft className="w-3.5 h-3.5" />
+                                    <FaChevronLeft className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                                 </button>
                                 <button
                                     onClick={goNext}
                                     aria-label="Next review"
-                                    className="w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+                                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-black active:scale-95 transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
                                 >
-                                    <FaChevronRight className="w-3.5 h-3.5" />
+                                    <FaChevronRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                                 </button>
                             </div>
                         </div>

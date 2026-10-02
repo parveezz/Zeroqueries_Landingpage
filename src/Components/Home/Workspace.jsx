@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
     SiClickhouse,
     SiPostgresql,
@@ -9,13 +9,20 @@ import {
     SiSnowflake,
     SiGooglebigquery,
 } from "react-icons/si";
-import { FaMicrosoft, FaFileExcel } from "react-icons/fa";
+import { FaMicrosoft, FaFileExcel, FaTelegramPlane } from "react-icons/fa";
 import { GrOracle } from "react-icons/gr";
+import { FiMessageSquare, FiFileText } from "react-icons/fi";
 
-const QUERIES = [
+const CHAT_QUERIES = [
     "Why did pipeline drop 18% week-over-week? Break down by segment, stage, and rep.",
     "Show revenue by region for last quarter, grouped by product line.",
     "Which reps have the highest deal velocity this month?",
+];
+
+const REPORT_QUERIES = [
+    "Generate Q3 Executive Variance Report with revenue breakdowns by product & region.",
+    "Create an automated weekly pipeline health report comparing SDR vs AE sourced deals.",
+    "Draft an audit-ready compliance & data governance summary across warehouse connectors.",
 ];
 
 const LEFT_CARDS = [
@@ -80,8 +87,80 @@ export default function Workspace() {
     const [queryIndex, setQueryIndex] = useState(0);
     const [typed, setTyped] = useState("");
     const [phase, setPhase] = useState("typing");
+    const [inputMode, setInputMode] = useState("chat");
     const sectionRef = useRef(null);
     const [isVisible, setIsVisible] = useState(false);
+
+    const handleModeChange = (mode) => {
+        if (mode === inputMode) return;
+        setInputMode(mode);
+        setQueryIndex(0);
+        setTyped("");
+        setPhase("typing");
+    };
+
+    // Refs for live coordinate measurement
+    const diagramRef = useRef(null);
+    const leftItemRefs = useRef([]);
+    const centerInputRef = useRef(null);
+    const rightCardRefs = useRef([]);
+    const [coords, setCoords] = useState(null);
+
+    const updateCoords = useCallback(() => {
+        if (!diagramRef.current || !centerInputRef.current) return;
+        const containerRect = diagramRef.current.getBoundingClientRect();
+        if (containerRect.width === 0 || containerRect.height === 0) return;
+
+        // Center input card
+        const centerRect = centerInputRef.current.getBoundingClientRect();
+        const centerLeftX = centerRect.left - containerRect.left;
+        const centerRightX = centerRect.right - containerRect.left;
+        const centerY = centerRect.top + centerRect.height / 2 - containerRect.top;
+
+        // Left database pills
+        const leftPoints = leftItemRefs.current
+            .filter(Boolean)
+            .map((el) => {
+                const rect = el.getBoundingClientRect();
+                return {
+                    startX: rect.right - containerRect.left,
+                    startY: rect.top + rect.height / 2 - containerRect.top,
+                };
+            });
+
+        const maxLeftX = leftPoints.length > 0 ? Math.max(...leftPoints.map((p) => p.startX)) : 240;
+        const junctionLeftX = maxLeftX + (centerLeftX - maxLeftX) * 0.45;
+        const junctionLeftY = centerY;
+
+        // Right output cards
+        const rightPoints = rightCardRefs.current
+            .filter(Boolean)
+            .map((el) => {
+                const rect = el.getBoundingClientRect();
+                return {
+                    endX: rect.left - containerRect.left - 2,
+                    endY: rect.top + rect.height / 2 - containerRect.top,
+                };
+            });
+
+        const minRightX = rightPoints.length > 0 ? Math.min(...rightPoints.map((p) => p.endX)) : centerRightX + 180;
+        const junctionRightX = centerRightX + (minRightX - centerRightX) * 0.45;
+        const junctionRightY = centerY;
+
+        setCoords({
+            width: containerRect.width,
+            height: containerRect.height,
+            leftPoints,
+            junctionLeftX,
+            junctionLeftY,
+            centerLeftX,
+            centerRightX,
+            centerY,
+            junctionRightX,
+            junctionRightY,
+            rightPoints,
+        });
+    }, []);
 
     useEffect(() => {
         const node = sectionRef.current;
@@ -100,28 +179,64 @@ export default function Workspace() {
     }, []);
 
     useEffect(() => {
-        const current = QUERIES[queryIndex];
+        updateCoords();
+        const raf = requestAnimationFrame(updateCoords);
+        const timer1 = setTimeout(updateCoords, 100);
+        const timer2 = setTimeout(updateCoords, 400);
+
+        let ro = null;
+        if (typeof ResizeObserver !== "undefined") {
+            ro = new ResizeObserver(() => {
+                updateCoords();
+            });
+            if (diagramRef.current) ro.observe(diagramRef.current);
+            if (centerInputRef.current) ro.observe(centerInputRef.current);
+        }
+
+        window.addEventListener("resize", updateCoords);
+
+        return () => {
+            cancelAnimationFrame(raf);
+            clearTimeout(timer1);
+            clearTimeout(timer2);
+            if (ro) ro.disconnect();
+            window.removeEventListener("resize", updateCoords);
+        };
+    }, [updateCoords, isVisible]);
+
+    useEffect(() => {
+        const queries = inputMode === "chat" ? CHAT_QUERIES : REPORT_QUERIES;
+        const current = queries[queryIndex % queries.length] || queries[0];
         let i = 0;
         setTyped("");
         setPhase("typing");
+
+        let timerTimeout = null;
+        let nextIndexTimeout = null;
 
         const typer = setInterval(() => {
             i++;
             setTyped(current.slice(0, i));
             if (i >= current.length) {
                 clearInterval(typer);
-                setTimeout(() => setPhase("sending"), 700);
-                setTimeout(() => setQueryIndex((p) => (p + 1) % QUERIES.length), 2400);
+                timerTimeout = setTimeout(() => setPhase("sending"), 700);
+                nextIndexTimeout = setTimeout(() => {
+                    setQueryIndex((p) => (p + 1) % queries.length);
+                }, 2400);
             }
         }, 26);
 
-        return () => clearInterval(typer);
-    }, [queryIndex]);
+        return () => {
+            clearInterval(typer);
+            if (timerTimeout) clearTimeout(timerTimeout);
+            if (nextIndexTimeout) clearTimeout(nextIndexTimeout);
+        };
+    }, [queryIndex, inputMode]);
 
     return (
         <section
             ref={sectionRef}
-            className="relative w-full bg-gray-50 font-sans text-black pt-8 sm:pt-10 pb-16 px-6 md:px-10 lg:px-16 overflow-hidden"
+            className="relative w-full bg-gray-50 font-sans text-black pt-6 sm:pt-10 pb-12 sm:pb-16 px-4 sm:px-8 md:px-10 lg:px-16 overflow-hidden"
         >
             {/* Dot grid */}
             <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-40" />
@@ -132,16 +247,16 @@ export default function Workspace() {
                     className={`text-center max-w-3xl mx-auto mb-3 sm:mb-4 transition-all duration-700 ease-out ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
                         }`}
                 >
-                    <span className="text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
+                    <span className="text-[10.5px] sm:text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
                         How It Works
                     </span>
 
-                    <h2 className="mt-2 text-3xl sm:text-4xl lg:text-[40px] font-light tracking-tight text-black leading-[1.15]">
+                    <h2 className="mt-2 text-2xl sm:text-4xl lg:text-[40px] font-light tracking-tight text-black leading-[1.15]">
                         Connect every data source.{" "}
                         <span className="text-black/50">Ask anything.</span>
                     </h2>
 
-                    <p className="mt-2.5 text-base text-black/70 leading-relaxed font-light max-w-2xl mx-auto">
+                    <p className="mt-2 sm:mt-2.5 text-sm sm:text-base text-black/70 leading-relaxed font-light max-w-2xl mx-auto">
                         ZeroQueries listens to your question, queries your warehouses and
                         documents in real time, and returns structured insights — no
                         pipelines, no SQL, no waiting.
@@ -150,104 +265,128 @@ export default function Workspace() {
 
                 {/* ================= DIAGRAM ================= */}
                 <div
+                    ref={diagramRef}
                     className={`relative transition-all duration-1000 ease-out ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                         }`}
                 >
-                    {/* ============== CONNECTION LINES ============== */}
-                    <svg
-                        className="hidden xl:block absolute inset-0 w-full h-full pointer-events-none"
-                        preserveAspectRatio="none"
-                        viewBox="0 0 1400 620"
-                    >
-                        <defs>
-                            <marker
-                                id="arrow-gray"
-                                viewBox="0 0 10 10"
-                                refX="8"
-                                refY="5"
-                                markerWidth="6"
-                                markerHeight="6"
-                                orient="auto-start-reverse"
-                            >
-                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3af" />
-                            </marker>
-                        </defs>
+                    {/* ============== CONNECTION LINES (DESKTOP ONLY) ============== */}
+                    {coords && (
+                        <svg
+                            className="hidden xl:block absolute inset-0 w-full h-full pointer-events-none z-0"
+                            viewBox={`0 0 ${coords.width} ${coords.height}`}
+                            width={coords.width}
+                            height={coords.height}
+                        >
+                            <defs>
+                                <marker
+                                    id="arrow-gray"
+                                    viewBox="0 0 10 10"
+                                    refX="8"
+                                    refY="5"
+                                    markerWidth="6"
+                                    markerHeight="6"
+                                    orient="auto-start-reverse"
+                                >
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3af" />
+                                </marker>
+                            </defs>
 
-                        {/* Left side — 8 curved lines directly from each database pill */}
-                        {[
-                            { startX: 130, y: 175 },
-                            { startX: 126, y: 217 },
-                            { startX: 120, y: 259 },
-                            { startX: 144, y: 301 },
-                            { startX: 122, y: 397 },
-                            { startX: 134, y: 439 },
-                            { startX: 108, y: 481 },
-                            { startX: 178, y: 523 },
-                        ].map(({ startX, y }, idx) => (
-                            <g key={idx}>
-                                <path
-                                    d={`M ${startX} ${y} C ${startX + 120} ${y}, 340 310, 420 310`}
-                                    fill="none"
-                                    stroke="#d1d5db"
-                                    strokeWidth="1.5"
-                                    strokeDasharray="4 4"
+                            {/* Left side — curved lines directly from each database pill */}
+                            {coords.leftPoints.map((p, idx) => {
+                                const dx = Math.max(coords.junctionLeftX - p.startX, 20);
+                                const pathD = `M ${p.startX} ${p.startY} C ${p.startX + dx * 0.45} ${p.startY}, ${coords.junctionLeftX - dx * 0.45} ${coords.junctionLeftY}, ${coords.junctionLeftX} ${coords.junctionLeftY}`;
+                                return (
+                                    <g key={idx}>
+                                        <path
+                                            d={pathD}
+                                            fill="none"
+                                            stroke="#d1d5db"
+                                            strokeWidth="1.5"
+                                            strokeDasharray="4 4"
+                                        />
+                                        <circle cx={p.startX} cy={p.startY} r="3" fill="#9ca3af" />
+                                        <circle r="2.5" fill="#111827">
+                                            <animateMotion
+                                                dur={`${2.2 + (idx % 4) * 0.3}s`}
+                                                repeatCount="indefinite"
+                                                path={pathD}
+                                            />
+                                        </circle>
+                                    </g>
+                                );
+                            })}
+
+                            {/* Left junction dot */}
+                            <circle cx={coords.junctionLeftX} cy={coords.junctionLeftY} r="4.5" fill="#111827" />
+
+                            {/* Junction → Input box */}
+                            <path
+                                d={`M ${coords.junctionLeftX} ${coords.junctionLeftY} L ${coords.centerLeftX} ${coords.centerY}`}
+                                fill="none"
+                                stroke="#9ca3af"
+                                strokeWidth="2"
+                                strokeDasharray="6 6"
+                                markerEnd="url(#arrow-gray)"
+                            />
+                            <circle cx={coords.centerLeftX} cy={coords.centerY} r="3.5" fill="#111827" />
+                            <circle r="2.5" fill="#111827">
+                                <animateMotion
+                                    dur="1.5s"
+                                    repeatCount="indefinite"
+                                    path={`M ${coords.junctionLeftX} ${coords.junctionLeftY} L ${coords.centerLeftX} ${coords.centerY}`}
                                 />
-                                <circle cx={startX} cy={y} r="3" fill="#9ca3af" />
-                                <circle r="2.5" fill="#111827">
-                                    <animateMotion
-                                        dur={`${2.4 + (idx % 4) * 0.3}s`}
-                                        repeatCount="indefinite"
-                                        path={`M ${startX} ${y} C ${startX + 120} ${y}, 340 310, 420 310`}
-                                    />
-                                </circle>
-                            </g>
-                        ))}
+                            </circle>
 
-                        {/* Left junction dot */}
-                        <circle cx="420" cy="310" r="4.5" fill="#111827" />
+                            {/* Input box → Right junction */}
+                            <circle cx={coords.centerRightX} cy={coords.centerY} r="3.5" fill="#111827" />
+                            <path
+                                d={`M ${coords.centerRightX} ${coords.centerY} L ${coords.junctionRightX} ${coords.junctionRightY}`}
+                                fill="none"
+                                stroke="#9ca3af"
+                                strokeWidth="2"
+                                strokeDasharray="6 6"
+                            />
+                            <circle cx={coords.junctionRightX} cy={coords.junctionRightY} r="4.5" fill="#111827" />
+                            <circle r="2.5" fill="#111827">
+                                <animateMotion
+                                    dur="1.5s"
+                                    repeatCount="indefinite"
+                                    path={`M ${coords.centerRightX} ${coords.centerY} L ${coords.junctionRightX} ${coords.junctionRightY}`}
+                                />
+                            </circle>
 
-                        {/* Junction → Input */}
-                        <path
-                            d="M 420 310 L 560 310"
-                            fill="none"
-                            stroke="#9ca3af"
-                            strokeWidth="2"
-                            strokeDasharray="6 6"
-                            markerEnd="url(#arrow-gray)"
-                        />
-                        <circle cx="560" cy="310" r="3.5" fill="#111827" />
-
-                        {/* Input → Right junction */}
-                        <circle cx="840" cy="310" r="3.5" fill="#111827" />
-                        <path
-                            d="M 840 310 L 980 310"
-                            fill="none"
-                            stroke="#9ca3af"
-                            strokeWidth="2"
-                            strokeDasharray="6 6"
-                        />
-
-                        {/* Right junction dot */}
-                        <circle cx="980" cy="310" r="4.5" fill="#111827" />
-
-                        {/* Right junction → 4 output cards */}
-                        <path d="M 980 310 Q 1030 310 1080 170" fill="none" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-gray)" />
-                        <path d="M 980 310 Q 1030 310 1080 250" fill="none" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-gray)" />
-                        <path d="M 980 310 Q 1030 310 1080 330" fill="none" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-gray)" />
-                        <path d="M 980 310 Q 1030 310 1080 410" fill="none" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-gray)" />
-
-                        {/* Right connection dots */}
-                        <circle cx="1080" cy="170" r="3.5" fill="#9ca3af" />
-                        <circle cx="1080" cy="250" r="3.5" fill="#9ca3af" />
-                        <circle cx="1080" cy="330" r="3.5" fill="#9ca3af" />
-                        <circle cx="1080" cy="410" r="3.5" fill="#9ca3af" />
-                    </svg>
+                            {/* Right junction → 4 output cards */}
+                            {coords.rightPoints.map((p, idx) => {
+                                const dx = Math.max(p.endX - coords.junctionRightX, 20);
+                                const pathD = `M ${coords.junctionRightX} ${coords.junctionRightY} C ${coords.junctionRightX + dx * 0.45} ${coords.junctionRightY}, ${p.endX - dx * 0.45} ${p.endY}, ${p.endX} ${p.endY}`;
+                                return (
+                                    <g key={idx}>
+                                        <path
+                                            d={pathD}
+                                            fill="none"
+                                            stroke="#d1d5db"
+                                            strokeWidth="1.5"
+                                            strokeDasharray="4 4"
+                                        />
+                                        <circle cx={p.endX} cy={p.endY} r="3.5" fill="#9ca3af" />
+                                        <circle r="2.5" fill="#111827">
+                                            <animateMotion
+                                                dur={`${2.2 + (idx % 4) * 0.3}s`}
+                                                repeatCount="indefinite"
+                                                path={pathD}
+                                            />
+                                        </circle>
+                                    </g>
+                                );
+                            })}
+                        </svg>
+                    )}
 
                     {/* ============== 3-COLUMN GRID ============== */}
-                    <div className="grid grid-cols-1 xl:grid-cols-[240px_1fr_340px] gap-8 xl:gap-14 items-center relative">
+                    <div className="grid grid-cols-1 xl:grid-cols-[240px_1fr_340px] gap-6 sm:gap-8 xl:gap-14 items-center relative">
                         {/* ============ LEFT PANEL ============ */}
-                        <div className="flex flex-col gap-6 w-[240px]">
-                            <h3 className="text-[10px] font-medium tracking-[0.2em] text-black uppercase">
+                        <div className="flex flex-col gap-4 sm:gap-6 w-full max-w-2xl mx-auto xl:max-w-none xl:w-[240px]">
+                            <h3 className="text-[10px] font-medium tracking-[0.2em] text-black uppercase text-left">
                                 All of your data
                             </h3>
 
@@ -256,7 +395,7 @@ export default function Workspace() {
                                     key={ci}
                                     className="flex flex-col"
                                 >
-                                    <div className="flex items-center gap-2.5 mb-3">
+                                    <div className="flex items-center gap-2 mb-2 sm:mb-3">
                                         <div className="bg-gray-100 p-1.5 rounded-md">
                                             {card.icon === "db" ? (
                                                 <DbIcon />
@@ -264,16 +403,25 @@ export default function Workspace() {
                                                 <DocIcon className="w-3.5 h-3.5 text-black" />
                                             )}
                                         </div>
-                                        <span className="font-medium text-sm text-black">
+                                        <span className="font-medium text-xs sm:text-sm text-black">
                                             {card.title}
                                         </span>
                                     </div>
-                                    <div className="flex flex-col gap-2">
+
+                                    <div className="flex flex-wrap xl:flex-col gap-2 items-start">
                                         {card.items.map((item, ii) => {
                                             const ItemIcon = item.icon;
+                                            const isLast = ii === card.items.length - 1;
+                                            const globalIndex = ci * 4 + ii;
                                             return (
-                                                <div key={ii} className="h-[34px] flex items-center">
-                                                    <button className="flex items-center gap-2 bg-white hover:bg-gray-100 border border-gray-200 text-xs px-2.5 py-1.5 rounded-md text-black transition-colors shrink-0 shadow-sm">
+                                                <div
+                                                    key={ii}
+                                                    className="h-auto xl:h-[34px] flex items-center self-start"
+                                                >
+                                                    <button
+                                                        ref={!isLast ? (el) => { leftItemRefs.current[globalIndex] = el; } : null}
+                                                        className="flex items-center gap-1.5 sm:gap-2 bg-white hover:bg-gray-100 border border-gray-200 text-xs px-2.5 py-1.5 rounded-md text-black transition-colors shrink-0 shadow-xs"
+                                                    >
                                                         {ItemIcon ? (
                                                             <ItemIcon className="w-3.5 h-3.5 text-black shrink-0" />
                                                         ) : (
@@ -281,8 +429,11 @@ export default function Workspace() {
                                                         )}
                                                         <span>{item.name}</span>
                                                     </button>
-                                                    {ii === card.items.length - 1 && (
-                                                        <button className="ml-1.5 flex items-center justify-center bg-white hover:bg-gray-100 border border-gray-200 text-xs w-7 h-7 rounded-md text-black transition-colors shrink-0 shadow-sm">
+                                                    {isLast && (
+                                                        <button
+                                                            ref={(el) => { leftItemRefs.current[globalIndex] = el; }}
+                                                            className="ml-1.5 flex items-center justify-center bg-white hover:bg-gray-100 border border-gray-200 text-xs w-7 h-7 rounded-md text-black transition-colors shrink-0 shadow-xs"
+                                                        >
                                                             ++
                                                         </button>
                                                     )}
@@ -295,86 +446,105 @@ export default function Workspace() {
                         </div>
 
                         {/* ============ CENTER: INPUT ============ */}
-                        <div className="relative max-w-2xl w-full mx-auto">
-                            <div className="bg-white border border-gray-200 rounded-xl p-6 min-h-[140px] flex flex-col justify-between">
-                                <p className="text-base font-light leading-relaxed text-black min-h-[52px]">
+                        <div className="relative max-w-2xl w-full mx-auto order-first xl:order-none">
+                            <div
+                                ref={centerInputRef}
+                                className="bg-white border border-gray-200 rounded-xl p-4 sm:p-6 min-h-[130px] sm:min-h-[140px] flex flex-col justify-between shadow-xs"
+                            >
+                                <p className="text-[14.5px] sm:text-base font-light leading-relaxed text-black min-h-[46px] sm:min-h-[52px]">
                                     {typed}
                                     {phase === "typing" && (
                                         <span className="inline-block w-[2px] h-[1.1em] align-middle bg-black ml-0.5 animate-pulse" />
                                     )}
                                 </p>
 
-                                <div className="flex flex-wrap items-center justify-between gap-3 mt-5">
-                                    <div className="flex gap-1.5">
-                                        <button className="flex items-center gap-1.5 bg-black text-white px-3 py-1 rounded-full text-[11px] font-normal">
-                                            <BoltIcon className="w-3 h-3 text-white" />
-                                            Insight
+                                <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 mt-4 sm:mt-5">
+                                    <div className="flex flex-wrap gap-1.5">
+                                        <button
+                                            type="button"
+                                            onClick={() => handleModeChange("chat")}
+                                            className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[10.5px] sm:text-[11px] font-normal transition-all cursor-pointer ${
+                                                inputMode === "chat"
+                                                    ? "bg-black text-white shadow-xs"
+                                                    : "bg-gray-100 hover:bg-gray-200 text-black"
+                                            }`}
+                                        >
+                                            <FiMessageSquare className={`w-3 h-3 ${inputMode === "chat" ? "text-white" : "text-black"}`} />
+                                            Chat
                                         </button>
-                                        <button className="flex items-center gap-1.5 bg-gray-100 hover:bg-gray-200 text-black px-3 py-1 rounded-full text-[11px] font-normal transition-colors">
-                                            <TargetIcon />
-                                            Mission
-                                        </button>
-                                        <button className="flex items-center gap-1.5 bg-gray-100 hover:bg-gray-200 text-black px-3 py-1 rounded-full text-[11px] font-normal transition-colors">
-                                            <DocIcon />
-                                            Work Product
+                                        <button
+                                            type="button"
+                                            onClick={() => handleModeChange("report")}
+                                            className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[10.5px] sm:text-[11px] font-normal transition-all cursor-pointer ${
+                                                inputMode === "report"
+                                                    ? "bg-black text-white shadow-xs"
+                                                    : "bg-gray-100 hover:bg-gray-200 text-black"
+                                            }`}
+                                        >
+                                            <FiFileText className={`w-3 h-3 ${inputMode === "report" ? "text-white" : "text-black"}`} />
+                                            Report
                                         </button>
                                     </div>
 
                                     <button
-                                        className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-normal transition-all ${phase === "sending"
-                                            ? "bg-gray-300 text-gray-600 cursor-wait"
-                                            : "bg-black hover:bg-gray-800 text-white"
-                                            }`}
+                                        type="button"
+                                        aria-label="Send query"
+                                        onClick={() => {
+                                            if (phase === "typing") {
+                                                const queries = inputMode === "chat" ? CHAT_QUERIES : REPORT_QUERIES;
+                                                setTyped(queries[queryIndex % queries.length] || queries[0]);
+                                                setPhase("sending");
+                                            }
+                                        }}
+                                        className={`w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full flex items-center justify-center transition-all shadow-xs ${
+                                            phase === "sending"
+                                                ? "bg-gray-200 text-gray-500 scale-95 cursor-wait"
+                                                : "bg-black hover:bg-gray-800 text-white active:scale-95 cursor-pointer"
+                                        }`}
                                     >
-                                        {phase === "sending" ? "Sending…" : "Send"}
-                                        {phase !== "sending" && (
-                                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                            </svg>
-                                        )}
+                                        <FaTelegramPlane
+                                            className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 ${
+                                                phase === "sending"
+                                                    ? "translate-x-0.5 -translate-y-0.5 opacity-60 scale-90"
+                                                    : "hover:translate-x-0.5 hover:-translate-y-0.5"
+                                            }`}
+                                        />
                                     </button>
                                 </div>
-                            </div>
-
-                            {/* Tags */}
-                            <div className="flex justify-center gap-2 mt-3">
-                                {["RevOps", "Pharma", "CPG", "FP&A"].map((tag) => (
-                                    <span
-                                        key={tag}
-                                        className="bg-white text-black text-[11px] px-3 py-1 rounded-full border border-gray-200"
-                                    >
-                                        {tag}
-                                    </span>
-                                ))}
                             </div>
                         </div>
 
                         {/* ============ RIGHT PANEL ============ */}
-                        <div className="flex flex-col gap-3">
-                            <h3 className="text-[10px] font-medium tracking-[0.2em] text-black uppercase text-right">
+                        <div className="flex flex-col gap-2.5 sm:gap-3 w-full max-w-2xl mx-auto xl:max-w-none xl:w-[330px] xl:translate-x-6">
+                            <h3 className="text-[10px] font-medium tracking-[0.2em] text-black uppercase text-left xl:text-right xl:pr-1">
                                 Outputs
                             </h3>
 
-                            {RIGHT_CARDS.map((card, i) => (
-                                <div
-                                    key={i}
-                                    className="border border-gray-200 bg-white rounded-xl p-3.5 flex items-center gap-3 relative hover:border-gray-400 transition-colors"
-                                >
-                                    <div className="bg-gray-100 p-2 rounded-lg">
-                                        {card.icon === "chart" && <ChartIcon />}
-                                        {card.icon === "target" && <TargetIcon />}
-                                        {card.icon === "doc" && <DocIcon />}
-                                        {card.icon === "bolt" && <BoltIcon />}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-2 sm:gap-2.5">
+                                {RIGHT_CARDS.map((card, i) => (
+                                    <div
+                                        key={i}
+                                        ref={(el) => {
+                                            rightCardRefs.current[i] = el;
+                                        }}
+                                        className="border border-gray-200 bg-white rounded-xl pl-3 pr-2 py-2 sm:pl-3.5 sm:pr-2.5 sm:py-2.5 flex items-center gap-2.5 relative hover:border-gray-400 transition-colors shadow-2xs"
+                                    >
+                                        <div className="bg-gray-100 p-1.5 rounded-lg shrink-0">
+                                            {card.icon === "chart" && <ChartIcon />}
+                                            {card.icon === "target" && <TargetIcon />}
+                                            {card.icon === "doc" && <DocIcon />}
+                                            {card.icon === "bolt" && <BoltIcon />}
+                                        </div>
+                                        <div className="min-w-0 flex-1">
+                                            <h4 className="font-medium text-xs sm:text-[13px] text-black truncate">{card.title}</h4>
+                                            <p className="text-[10px] sm:text-[11px] text-black/60 font-light truncate">{card.subtitle}</p>
+                                        </div>
+                                        {i === 0 && (
+                                            <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 rounded-full bg-black" />
+                                        )}
                                     </div>
-                                    <div>
-                                        <h4 className="font-medium text-xs text-black">{card.title}</h4>
-                                        <p className="text-[10px] text-black font-light">{card.subtitle}</p>
-                                    </div>
-                                    {i === 0 && (
-                                        <span className="absolute top-3 right-3 w-1.5 h-1.5 rounded-full bg-black" />
-                                    )}
-                                </div>
-                            ))}
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>

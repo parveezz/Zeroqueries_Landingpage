@@ -166,7 +166,7 @@ export default function PricingComparison() {
     if (val === true) return <CheckIcon />;
     if (val === false) return <MinusIcon />;
     return (
-      <span className="text-[15px] sm:text-base font-light text-black/80 font-sans">
+      <span className="text-[13.5px] sm:text-base font-light text-black/80 font-sans">
         {val}
       </span>
     );
@@ -175,63 +175,70 @@ export default function PricingComparison() {
   return (
     <section
       id="compare-features"
-      className="w-full bg-gray-50/40 font-sans text-black py-16 px-8 sm:px-14 lg:px-20 xl:px-28 border-t border-gray-200/60 transition-all duration-300"
+      className="w-full bg-gray-50/40 font-sans text-black py-12 sm:py-16 px-3 sm:px-8 lg:px-14 xl:px-20 border-t border-gray-200/60 transition-all duration-300 overflow-hidden"
     >
       <div className="mx-auto max-w-6xl">
         {/* Center H2 Heading */}
-        <div className="text-center mb-10">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-black font-sans">
+        <div className="text-center mb-6 sm:mb-10">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-light tracking-tight text-black font-sans">
             Plan Comparison
           </h2>
         </div>
 
-        {/* Top Controls: Expand all | Collapse all */}
-        <div className="flex items-center justify-end gap-3 mb-4 text-sm font-normal">
-          <button
-            type="button"
-            onClick={expandAll}
-            className="text-[#6434F5] hover:text-[#5527e0] transition-colors font-sans cursor-pointer focus-visible:outline-none focus-visible:underline"
-          >
-            Expand all
-          </button>
-          <span className="text-gray-300">|</span>
-          <button
-            type="button"
-            onClick={collapseAll}
-            className="text-[#6434F5] hover:text-[#5527e0] transition-colors font-sans cursor-pointer focus-visible:outline-none focus-visible:underline"
-          >
-            Collapse all
-          </button>
+        {/* Top Controls: Mobile swipe hint + Expand all | Collapse all */}
+        <div className="flex items-center justify-between sm:justify-end gap-3 mb-3 sm:mb-4 text-xs sm:text-sm font-normal px-1">
+          <span className="text-[11px] sm:text-xs text-black/45 font-light sm:hidden flex items-center gap-1">
+            <span>Swipe to compare</span>
+            <span>→</span>
+          </span>
+
+          <div className="flex items-center gap-2.5">
+            <button
+              type="button"
+              onClick={expandAll}
+              className="text-[#6434F5] hover:text-[#5527e0] transition-colors font-sans cursor-pointer focus-visible:outline-none focus-visible:underline"
+            >
+              Expand all
+            </button>
+            <span className="text-gray-300">|</span>
+            <button
+              type="button"
+              onClick={collapseAll}
+              className="text-[#6434F5] hover:text-[#5527e0] transition-colors font-sans cursor-pointer focus-visible:outline-none focus-visible:underline"
+            >
+              Collapse all
+            </button>
+          </div>
         </div>
 
         {/* Comparison Table */}
-        <div className="overflow-x-auto border-t border-b border-gray-200">
-          <div className="min-w-[760px]">
+        <div className="overflow-x-auto border-t border-b border-gray-200 rounded-xl bg-white/60 no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          <div className="min-w-[620px] sm:min-w-[720px] lg:min-w-[760px]">
             {/* Header Row */}
-            <div className="grid grid-cols-12 items-end border-b border-gray-200 pb-4 pt-2">
-              <div className="col-span-6 px-6 sm:px-8">
-                <span className="text-[11px] sm:text-xs font-medium uppercase tracking-[0.15em] text-black/40 font-sans">
+            <div className="grid grid-cols-12 items-end border-b border-gray-200 pb-3 sm:pb-4 pt-2">
+              <div className="col-span-6 px-4 sm:px-8">
+                <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.15em] text-black/40 font-sans">
                   Feature Breakdown
                 </span>
               </div>
 
               {/* Starter Column */}
-              <div className="col-span-2 px-3 sm:px-4 text-center">
-                <h3 className="text-lg sm:text-xl font-normal text-black font-sans">
+              <div className="col-span-2 px-2 sm:px-4 text-center">
+                <h3 className="text-base sm:text-xl font-normal text-black font-sans">
                   Starter
                 </h3>
               </div>
 
               {/* Growth Column */}
-              <div className="col-span-2 px-3 sm:px-4 text-center">
-                <h3 className="text-lg sm:text-xl font-normal text-black font-sans">
+              <div className="col-span-2 px-2 sm:px-4 text-center">
+                <h3 className="text-base sm:text-xl font-normal text-black font-sans">
                   Growth
                 </h3>
               </div>
 
               {/* Enterprise Column */}
-              <div className="col-span-2 px-3 sm:px-4 py-3 rounded-t-xl bg-purple-50 text-center border-t border-l border-r border-gray-200">
-                <h3 className="text-lg sm:text-xl font-normal text-black font-sans">
+              <div className="col-span-2 px-2 sm:px-4 py-2 sm:py-3 rounded-t-xl bg-purple-50 text-center border-t border-l border-r border-gray-200">
+                <h3 className="text-base sm:text-xl font-normal text-black font-sans">
                   Enterprise
                 </h3>
               </div>
@@ -250,13 +257,13 @@ export default function PricingComparison() {
                   <button
                     type="button"
                     onClick={() => toggleCategory(category.id)}
-                    className="flex w-full items-center justify-between py-4 px-6 sm:px-8 text-left hover:bg-purple-50/20 transition-colors duration-200 border-b border-gray-100 cursor-pointer focus-visible:outline-none focus-visible:bg-purple-50/30"
+                    className="flex w-full items-center justify-between py-3 sm:py-4 px-4 sm:px-8 text-left hover:bg-purple-50/20 transition-colors duration-200 border-b border-gray-100 cursor-pointer focus-visible:outline-none focus-visible:bg-purple-50/30"
                   >
-                    <span className="text-lg sm:text-xl font-normal text-black font-sans">
+                    <span className="text-base sm:text-xl font-normal text-black font-sans">
                       {category.name}
                     </span>
                     <FiChevronDown
-                      className={`h-5 w-5 text-black/50 transition-transform duration-300 ease-in-out ${isOpen ? "rotate-180 text-[#6434F5]" : ""
+                      className={`h-4 w-4 sm:h-5 sm:w-5 text-black/50 transition-transform duration-300 ease-in-out ${isOpen ? "rotate-180 text-[#6434F5]" : ""
                         }`}
                     />
                   </button>
@@ -272,25 +279,25 @@ export default function PricingComparison() {
                       {category.features.map((feature, idx) => (
                         <div
                           key={idx}
-                          className="grid grid-cols-12 items-center hover:bg-purple-50/15 transition-colors duration-150 py-3.5"
+                          className="grid grid-cols-12 items-center hover:bg-purple-50/15 transition-colors duration-150 py-3 sm:py-3.5"
                         >
                           {/* Feature Name */}
-                          <div className="col-span-6 px-6 sm:px-8 text-[15px] sm:text-base font-light text-black/80 font-sans leading-snug">
+                          <div className="col-span-6 px-4 sm:px-8 text-[13.5px] sm:text-base font-light text-black/80 font-sans leading-snug">
                             {feature.name}
                           </div>
 
                           {/* Starter Value */}
-                          <div className="col-span-2 px-3 sm:px-4 text-center">
+                          <div className="col-span-2 px-2 sm:px-4 text-center">
                             {renderValue(feature.starter)}
                           </div>
 
                           {/* Growth Value */}
-                          <div className="col-span-2 px-3 sm:px-4 text-center">
+                          <div className="col-span-2 px-2 sm:px-4 text-center">
                             {renderValue(feature.growth)}
                           </div>
 
                           {/* Enterprise Value */}
-                          <div className="col-span-2 px-3 sm:px-4 py-1.5 text-center bg-purple-50/30 border-gray-200">
+                          <div className="col-span-2 px-2 sm:px-4 py-1.5 text-center bg-purple-50/30 border-gray-200">
                             {renderValue(feature.enterprise)}
                           </div>
                         </div>

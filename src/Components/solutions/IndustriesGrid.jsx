@@ -98,27 +98,27 @@ const INDUSTRIES = [
 
 export default function IndustriesGrid() {
     return (
-        <section className="relative w-full bg-gray-50 font-sans text-black py-24 sm:py-28 px-6 sm:px-10 lg:px-14 overflow-hidden">
+        <section className="relative w-full bg-gray-50 font-sans text-black py-14 sm:py-20 lg:py-28 px-4 sm:px-8 lg:px-14 overflow-hidden">
             {/* Dot grid */}
             <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-30" />
 
             <div className="relative z-10 mx-auto max-w-7xl">
                 {/* Heading */}
-                <div className="text-center max-w-2xl mx-auto mb-14">
-                    <span className="text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
+                <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12 lg:mb-14">
+                    <span className="text-[10.5px] sm:text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
                         Solutions by Industry
                     </span>
-                    <h2 className="mt-3 text-3xl sm:text-4xl lg:text-[44px] font-light tracking-tight text-black leading-[1.15]">
+                    <h2 className="mt-2.5 sm:mt-3 text-2xl sm:text-3xl lg:text-[44px] font-light tracking-tight text-black leading-[1.15]">
                         Built for how your industry works
                     </h2>
-                    <p className="mt-4 text-base text-black/60 leading-relaxed font-light">
+                    <p className="mt-3 sm:mt-4 text-sm sm:text-base text-black/60 leading-relaxed font-light max-w-xl mx-auto">
                         Access a pre-built library of industry-focused assets and tap into
                         dashboards and AI-powered analytics tailored for your industry.
                     </p>
                 </div>
 
-                {/* Grid — 4 cols on desktop, matching reference proportions */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                {/* Grid — 1 col on mobile, 2 cols on tablet, 4 cols on desktop */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
                     {INDUSTRIES.map((industry) => (
                         <IndustryCard key={industry.name} industry={industry} />
                     ))}
@@ -135,24 +135,30 @@ function IndustryCard({ industry }) {
     return (
         <Link
             href={`/solutions/${industry.name.toLowerCase().replace(/\s+/g, "-")}`}
-            className={`group relative flex flex-col rounded-xl border ${industry.cardBorder} ${industry.cardBg} p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_32px_-12px_rgba(0,0,0,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 min-h-[300px]`}
+            className={`group relative flex flex-col rounded-2xl sm:rounded-xl border ${industry.cardBorder} ${industry.cardBg} p-5 sm:p-6 transition-all duration-300 hover:-translate-y-1 active:scale-[0.99] hover:shadow-[0_12px_32px_-12px_rgba(0,0,0,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 min-h-0 sm:min-h-[280px] lg:min-h-[300px]`}
         >
             {/* Icon — solid colored circle with white icon inside */}
             <div
-                className={`flex items-center justify-center w-12 h-12 rounded-full ${industry.iconBg} mb-5 transition-transform duration-300 group-hover:scale-105`}
+                className={`flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full ${industry.iconBg} mb-3.5 sm:mb-5 transition-transform duration-300 group-hover:scale-105`}
             >
-                <Icon className="h-6 w-6 text-white" strokeWidth={2} />
+                <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" strokeWidth={2} />
             </div>
 
             {/* Name */}
-            <h3 className="text-[22px] font-normal tracking-tight text-black leading-tight">
+            <h3 className="text-lg sm:text-[22px] font-normal tracking-tight text-black leading-snug">
                 {industry.name}
             </h3>
 
             {/* Description */}
-            <p className="mt-3 text-[15px] text-black/75 leading-[1.55] font-light flex-1">
+            <p className="mt-2 sm:mt-3 text-[13.5px] sm:text-[15px] text-black/75 leading-[1.55] font-light flex-1">
                 {industry.description}
             </p>
+
+            {/* Link Action */}
+            <div className={`mt-3.5 sm:mt-4 inline-flex items-center gap-1 text-[13px] sm:text-sm font-medium ${industry.linkColor}`}>
+                <span>Explore {industry.name}</span>
+                <FiChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform duration-200 group-hover:translate-x-1" />
+            </div>
         </Link>
     );
 }
