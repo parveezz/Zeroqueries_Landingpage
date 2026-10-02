@@ -102,6 +102,15 @@ export default function Navbar() {
               Book a Demo
             </Button>
           </Link>
+
+          <Link href="/login">
+            <Button
+              variant="outline"
+              className="rounded-xl px-4 py-2.5 h-auto text-[15px] font-normal hover:border-black transition-colors"
+            >
+              Log in
+            </Button>
+          </Link>
         </div>
 
         {/* Mobile toggle */}
@@ -181,6 +190,15 @@ export default function Navbar() {
             <Link href="/demo" onClick={() => setMobileMenuOpen(false)}>
               <Button className="w-full rounded-xl py-2.5 h-auto text-[15px] font-normal">
                 Book a Demo
+              </Button>
+            </Link>
+
+            <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+              <Button
+                variant="outline"
+                className="w-full rounded-xl py-2.5 h-auto text-[15px] font-normal"
+              >
+                Log in
               </Button>
             </Link>
           </div>

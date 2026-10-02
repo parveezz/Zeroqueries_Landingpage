@@ -1,6 +1,16 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import {
+    SiClickhouse,
+    SiPostgresql,
+    SiMysql,
+    SiMongodb,
+    SiSnowflake,
+    SiGooglebigquery,
+} from "react-icons/si";
+import { FaMicrosoft, FaFileExcel } from "react-icons/fa";
+import { GrOracle } from "react-icons/gr";
 
 const QUERIES = [
     "Why did pipeline drop 18% week-over-week? Break down by segment, stage, and rep.",
@@ -12,12 +22,22 @@ const LEFT_CARDS = [
     {
         title: "Structured Data",
         icon: "db",
-        items: ["Salesforce", "HubSpot", "Snowflake"],
+        items: [
+            { name: "PostgreSQL", icon: SiPostgresql },
+            { name: "Snowflake", icon: SiSnowflake },
+            { name: "BigQuery", icon: SiGooglebigquery },
+            { name: "MySQL", icon: SiMysql },
+        ],
     },
     {
-        title: "Unstructured",
+        title: "Unstructured Data",
         icon: "doc",
-        items: ["Gong", "Excel", "PDF"],
+        items: [
+            { name: "MongoDB", icon: SiMongodb },
+            { name: "SQL Server", icon: FaMicrosoft },
+            { name: "Oracle", icon: GrOracle },
+            { name: "Excel Sheets", icon: FaFileExcel },
+        ],
     },
 ];
 
@@ -101,37 +121,15 @@ export default function Workspace() {
     return (
         <section
             ref={sectionRef}
-            className="relative w-full bg-gray-50 font-sans text-black pt-12 pb-16 px-6 md:px-10 lg:px-16 overflow-hidden"
+            className="relative w-full bg-gray-50 font-sans text-black pt-8 sm:pt-10 pb-16 px-6 md:px-10 lg:px-16 overflow-hidden"
         >
             {/* Dot grid */}
             <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-40" />
 
-            {/* ============== VIOLET GLOW — TOP LEFT ============== */}
-            <div
-                className={`pointer-events-none absolute -top-32 -left-32 w-[700px] h-[700px] rounded-full transition-opacity duration-1000 ease-out ${isVisible ? "opacity-100" : "opacity-0"
-                    }`}
-                style={{
-                    background:
-                        "radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(167, 139, 250, 0.15) 40%, rgba(196, 181, 253, 0) 70%)",
-                    filter: "blur(80px)",
-                }}
-            />
-
-            {/* Small secondary violet glow — bottom right for balance */}
-            <div
-                className={`pointer-events-none absolute -bottom-32 -right-32 w-[500px] h-[500px] rounded-full transition-opacity duration-1000 ease-out ${isVisible ? "opacity-100" : "opacity-0"
-                    }`}
-                style={{
-                    background:
-                        "radial-gradient(circle, rgba(167, 139, 250, 0.25) 0%, rgba(196, 181, 253, 0.1) 50%, rgba(237, 233, 254, 0) 75%)",
-                    filter: "blur(70px)",
-                }}
-            />
-
             <div className="relative z-10 mx-auto max-w-[1400px] w-full">
                 {/* ================= HEADING ================= */}
                 <div
-                    className={`text-center max-w-3xl mx-auto mb-12 transition-all duration-700 ease-out ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                    className={`text-center max-w-3xl mx-auto mb-3 sm:mb-4 transition-all duration-700 ease-out ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
                         }`}
                 >
                     <span className="text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
@@ -143,7 +141,7 @@ export default function Workspace() {
                         <span className="text-black/50">Ask anything.</span>
                     </h2>
 
-                    <p className="mt-4 text-base text-black/70 leading-relaxed font-light max-w-2xl mx-auto">
+                    <p className="mt-2.5 text-base text-black/70 leading-relaxed font-light max-w-2xl mx-auto">
                         ZeroQueries listens to your question, queries your warehouses and
                         documents in real time, and returns structured insights — no
                         pipelines, no SQL, no waiting.
@@ -175,16 +173,38 @@ export default function Workspace() {
                             </marker>
                         </defs>
 
-                        {/* Left side — 6 lines from data pills to junction */}
-                        <path d="M 340 240 Q 390 240 420 310" fill="none" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="4 4" />
-                        <path d="M 340 278 Q 390 278 420 310" fill="none" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="4 4" />
-                        <path d="M 340 316 Q 390 316 420 310" fill="none" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="4 4" />
-                        <path d="M 340 440 Q 390 440 420 310" fill="none" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="4 4" />
-                        <path d="M 340 478 Q 390 478 420 310" fill="none" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="4 4" />
-                        <path d="M 340 516 Q 390 516 420 310" fill="none" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="4 4" />
+                        {/* Left side — 8 curved lines directly from each database pill */}
+                        {[
+                            { startX: 130, y: 175 },
+                            { startX: 126, y: 217 },
+                            { startX: 120, y: 259 },
+                            { startX: 144, y: 301 },
+                            { startX: 122, y: 397 },
+                            { startX: 134, y: 439 },
+                            { startX: 108, y: 481 },
+                            { startX: 178, y: 523 },
+                        ].map(({ startX, y }, idx) => (
+                            <g key={idx}>
+                                <path
+                                    d={`M ${startX} ${y} C ${startX + 120} ${y}, 340 310, 420 310`}
+                                    fill="none"
+                                    stroke="#d1d5db"
+                                    strokeWidth="1.5"
+                                    strokeDasharray="4 4"
+                                />
+                                <circle cx={startX} cy={y} r="3" fill="#9ca3af" />
+                                <circle r="2.5" fill="#111827">
+                                    <animateMotion
+                                        dur={`${2.4 + (idx % 4) * 0.3}s`}
+                                        repeatCount="indefinite"
+                                        path={`M ${startX} ${y} C ${startX + 120} ${y}, 340 310, 420 310`}
+                                    />
+                                </circle>
+                            </g>
+                        ))}
 
                         {/* Left junction dot */}
-                        <circle cx="420" cy="310" r="4" fill="#9ca3af" />
+                        <circle cx="420" cy="310" r="4.5" fill="#111827" />
 
                         {/* Junction → Input */}
                         <path
@@ -195,8 +215,10 @@ export default function Workspace() {
                             strokeDasharray="6 6"
                             markerEnd="url(#arrow-gray)"
                         />
+                        <circle cx="560" cy="310" r="3.5" fill="#111827" />
 
                         {/* Input → Right junction */}
+                        <circle cx="840" cy="310" r="3.5" fill="#111827" />
                         <path
                             d="M 840 310 L 980 310"
                             fill="none"
@@ -206,25 +228,34 @@ export default function Workspace() {
                         />
 
                         {/* Right junction dot */}
-                        <circle cx="980" cy="310" r="4" fill="#9ca3af" />
+                        <circle cx="980" cy="310" r="4.5" fill="#111827" />
 
                         {/* Right junction → 4 output cards */}
                         <path d="M 980 310 Q 1030 310 1080 170" fill="none" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-gray)" />
                         <path d="M 980 310 Q 1030 310 1080 250" fill="none" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-gray)" />
                         <path d="M 980 310 Q 1030 310 1080 330" fill="none" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-gray)" />
                         <path d="M 980 310 Q 1030 310 1080 410" fill="none" stroke="#d1d5db" strokeWidth="1.5" strokeDasharray="4 4" markerEnd="url(#arrow-gray)" />
+
+                        {/* Right connection dots */}
+                        <circle cx="1080" cy="170" r="3.5" fill="#9ca3af" />
+                        <circle cx="1080" cy="250" r="3.5" fill="#9ca3af" />
+                        <circle cx="1080" cy="330" r="3.5" fill="#9ca3af" />
+                        <circle cx="1080" cy="410" r="3.5" fill="#9ca3af" />
                     </svg>
 
                     {/* ============== 3-COLUMN GRID ============== */}
-                    <div className="grid grid-cols-1 xl:grid-cols-[340px_1fr_340px] gap-8 xl:gap-16 items-center relative">
+                    <div className="grid grid-cols-1 xl:grid-cols-[240px_1fr_340px] gap-8 xl:gap-14 items-center relative">
                         {/* ============ LEFT PANEL ============ */}
-                        <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-6 w-[240px]">
                             <h3 className="text-[10px] font-medium tracking-[0.2em] text-black uppercase">
                                 All of your data
                             </h3>
 
                             {LEFT_CARDS.map((card, ci) => (
-                                <div key={ci} className="border border-gray-200 bg-white rounded-xl p-4">
+                                <div
+                                    key={ci}
+                                    className="flex flex-col"
+                                >
                                     <div className="flex items-center gap-2.5 mb-3">
                                         <div className="bg-gray-100 p-1.5 rounded-md">
                                             {card.icon === "db" ? (
@@ -237,20 +268,27 @@ export default function Workspace() {
                                             {card.title}
                                         </span>
                                     </div>
-                                    <div className="flex flex-col gap-1.5">
-                                        {card.items.map((item, ii) => (
-                                            <div key={ii} className="flex gap-1.5">
-                                                <button className="flex items-center gap-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-xs px-2.5 py-1.5 rounded-md text-black transition-colors">
-                                                    <span className="w-1.5 h-1.5 rounded-full bg-black" />
-                                                    {item}
-                                                </button>
-                                                {ii === card.items.length - 1 && (
-                                                    <button className="flex items-center justify-center bg-gray-50 hover:bg-gray-100 border border-gray-200 text-xs w-7 h-7 rounded-md text-black transition-colors">
-                                                        ++
+                                    <div className="flex flex-col gap-2">
+                                        {card.items.map((item, ii) => {
+                                            const ItemIcon = item.icon;
+                                            return (
+                                                <div key={ii} className="h-[34px] flex items-center">
+                                                    <button className="flex items-center gap-2 bg-white hover:bg-gray-100 border border-gray-200 text-xs px-2.5 py-1.5 rounded-md text-black transition-colors shrink-0 shadow-sm">
+                                                        {ItemIcon ? (
+                                                            <ItemIcon className="w-3.5 h-3.5 text-black shrink-0" />
+                                                        ) : (
+                                                            <span className="w-1.5 h-1.5 rounded-full bg-black shrink-0" />
+                                                        )}
+                                                        <span>{item.name}</span>
                                                     </button>
-                                                )}
-                                            </div>
-                                        ))}
+                                                    {ii === card.items.length - 1 && (
+                                                        <button className="ml-1.5 flex items-center justify-center bg-white hover:bg-gray-100 border border-gray-200 text-xs w-7 h-7 rounded-md text-black transition-colors shrink-0 shadow-sm">
+                                                            ++
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             ))}
@@ -284,8 +322,8 @@ export default function Workspace() {
 
                                     <button
                                         className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-normal transition-all ${phase === "sending"
-                                                ? "bg-gray-300 text-gray-600 cursor-wait"
-                                                : "bg-black hover:bg-gray-800 text-white"
+                                            ? "bg-gray-300 text-gray-600 cursor-wait"
+                                            : "bg-black hover:bg-gray-800 text-white"
                                             }`}
                                     >
                                         {phase === "sending" ? "Sending…" : "Send"}
