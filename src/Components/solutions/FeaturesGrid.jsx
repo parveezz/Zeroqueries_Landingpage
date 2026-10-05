@@ -142,11 +142,11 @@ export default function FeaturesGrid() {
                 </div>
 
                 {/* ================= NOTE BELOW ================= */}
+                {/* ================= NOTE BELOW ================= */}
                 <div className="mt-8 sm:mt-10 lg:mt-10 flex justify-center">
                     <div className="inline-flex items-center gap-3 rounded-full border border-gray-200 bg-white px-5 py-2.5">
-                        <div className="relative flex items-center justify-center w-7 h-7 rounded-full bg-black">
+                        <div className="flex items-center justify-center w-7 h-7 rounded-full bg-black">
                             <FiZap className="h-3.5 w-3.5 text-white" strokeWidth={2.5} />
-                            <span className="absolute inset-0 rounded-full bg-black opacity-30 animate-ping" />
                         </div>
                         <p className="text-sm font-light text-black/70">
                             <span className="font-normal text-black">

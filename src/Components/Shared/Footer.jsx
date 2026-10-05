@@ -6,37 +6,22 @@ import { FiArrowUpRight } from "react-icons/fi";
 import { FaFacebookF, FaInstagram, FaXTwitter, FaLinkedinIn } from "react-icons/fa6";
 
 const footerNavigation = {
-  platform: [
-    { name: "Platform Overview", href: "/platform" },
-    { name: "AI Semantic Layer", href: "/platform#semantic-layer" },
-    { name: "Autonomous Insights", href: "/platform#insights" },
-    { name: "Live Query Engine", href: "/platform#query-engine" },
-    { name: "Enterprise Connectors", href: "/platform#connectors" },
-    { name: "Pricing & Plans", href: "/pricing" },
-  ],
-  solutions: [
-    { name: "Financial Analytics", href: "/solutions#finance" },
-    { name: "Healthcare & Life Sciences", href: "/solutions#healthcare" },
-    { name: "Retail & E-Commerce", href: "/solutions#retail" },
-    { name: "Supply Chain & Ops", href: "/solutions#supply-chain" },
-    { name: "Product & Growth Teams", href: "/solutions#growth" },
-    { name: "Executive Dashboards", href: "/solutions#executive" },
-  ],
   company: [
-    { name: "About ZeroQueries", href: "/company" },
-    { name: "Customers & Case Studies", href: "/customers" },
-    { name: "Careers", href: "/careers", badge: "We're hiring" },
-    { name: "News & Press", href: "/press" },
-    { name: "Contact Us", href: "/contact" },
+    { name: "Home", href: "/" },
+    { name: "Pricing & Plans", href: "/pricing" },
     { name: "Book a Demo", href: "/demo" },
+    { name: "Contact Us", href: "/contact" },
   ],
-  resources: [
-    { name: "Documentation", href: "/resources#docs" },
-    { name: "API Reference", href: "/resources#api" },
-    { name: "Community & Forum", href: "/resources#community" },
-    { name: "Security & SOC2", href: "/security" },
-    { name: "System Status", href: "https://status.zeroqueries.com", external: true },
-    { name: "Resource Library", href: "/resources" },
+  integrations: [
+    { name: "WhatsApp", href: "/whatsapp" },
+    { name: "Slack", href: "/slack" },
+  ],
+  legal: [
+    { name: "Privacy Policy", href: "/privacy" },
+    { name: "Terms of Service", href: "/tos" },
+    { name: "Support", href: "/support" },
+    { name: "Sub Processors", href: "/sub-processor" },
+    { name: "Cookie Preferences", href: "/cookies" },
   ],
 };
 
@@ -67,10 +52,11 @@ export default function Footer() {
   return (
     <footer className="w-full border-t border-gray-200/80 bg-gray-50/70 font-sans text-black">
       <div className="mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-14 pt-12 sm:pt-16 pb-8 sm:pb-12">
-        {/* Top Grid: Brand & Links */}
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-8">
+
+        {/* ================= MAIN FOOTER: BRAND & COLUMNS ================= */}
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Brand Info & Status */}
-          <div className="lg:col-span-4 xl:col-span-4 space-y-5 sm:space-y-6">
+          <div className="lg:col-span-5 xl:col-span-5 space-y-5 sm:space-y-6">
             <Link href="/" className="inline-flex items-center gap-2.5">
               <Image
                 src="/zerologo.png"
@@ -118,47 +104,9 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Links Columns */}
-          <div className="grid grid-cols-2 gap-x-5 gap-y-8 sm:grid-cols-4 sm:gap-8 lg:col-span-8 xl:col-span-8 pt-2 lg:pt-0">
-            {/* Column 1: Platform */}
-            <div>
-              <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-black/40">
-                Platform
-              </h3>
-              <ul className="mt-4 space-y-2.5 sm:space-y-3">
-                {footerNavigation.platform.map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      href={link.href}
-                      className="inline-block py-0.5 text-[13.5px] sm:text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Column 2: Solutions */}
-            <div>
-              <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-black/40">
-                Solutions
-              </h3>
-              <ul className="mt-4 space-y-2.5 sm:space-y-3">
-                {footerNavigation.solutions.map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      href={link.href}
-                      className="inline-block py-0.5 text-[13.5px] sm:text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Column 3: Company */}
+          {/* Links Columns: Company, Integrations, Legal */}
+          <div className="grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3 sm:gap-8 lg:col-span-7 xl:col-span-7 pt-2 lg:pt-0">
+            {/* Column 1: Company */}
             <div>
               <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-black/40">
                 Company
@@ -182,13 +130,13 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Column 4: Resources */}
+            {/* Column 2: Integrations */}
             <div>
               <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-black/40">
-                Resources
+                Integrations
               </h3>
               <ul className="mt-4 space-y-2.5 sm:space-y-3">
-                {footerNavigation.resources.map((link) => (
+                {footerNavigation.integrations.map((link) => (
                   <li key={link.name}>
                     {link.external ? (
                       <a
@@ -212,27 +160,31 @@ export default function Footer() {
                 ))}
               </ul>
             </div>
+
+            {/* Column 3: Legal */}
+            <div className="col-span-2 sm:col-span-1">
+              <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-black/40">
+                Legal
+              </h3>
+              <ul className="mt-4 space-y-2.5 sm:space-y-3">
+                {footerNavigation.legal.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="inline-block py-0.5 text-[13.5px] sm:text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 
-        {/* Bottom Sub-footer */}
-        <div className="mt-12 sm:mt-14 pt-6 sm:pt-8 border-t border-gray-200/80 flex flex-col-reverse sm:flex-row items-center justify-between gap-4 text-center sm:text-left text-xs sm:text-sm text-black/50 font-light">
+        {/* ================= COPYRIGHT ================= */}
+        <div className="mt-12 sm:mt-14 pt-6 sm:pt-8 border-t border-gray-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-black/50 font-light">
           <p>© {new Date().getFullYear()} ZeroQueries, Inc. All rights reserved.</p>
-
-          <div className="flex flex-wrap items-center justify-center sm:justify-end gap-x-4 sm:gap-x-6 gap-y-2">
-            <Link href="/privacy" className="hover:text-[#6434F5] transition-colors py-0.5">
-              Privacy Policy
-            </Link>
-            <Link href="/terms" className="hover:text-[#6434F5] transition-colors py-0.5">
-              Terms of Service
-            </Link>
-            <Link href="/security" className="hover:text-[#6434F5] transition-colors py-0.5">
-              Security & Compliance
-            </Link>
-            <Link href="/cookies" className="hover:text-[#6434F5] transition-colors py-0.5">
-              Cookie Preferences
-            </Link>
-          </div>
         </div>
       </div>
     </footer>

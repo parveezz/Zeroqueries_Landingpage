@@ -10,7 +10,7 @@ import {
     FiTool,
     FiHeadphones,
     FiRadio,
-    FiChevronRight
+    FiChevronRight,
 } from "react-icons/fi";
 
 const INDUSTRIES = [
@@ -98,7 +98,7 @@ const INDUSTRIES = [
 
 export default function IndustriesGrid() {
     return (
-        <section className="relative w-full bg-gray-50 font-sans text-black py-14 sm:py-20 lg:py-28 px-4 sm:px-8 lg:px-14 overflow-hidden">
+        <section className="relative w-full bg-gray-50 font-sans text-black pt-14 sm:pt-20 lg:pt-10 pb-14 sm:pb-20 lg:pb-28 px-4 sm:px-8 lg:px-14 overflow-hidden">
             {/* Dot grid */}
             <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-30" />
 
@@ -137,25 +137,30 @@ function IndustryCard({ industry }) {
             href={`/solutions/${industry.name.toLowerCase().replace(/\s+/g, "-")}`}
             className={`group relative flex flex-col rounded-2xl sm:rounded-xl border ${industry.cardBorder} ${industry.cardBg} p-5 sm:p-6 transition-all duration-300 hover:-translate-y-1 active:scale-[0.99] hover:shadow-[0_12px_32px_-12px_rgba(0,0,0,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 min-h-0 sm:min-h-[280px] lg:min-h-[300px]`}
         >
-            {/* Icon — solid colored circle with white icon inside */}
-            <div
-                className={`flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full ${industry.iconBg} mb-3.5 sm:mb-5 transition-transform duration-300 group-hover:scale-105`}
-            >
-                <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" strokeWidth={2} />
+            {/* Icon + Title row */}
+            <div className="flex items-center gap-3 sm:gap-4 mb-3.5 sm:mb-5">
+                {/* Icon */}
+                <div
+                    className={`flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full ${industry.iconBg} shrink-0 transition-transform duration-300 group-hover:scale-105`}
+                >
+                    <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" strokeWidth={2} />
+                </div>
+
+                {/* Name — sits beside the icon */}
+                <h3 className="text-lg sm:text-[22px] font-normal tracking-tight text-black leading-snug">
+                    {industry.name}
+                </h3>
             </div>
 
-            {/* Name */}
-            <h3 className="text-lg sm:text-[22px] font-normal tracking-tight text-black leading-snug">
-                {industry.name}
-            </h3>
-
             {/* Description */}
-            <p className="mt-2 sm:mt-3 text-[13.5px] sm:text-[15px] text-black/75 leading-[1.55] font-light flex-1">
+            <p className="text-[13.5px] sm:text-[15px] text-black/75 leading-[1.55] font-light flex-1">
                 {industry.description}
             </p>
 
             {/* Link Action */}
-            <div className={`mt-3.5 sm:mt-4 inline-flex items-center gap-1 text-[13px] sm:text-sm font-medium ${industry.linkColor}`}>
+            <div
+                className={`mt-3.5 sm:mt-4 inline-flex items-center gap-1 text-[13px] sm:text-sm font-medium ${industry.linkColor}`}
+            >
                 <span>Explore {industry.name}</span>
                 <FiChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform duration-200 group-hover:translate-x-1" />
             </div>

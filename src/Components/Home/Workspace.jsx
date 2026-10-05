@@ -277,19 +277,19 @@ export default function Workspace() {
                     className={`text-center max-w-3xl mx-auto mb-3 sm:mb-4 transition-all duration-700 ease-out ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
                         }`}
                 >
-                    <span className="text-[10.5px] sm:text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
+                    <span className="text-[10.5px] sm:text-[11px] font-medium tracking-[0.2em] text-black/50 uppercase">
                         How It Works
                     </span>
 
-                    <h2 className="mt-2 text-2xl sm:text-4xl lg:text-[40px] font-light tracking-tight text-black leading-[1.15]">
+                    <h2 className="mt-2.5 sm:mt-3 text-[26px] sm:text-[34px] lg:text-[40px] font-normal tracking-[-0.02em] text-black leading-[1.15]">
                         Connect every data source.{" "}
-                        <span className="text-black/50">Ask anything.</span>
+                        <span className="text-black/45 font-light">Ask anything.</span>
                     </h2>
 
-                    <p className="mt-2 sm:mt-2.5 text-sm sm:text-base text-black/70 leading-relaxed font-light max-w-2xl mx-auto">
-                        ZeroQueries listens to your question, queries your warehouses and
-                        documents in real time, and returns structured insights — no
-                        pipelines, no SQL, no waiting.
+                    <p className="mt-3 sm:mt-3.5 text-[13.5px] sm:text-[15px] text-black/65 leading-[1.65] font-normal max-w-xl mx-auto">
+                        ZeroQueries listens to your question, queries your warehouses and documents
+                        in real time, and returns structured insights — no pipelines, no SQL, no
+                        waiting.
                     </p>
                 </div>
 
@@ -479,7 +479,7 @@ export default function Workspace() {
                         <div className="relative max-w-2xl w-full mx-auto order-first xl:order-none">
                             <div
                                 ref={centerInputRef}
-                                className="bg-white border border-gray-200 rounded-xl p-4 sm:p-6 min-h-[130px] sm:min-h-[140px] flex flex-col justify-between shadow-xs"
+                                className="bg-white border border-gray-200 rounded-xl p-3 sm:p-6 min-h-[130px] sm:min-h-[140px] flex flex-col justify-between shadow-xs"
                             >
                                 <p className="text-[14.5px] sm:text-base font-light leading-relaxed text-black min-h-[46px] sm:min-h-[52px]">
                                     {typed}
@@ -494,8 +494,8 @@ export default function Workspace() {
                                             type="button"
                                             onClick={() => handleModeChange("chat")}
                                             className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[10.5px] sm:text-[11px] font-normal transition-all cursor-pointer ${inputMode === "chat"
-                                                    ? "bg-black text-white shadow-xs"
-                                                    : "bg-gray-100 hover:bg-gray-200 text-black"
+                                                ? "bg-black text-white shadow-xs"
+                                                : "bg-gray-100 hover:bg-gray-200 text-black"
                                                 }`}
                                         >
                                             <FiMessageSquare className={`w-3 h-3 ${inputMode === "chat" ? "text-white" : "text-black"}`} />
@@ -505,8 +505,8 @@ export default function Workspace() {
                                             type="button"
                                             onClick={() => handleModeChange("report")}
                                             className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[10.5px] sm:text-[11px] font-normal transition-all cursor-pointer ${inputMode === "report"
-                                                    ? "bg-black text-white shadow-xs"
-                                                    : "bg-gray-100 hover:bg-gray-200 text-black"
+                                                ? "bg-black text-white shadow-xs"
+                                                : "bg-gray-100 hover:bg-gray-200 text-black"
                                                 }`}
                                         >
                                             <FiFileText className={`w-3 h-3 ${inputMode === "report" ? "text-white" : "text-black"}`} />
@@ -525,14 +525,14 @@ export default function Workspace() {
                                             }
                                         }}
                                         className={`w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full flex items-center justify-center transition-all shadow-xs ${phase === "sending"
-                                                ? "bg-gray-200 text-gray-500 scale-95 cursor-wait"
-                                                : "bg-black hover:bg-gray-800 text-white active:scale-95 cursor-pointer"
+                                            ? "bg-gray-200 text-gray-500 scale-95 cursor-wait"
+                                            : "bg-black hover:bg-gray-800 text-white active:scale-95 cursor-pointer"
                                             }`}
                                     >
                                         <FaTelegramPlane
                                             className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 ${phase === "sending"
-                                                    ? "translate-x-0.5 -translate-y-0.5 opacity-60 scale-90"
-                                                    : "hover:translate-x-0.5 hover:-translate-y-0.5"
+                                                ? "translate-x-0.5 -translate-y-0.5 opacity-60 scale-90"
+                                                : "hover:translate-x-0.5 hover:-translate-y-0.5"
                                                 }`}
                                         />
                                     </button>
@@ -541,7 +541,7 @@ export default function Workspace() {
                         </div>
 
                         {/* ============ RIGHT PANEL ============ */}
-                        <div className="flex flex-col gap-2.5 sm:gap-3 w-full max-w-2xl mx-auto xl:max-w-none xl:w-[330px] xl:translate-x-6">
+                        <div className="flex flex-col gap-2.5 sm:gap-3 w-full max-w-2xl mx-auto xl:max-w-none xl:w-[280px] xl:translate-x-6">
                             <h3 className="text-[10px] font-medium tracking-[0.2em] text-black uppercase text-left xl:text-right xl:pr-1">
                                 Outputs
                             </h3>
@@ -553,20 +553,26 @@ export default function Workspace() {
                                         ref={(el) => {
                                             rightCardRefs.current[i] = el;
                                         }}
-                                        className="border border-gray-200 bg-white rounded-xl pl-3 pr-2 py-2 sm:pl-3.5 sm:pr-2.5 sm:py-2.5 flex items-center gap-2.5 relative hover:border-gray-400 transition-colors shadow-2xs"
+                                        className="border border-gray-200 bg-white rounded-lg pl-2.5 pr-2 py-2 sm:pl-3 sm:pr-2.5 sm:py-2.5 flex items-center gap-2 relative hover:border-gray-400 transition-colors"
                                     >
-                                        <div className="bg-gray-100 p-1.5 rounded-lg shrink-0">
+                                        <div className="bg-gray-100 p-1.5 rounded-md shrink-0">
                                             {card.icon === "chart" && <ChartIcon />}
                                             {card.icon === "target" && <TargetIcon />}
                                             {card.icon === "doc" && <DocIcon />}
                                             {card.icon === "bolt" && <BoltIcon />}
                                         </div>
+
                                         <div className="min-w-0 flex-1">
-                                            <h4 className="font-medium text-xs sm:text-[13px] text-black truncate">{card.title}</h4>
-                                            <p className="text-[10px] sm:text-[11px] text-black/60 font-light truncate">{card.subtitle}</p>
+                                            <h4 className="font-medium text-[11px] sm:text-xs text-black truncate">
+                                                {card.title}
+                                            </h4>
+                                            <p className="text-[9.5px] sm:text-[10px] text-black/60 font-light truncate">
+                                                {card.subtitle}
+                                            </p>
                                         </div>
+
                                         {i === 0 && (
-                                            <span className="absolute top-2.5 right-2.5 w-1.5 h-1.5 rounded-full bg-black" />
+                                            <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-black" />
                                         )}
                                     </div>
                                 ))}

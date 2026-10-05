@@ -31,7 +31,7 @@ const STATS = [
 
 export default function CostOfDelay() {
     return (
-        <section className="relative w-full bg-gray-50 font-sans text-black py-14 sm:py-20 lg:py-28 px-4 sm:px-8 lg:px-14 overflow-hidden">
+        <section className="relative w-full bg-gray-50 font-sans text-black pt-14 sm:pt-20 lg:pt-0 pb-14 sm:pb-20 lg:pb-28 px-4 sm:px-8 lg:px-14 overflow-hidden">
             {/* Dot grid */}
             <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-30" />
 
@@ -65,20 +65,27 @@ export default function CostOfDelay() {
                                         key={stat.value}
                                         className="relative flex flex-col rounded-xl sm:rounded-2xl border border-gray-200 bg-white p-4 sm:p-5 transition-all hover:border-gray-400"
                                     >
-                                        <div
-                                            className={`flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-lg ${stat.iconBg} ${stat.iconColor} mb-3 sm:mb-4`}
-                                        >
-                                            <Icon className="h-4 w-4" />
+                                        {/* Icon + Value row */}
+                                        <div className="flex items-center gap-3 mb-3 sm:mb-4">
+                                            {/* Icon */}
+                                            <div
+                                                className={`flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-lg ${stat.iconBg} ${stat.iconColor} shrink-0`}
+                                            >
+                                                <Icon className="h-4 w-4" />
+                                            </div>
+
+                                            {/* Value — sits beside the icon */}
+                                            <div className="text-2xl sm:text-[28px] font-light tracking-tight text-black leading-none">
+                                                {stat.value}
+                                            </div>
                                         </div>
 
-                                        <div className="text-2xl sm:text-[28px] font-light tracking-tight text-black leading-none">
-                                            {stat.value}
-                                        </div>
-
-                                        <div className="mt-1.5 sm:mt-2 text-[10.5px] sm:text-[11px] font-medium text-black/60 uppercase tracking-[0.1em]">
+                                        {/* Label */}
+                                        <div className="text-[10.5px] sm:text-[11px] font-medium text-black/60 uppercase tracking-[0.1em]">
                                             {stat.label}
                                         </div>
 
+                                        {/* Sublabel */}
                                         <div className="mt-1.5 sm:mt-2 text-[12px] sm:text-xs text-black/60 leading-relaxed font-light">
                                             {stat.sublabel}
                                         </div>
@@ -103,7 +110,6 @@ export default function CostOfDelay() {
                             {/* Concentric dashed rings + center badge — scalable for mobile */}
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <div className="relative flex items-center justify-center scale-[0.68] xs:scale-[0.8] sm:scale-[0.9] lg:scale-100 transition-transform duration-300">
-
                                     {/* Outer ring — slowest rotation, counter-clockwise */}
                                     <div
                                         className="absolute rounded-full border-2 border-dashed animate-[spin_28s_linear_infinite_reverse]"
@@ -166,7 +172,6 @@ export default function CostOfDelay() {
 }
 
 // ============== ORBITING DOTS ==============
-// Four small colored dots that orbit around the center badge at different radii/speeds.
 function OrbitingDots() {
     return (
         <div className="absolute inset-0 pointer-events-none flex items-center justify-center">

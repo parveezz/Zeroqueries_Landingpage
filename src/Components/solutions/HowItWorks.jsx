@@ -254,19 +254,10 @@ export default function HowItWorks() {
                 <div className="mt-14 sm:mt-16 flex justify-center">
                     <div className="relative group">
                         {/* Outer soft halo */}
-                        <div className="absolute -inset-3 rounded-full bg-black/5 blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="absolute -inset-2 rounded-full bg-black/5 blur-lg opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
 
-                        {/* Animated gradient ring */}
-                        <div
-                            className="absolute -inset-[1px] rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-500 animate-[spin_8s_linear_infinite]"
-                            style={{
-                                background:
-                                    "conic-gradient(from 0deg, transparent 0%, rgba(0,0,0,0.35) 25%, transparent 50%, rgba(0,0,0,0.35) 75%, transparent 100%)",
-                            }}
-                        />
-
-                        {/* Inner pill (sits on top of the ring, leaving a 1px border of the ring showing) */}
-                        <div className="relative inline-flex items-center gap-3 rounded-full bg-white px-5 py-2.5 backdrop-blur-sm">
+                        {/* Inner pill */}
+                        <div className="relative inline-flex items-center gap-3 rounded-full bg-white px-5 py-2.5 border border-black/10 shadow-xs backdrop-blur-sm transition-all duration-300 group-hover:border-black/20">
                             {/* Icon circle */}
                             <span className="relative flex items-center justify-center w-6 h-6 rounded-full bg-black text-white shrink-0">
                                 <FiCheck className="h-3 w-3" strokeWidth={3} />

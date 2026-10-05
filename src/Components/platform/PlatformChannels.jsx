@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import { FiArrowUpRight, FiMessageCircle, FiHash, FiGlobe, FiCode } from "react-icons/fi";
+import Link from "next/link";
+import { FiArrowUpRight, FiGlobe } from "react-icons/fi";
 import { FaWhatsapp, FaSlack } from "react-icons/fa6";
 
 const CHANNELS = [
@@ -12,7 +12,7 @@ const CHANNELS = [
             "Ask ZeroQueries right inside WhatsApp — get answers, charts, and summaries as if you were chatting with a colleague.",
         status: "Available now",
         color: "#25D366",
-        href: "/integrations/whatsapp",
+        href: "/whatsapp",
     },
     {
         name: "Slack",
@@ -21,7 +21,7 @@ const CHANNELS = [
             "Summon ZeroQueries in any channel with /ask. Answers appear where your team already works — no context switching.",
         status: "Available now",
         color: "#611f69",
-        href: "/integrations/slack",
+        href: "/slack",
     },
     {
         name: "Web App",
@@ -30,16 +30,7 @@ const CHANNELS = [
             "The full ZeroQueries canvas — dashboards, saved questions, and deeper drill-downs for teams who live in the browser.",
         status: "Included on all plans",
         color: "#111827",
-        href: "/app",
-    },
-    {
-        name: "REST API",
-        icon: FiCode,
-        description:
-            "Build ZeroQueries into your own product. Ask questions programmatically and stream answers into any internal tool.",
-        status: "Enterprise",
-        color: "#2563EB",
-        href: "/docs/api",
+        href: "/login",
     },
 ];
 
@@ -66,12 +57,12 @@ export default function PlatformChannels() {
                     <p className="mt-5 text-base text-black/60 leading-relaxed font-light max-w-xl">
                         ZeroQueries lives inside the tools your team already uses. Same
                         questions, same answers — whether you&apos;re on WhatsApp, in Slack,
-                        on the web, or building with the API.
+                        or on the web.
                     </p>
                 </div>
 
                 {/* ================= CHANNELS GRID ================= */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
                     {CHANNELS.map((channel) => (
                         <ChannelCard key={channel.name} channel={channel} />
                     ))}
@@ -82,13 +73,7 @@ export default function PlatformChannels() {
                     <p className="text-xs text-black/50 font-light">
                         More channels rolling out — including Microsoft Teams and Email.
                     </p>
-                    <a
-                        href="/integrations"
-                        className="inline-flex items-center gap-1.5 text-xs font-medium text-black hover:underline underline-offset-4"
-                    >
-                        View all integrations
-                        <FiArrowUpRight className="w-3 h-3" />
-                    </a>
+
                 </div>
             </div>
         </section>
@@ -100,41 +85,43 @@ function ChannelCard({ channel }) {
     const Icon = channel.icon;
 
     return (
-        <a
+        <Link
             href={channel.href}
-            className="group relative flex flex-col rounded-3xl border border-gray-200 bg-white p-6 sm:p-8 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-gray-400"
+            className="group relative flex flex-col rounded-2xl sm:rounded-3xl border border-gray-200 bg-white p-4 sm:p-5 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-gray-400"
         >
-            {/* Icon header */}
-            <div className="flex items-start justify-between mb-6">
+            {/* Icon + Title row — title sits beside the icon */}
+            <div className="flex items-center gap-3">
+                {/* Icon */}
                 <div
-                    className="flex items-center justify-center w-12 h-12 rounded-2xl text-white"
+                    className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-xl text-white shrink-0"
                     style={{ backgroundColor: channel.color }}
                 >
                     <Icon className="w-5 h-5" />
                 </div>
 
-                <span className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-200 text-black/40 group-hover:bg-black group-hover:text-white group-hover:border-black transition-all">
+                {/* Title */}
+                <h3 className="flex-1 text-base sm:text-lg font-medium tracking-tight text-black leading-tight">
+                    {channel.name}
+                </h3>
+
+                {/* Arrow */}
+                <span className="flex items-center justify-center w-7 h-7 rounded-full border border-gray-200 text-black/40 group-hover:bg-black group-hover:text-white group-hover:border-black transition-all shrink-0">
                     <FiArrowUpRight className="w-3.5 h-3.5" />
                 </span>
             </div>
 
-            {/* Title */}
-            <h3 className="text-xl font-medium tracking-tight text-black">
-                {channel.name}
-            </h3>
-
             {/* Description */}
-            <p className="mt-3 text-sm text-black/60 leading-relaxed font-light flex-1">
+            <p className="mt-3 text-[13px] sm:text-sm text-black/60 leading-relaxed font-light flex-1">
                 {channel.description}
             </p>
 
             {/* Status */}
-            <div className="mt-6 pt-4 border-t border-gray-100 flex items-center gap-2">
+            <div className="mt-3.5 pt-3 border-t border-gray-100 flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-black" />
-                <span className="text-[11px] font-medium tracking-[0.15em] uppercase text-black/50">
+                <span className="text-[10.5px] sm:text-[11px] font-medium tracking-[0.15em] uppercase text-black/50">
                     {channel.status}
                 </span>
             </div>
-        </a>
+        </Link>
     );
 }
