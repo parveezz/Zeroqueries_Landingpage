@@ -13,8 +13,7 @@ import {
   FiCheck,
   FiAlertCircle,
 } from "react-icons/fi";
-import { FcGoogle } from "react-icons/fc";
-import { FaMicrosoft } from "react-icons/fa";
+
 
 export default function LoginPage() {
   const router = useRouter();
@@ -54,19 +53,6 @@ export default function LoginPage() {
         <div className="rounded-2xl sm:rounded-3xl border border-gray-200/90 bg-white p-5 xs:p-6 sm:p-9 shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
           {/* Brand header */}
           <div className="text-center mb-6 sm:mb-8">
-            <Link
-              href="/"
-              className="inline-flex items-center justify-center gap-2 mb-2.5 sm:mb-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-4 rounded-md"
-            >
-              <Image
-                src="/zerologo.png"
-                alt="ZeroQueries"
-                width={48}
-                height={32}
-                className="h-auto w-auto"
-                priority
-              />
-            </Link>
             <h1 className="text-xl sm:text-2xl lg:text-[26px] font-normal tracking-tight text-black">
               Welcome back
             </h1>
@@ -199,38 +185,7 @@ export default function LoginPage() {
                 </button>
               </form>
 
-              {/* ================= DIVIDER ================= */}
-              <div className="relative flex items-center justify-center my-5 sm:my-6">
-                <div className="w-full border-t border-gray-200" />
-                <span className="absolute bg-white px-3 text-[11px] font-medium tracking-wider text-black/40 uppercase">
-                  or continue with
-                </span>
-              </div>
 
-              {/* ================= SSO BUTTONS ================= */}
-              <div className="space-y-2.5">
-                <button
-                  type="button"
-                  onClick={() => {
-                    // window.location.href = "/api/auth/google";
-                  }}
-                  className="w-full h-11 flex items-center justify-center gap-2.5 sm:gap-3 rounded-xl border border-gray-200 bg-white px-4 text-xs sm:text-sm font-medium text-black hover:bg-gray-50 hover:border-gray-400 active:scale-[0.99] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
-                >
-                  <FcGoogle className="w-4 h-4 shrink-0" />
-                  <span>Continue with Google</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    // window.location.href = "/api/auth/microsoft";
-                  }}
-                  className="w-full h-11 flex items-center justify-center gap-2.5 sm:gap-3 rounded-xl border border-gray-200 bg-white px-4 text-xs sm:text-sm font-medium text-black hover:bg-gray-50 hover:border-gray-400 active:scale-[0.99] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
-                >
-                  <FaMicrosoft className="w-3.5 h-3.5 text-black shrink-0" />
-                  <span>Continue with Microsoft</span>
-                </button>
-              </div>
 
               {/* Sign up prompt */}
               <div className="mt-5 sm:mt-6 text-center text-xs text-black/60 font-light leading-relaxed">

@@ -2,16 +2,12 @@
 
 import Image from "next/image";
 
-// Placeholder logos — replace the `src` with your actual logo files later
 const LOGOS = [
-    { name: "Company 1", src: "/logos/logo-1.svg" },
-    { name: "Company 2", src: "/logos/logo-2.svg" },
-    { name: "Company 3", src: "/logos/logo-3.svg" },
-    { name: "Company 4", src: "/logos/logo-4.svg" },
-    { name: "Company 5", src: "/logos/logo-5.svg" },
-    { name: "Company 6", src: "/logos/logo-6.svg" },
-    { name: "Company 7", src: "/logos/logo-7.svg" },
-    { name: "Company 8", src: "/logos/logo-8.svg" },
+    { name: "The Forest", src: "/logos/the-forest-badge.png", width: 140, height: 140 },
+    { name: "The greenloop", src: "/logos/greenloop.png", width: 140, height: 140 },
+    { name: "nfc.works", src: "/logos/nf_logo.jpeg", width: 140, height: 140 },
+    { name: "geddit", src: "/logos/geedi.webp", width: 140, height: 140 },
+    { name: "smsassets", src: "/logos/smsa-express.png", width: 140, height: 140 },
 ];
 
 export default function TrustedBy() {
@@ -33,14 +29,14 @@ export default function TrustedBy() {
                 <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 sm:w-28 lg:w-40 bg-gradient-to-l from-gray-50 to-transparent z-10" />
 
                 {/* Scrolling track */}
-                <div className="flex animate-marquee w-max">
+                <div className="flex animate-marquee w-max items-center">
                     {/* First set */}
                     {LOGOS.map((logo, i) => (
                         <div
                             key={`a-${i}`}
                             className="flex items-center justify-center px-6 sm:px-10 lg:px-14 shrink-0"
                         >
-                            <LogoPlaceholder name={logo.name} src={logo.src} />
+                            <LogoItem logo={logo} />
                         </div>
                     ))}
                     {/* Duplicate set for seamless loop */}
@@ -49,7 +45,7 @@ export default function TrustedBy() {
                             key={`b-${i}`}
                             className="flex items-center justify-center px-6 sm:px-10 lg:px-14 shrink-0"
                         >
-                            <LogoPlaceholder name={logo.name} src={logo.src} />
+                            <LogoItem logo={logo} />
                         </div>
                     ))}
                 </div>
@@ -58,22 +54,16 @@ export default function TrustedBy() {
     );
 }
 
-function LogoPlaceholder({ name, src }) {
+function LogoItem({ logo }) {
     return (
-        <div className="flex items-center justify-center h-8 sm:h-10 w-[110px] sm:w-[140px] opacity-60 hover:opacity-100 transition-opacity duration-300">
-            <span className="text-xs sm:text-sm font-medium text-black/50 tracking-tight whitespace-nowrap">
-                {name}
-            </span>
-            {/* When you have real logos, uncomment this and delete the <span> above: */}
-            {/*
-      <Image
-        src={src}
-        alt={name}
-        width={140}
-        height={40}
-        className="object-contain max-h-8 sm:max-h-10 w-auto"
-      />
-      */}
+        <div className="flex items-center justify-center h-10 sm:h-12 w-[120px] sm:w-[150px] opacity-75 hover:opacity-100 transition-opacity duration-300">
+            <Image
+                src={logo.src}
+                alt={logo.name}
+                width={logo.width || 140}
+                height={logo.height || 40}
+                className="object-contain max-h-8 sm:max-h-10 w-auto mix-blend-multiply transition-transform duration-300 hover:scale-105"
+            />
         </div>
     );
 }

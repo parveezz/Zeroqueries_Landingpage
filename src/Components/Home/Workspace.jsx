@@ -34,6 +34,9 @@ const LEFT_CARDS = [
             { name: "Snowflake", icon: SiSnowflake },
             { name: "BigQuery", icon: SiGooglebigquery },
             { name: "MySQL", icon: SiMysql },
+            { name: "SQL Server", icon: FaMicrosoft },
+            { name: "Oracle", icon: GrOracle },
+            { name: "Excel Sheets", icon: FaFileExcel },
         ],
     },
     {
@@ -41,9 +44,6 @@ const LEFT_CARDS = [
         icon: "doc",
         items: [
             { name: "MongoDB", icon: SiMongodb },
-            { name: "SQL Server", icon: FaMicrosoft },
-            { name: "Oracle", icon: GrOracle },
-            { name: "Excel Sheets", icon: FaFileExcel },
         ],
     },
 ];
@@ -54,6 +54,8 @@ const RIGHT_CARDS = [
     { title: "Finished Outputs", subtitle: "Ready to present, no cleanup", icon: "doc" },
     { title: "Agentic Apps", subtitle: "Self-service tools", icon: "bolt" },
 ];
+
+const TOTAL_LEFT_ITEMS = LEFT_CARDS.reduce((sum, c) => sum + c.items.length, 0);
 
 // --- Icons ---
 const DbIcon = () => (
@@ -119,6 +121,7 @@ export default function Workspace() {
 
         // Left database pills
         const leftPoints = leftItemRefs.current
+            .slice(0, TOTAL_LEFT_ITEMS)
             .filter(Boolean)
             .map((el) => {
                 const rect = el.getBoundingClientRect();
@@ -415,64 +418,69 @@ export default function Workspace() {
                     {/* ============== 3-COLUMN GRID ============== */}
                     <div className="grid grid-cols-1 xl:grid-cols-[240px_1fr_340px] gap-6 sm:gap-8 xl:gap-14 items-center relative">
                         {/* ============ LEFT PANEL ============ */}
-                        <div className="flex flex-col gap-4 sm:gap-6 w-full max-w-2xl mx-auto xl:max-w-none xl:w-[240px]">
+                        <div className="flex flex-col gap-3.5 sm:gap-5 w-full max-w-2xl mx-auto xl:max-w-none xl:w-[240px]">
                             <h3 className="text-[10px] font-medium tracking-[0.2em] text-black uppercase text-left">
                                 All of your data
                             </h3>
 
-                            {LEFT_CARDS.map((card, ci) => (
-                                <div
-                                    key={ci}
-                                    className="flex flex-col"
-                                >
-                                    <div className="flex items-center gap-2 mb-2 sm:mb-3">
-                                        <div className="bg-gray-100 p-1.5 rounded-md">
-                                            {card.icon === "db" ? (
-                                                <DbIcon />
-                                            ) : (
-                                                <DocIcon className="w-3.5 h-3.5 text-black" />
-                                            )}
+                            {LEFT_CARDS.map((card, ci) => {
+                                const prevCount = LEFT_CARDS.slice(0, ci).reduce((acc, c) => acc + c.items.length, 0);
+                                return (
+                                    <div
+                                        key={ci}
+                                        className="flex flex-col"
+                                    >
+                                        <div className="flex items-center gap-2 mb-2 sm:mb-2.5">
+                                            <div className="bg-gray-100 p-1.5 rounded-md">
+                                                {card.icon === "db" ? (
+                                                    <DbIcon />
+                                                ) : (
+                                                    <DocIcon className="w-3.5 h-3.5 text-black" />
+                                                )}
+                                            </div>
+                                            <span className="font-medium text-xs sm:text-sm text-black">
+                                                {card.title}
+                                            </span>
                                         </div>
-                                        <span className="font-medium text-xs sm:text-sm text-black">
-                                            {card.title}
-                                        </span>
-                                    </div>
 
-                                    <div className="flex flex-wrap xl:flex-col gap-2 items-start">
-                                        {card.items.map((item, ii) => {
-                                            const ItemIcon = item.icon;
-                                            const isLast = ii === card.items.length - 1;
-                                            const globalIndex = ci * 4 + ii;
-                                            return (
-                                                <div
-                                                    key={ii}
-                                                    className="h-auto xl:h-[34px] flex items-center self-start"
-                                                >
-                                                    <button
-                                                        ref={!isLast ? (el) => { leftItemRefs.current[globalIndex] = el; } : null}
-                                                        className="flex items-center gap-1.5 sm:gap-2 bg-white hover:bg-gray-100 border border-gray-200 text-xs px-2.5 py-1.5 rounded-md text-black transition-colors shrink-0 shadow-xs"
+                                        <div className="flex flex-wrap xl:flex-col gap-1.5 sm:gap-2 items-start">
+                                            {card.items.map((item, ii) => {
+                                                const ItemIcon = item.icon;
+                                                const isLast = ii === card.items.length - 1;
+                                                const globalIndex = prevCount + ii;
+                                                return (
+                                                    <div
+                                                        key={ii}
+                                                        ref={(el) => { leftItemRefs.current[globalIndex] = el; }}
+                                                        className="h-auto xl:h-[30px] flex items-center self-start"
                                                     >
-                                                        {ItemIcon ? (
-                                                            <ItemIcon className="w-3.5 h-3.5 text-black shrink-0" />
-                                                        ) : (
-                                                            <span className="w-1.5 h-1.5 rounded-full bg-black shrink-0" />
-                                                        )}
-                                                        <span>{item.name}</span>
-                                                    </button>
-                                                    {isLast && (
                                                         <button
-                                                            ref={(el) => { leftItemRefs.current[globalIndex] = el; }}
-                                                            className="ml-1.5 flex items-center justify-center bg-white hover:bg-gray-100 border border-gray-200 text-xs w-7 h-7 rounded-md text-black transition-colors shrink-0 shadow-xs"
+                                                            type="button"
+                                                            className="flex items-center gap-1.5 sm:gap-2 bg-white hover:bg-gray-100 border border-gray-200 text-[11.5px] sm:text-xs px-2.5 py-1 sm:py-1.5 rounded-md text-black transition-colors shrink-0 shadow-2xs hover:border-gray-300"
                                                         >
-                                                            ++
+                                                            {ItemIcon ? (
+                                                                <ItemIcon className="w-3.5 h-3.5 text-black shrink-0" />
+                                                            ) : (
+                                                                <span className="w-1.5 h-1.5 rounded-full bg-black shrink-0" />
+                                                            )}
+                                                            <span>{item.name}</span>
                                                         </button>
-                                                    )}
-                                                </div>
-                                            );
-                                        })}
+                                                        {isLast && (
+                                                            <button
+                                                                type="button"
+                                                                aria-label="Add data source"
+                                                                className="ml-1.5 flex items-center justify-center bg-white hover:bg-gray-100 border border-gray-200 text-xs w-6 h-6 sm:w-7 sm:h-7 rounded-md text-black transition-colors shrink-0 shadow-2xs hover:border-gray-300"
+                                                            >
+                                                                ++
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
 
                         {/* ============ CENTER: INPUT ============ */}

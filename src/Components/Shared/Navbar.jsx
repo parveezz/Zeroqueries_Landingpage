@@ -42,6 +42,18 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <>
       <nav
@@ -50,7 +62,7 @@ export default function Navbar() {
           : "bg-white/65 backdrop-blur-lg backdrop-saturate-150 border-b border-gray-200/50 shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
           } text-black`}
       >
-        <div className="mx-auto flex h-[70px] max-w-[1440px] items-center justify-between pl-4 pr-0 sm:px-10 lg:px-14">
+        <div className="mx-auto flex h-[70px] max-w-[1440px] items-center justify-between px-4 sm:px-8 lg:px-14">
           <div className="flex items-center gap-8 lg:gap-10 xl:gap-12">
             {/* Logo */}
             <Link href="/" className="group flex items-center gap-2">
@@ -117,114 +129,119 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Mobile toggle button */}
-          <button
-            type="button"
-            className="flex items-center justify-center p-2 pr-0 text-black/80 hover:text-black transition-colors lg:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6434F5]"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle navigation menu"
-            aria-expanded={mobileMenuOpen}
-          >
-            {mobileMenuOpen ? (
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+          {/* Mobile right controls: Contact CTA + Hamburger toggle */}
+          <div className="flex items-center gap-2 sm:gap-2.5 lg:hidden">
+            <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
+              <Button
+                variant="outline"
+                className="rounded-xl px-3.5 py-1.5 h-auto text-[13px] sm:text-[14px] font-medium border-orange-300 bg-orange-50/80 text-orange-600 hover:bg-orange-100 hover:border-orange-500 hover:text-orange-700 transition-colors shadow-xs"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
+                Contact
+              </Button>
+            </Link>
+
+            <button
+              type="button"
+              className="relative flex items-center justify-center w-9 h-9 rounded-xl text-black/80 hover:text-black hover:bg-gray-100/70 active:bg-gray-200/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6434F5]"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle navigation menu"
+              aria-expanded={mobileMenuOpen}
+            >
+              <div className="w-5 h-4 relative flex flex-col justify-between">
+                <span
+                  className={`block h-0.5 w-5 bg-current rounded-full transform transition-transform duration-300 ease-in-out ${
+                    mobileMenuOpen ? "rotate-45 translate-y-[7px]" : ""
+                  }`}
                 />
-              </svg>
-            ) : (
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
+                <span
+                  className={`block h-0.5 w-5 bg-current rounded-full transition-opacity duration-200 ease-in-out ${
+                    mobileMenuOpen ? "opacity-0" : "opacity-100"
+                  }`}
                 />
-              </svg>
-            )}
-          </button>
+                <span
+                  className={`block h-0.5 w-5 bg-current rounded-full transform transition-transform duration-300 ease-in-out ${
+                    mobileMenuOpen ? "-rotate-45 -translate-y-[7px]" : ""
+                  }`}
+                />
+              </div>
+            </button>
+          </div>
         </div>
 
-        {/* Mobile menu dropdown panel */}
-        {mobileMenuOpen && (
-          <div className="fixed inset-x-0 top-[70px] z-50 max-h-[calc(100dvh-70px)] overflow-y-auto bg-white/95 backdrop-blur-2xl border-b border-gray-200/80 shadow-[0_20px_40px_rgba(0,0,0,0.12)] px-4 py-4 lg:hidden">
-            <div className="space-y-1">
-              {navLinks.map((link) => {
-                const isActive =
-                  pathname === link.href ||
-                  (link.href !== "/" && pathname?.startsWith(link.href));
+        {/* Mobile menu dropdown panel with smooth slide-fade transition */}
+        <div
+          className={`fixed inset-x-0 top-[70px] z-50 max-h-[calc(100dvh-70px)] overflow-y-auto bg-white/95 backdrop-blur-2xl border-b border-gray-200/80 shadow-[0_20px_40px_rgba(0,0,0,0.12)] px-4 py-4 lg:hidden transform transition-all duration-300 ease-out ${
+            mobileMenuOpen
+              ? "opacity-100 translate-y-0 pointer-events-auto visible"
+              : "opacity-0 -translate-y-3 pointer-events-none invisible"
+          }`}
+        >
+          <div className="space-y-1">
+            {navLinks.map((link) => {
+              const isActive =
+                pathname === link.href ||
+                (link.href !== "/" && pathname?.startsWith(link.href));
 
-                return (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[15px] transition-colors ${isActive
-                      ? "bg-[#6434F5]/10 font-medium text-[#6434F5]"
-                      : "font-normal text-black/80 hover:bg-gray-100/70 hover:text-black active:bg-gray-100"
-                      }`}
-                  >
-                    <span>{link.name}</span>
-                    {isActive && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#6434F5]" />
-                    )}
-                  </Link>
-                );
-              })}
-            </div>
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[15px] transition-colors ${isActive
+                    ? "bg-[#6434F5]/10 font-medium text-[#6434F5]"
+                    : "font-normal text-black/80 hover:bg-gray-100/70 hover:text-black active:bg-gray-100"
+                    }`}
+                >
+                  <span>{link.name}</span>
+                  {isActive && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#6434F5]" />
+                  )}
+                </Link>
+              );
+            })}
+          </div>
 
-            {/* Mobile CTAs */}
-            <div className="mt-4 pt-3.5 border-t border-gray-100 flex flex-col gap-2">
-              <Link href="/demo" onClick={() => setMobileMenuOpen(false)}>
-                <Button className="w-full rounded-xl py-2.5 h-auto text-[15px] font-normal shadow-sm">
-                  Book a Demo
+          {/* Mobile CTAs */}
+          <div className="mt-4 pt-3.5 border-t border-gray-100 flex flex-col gap-2">
+            <Link href="/demo" onClick={() => setMobileMenuOpen(false)}>
+              <Button className="w-full rounded-xl py-2.5 h-auto text-[15px] font-normal shadow-sm">
+                Book a Demo
+              </Button>
+            </Link>
+
+            <div className="grid grid-cols-2 gap-2">
+              <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
+                <Button
+                  variant="outline"
+                  className="w-full rounded-xl py-2.5 h-auto text-[14px] font-medium border-orange-300 bg-orange-50/70 text-orange-600 hover:bg-orange-100 hover:border-orange-500 hover:text-orange-700"
+                >
+                  Contact
                 </Button>
               </Link>
 
-              <div className="grid grid-cols-2 gap-2">
-                <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-                  <Button
-                    variant="outline"
-                    className="w-full rounded-xl py-2.5 h-auto text-[14px] font-normal border-orange-300 bg-orange-50/60 text-orange-600 hover:bg-orange-100 hover:border-orange-500 hover:text-orange-700"
-                  >
-                    Contact
-                  </Button>
-                </Link>
-
-                <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                  <Button
-                    variant="outline"
-                    className="w-full rounded-xl py-2.5 h-auto text-[14px] font-normal hover:border-black"
-                  >
-                    Log in
-                  </Button>
-                </Link>
-              </div>
+              <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                <Button
+                  variant="outline"
+                  className="w-full rounded-xl py-2.5 h-auto text-[14px] font-normal hover:border-black"
+                >
+                  Log in
+                </Button>
+              </Link>
             </div>
           </div>
-        )}
+        </div>
       </nav>
 
-      {/* Backdrop overlay for mobile menu */}
-      {mobileMenuOpen && (
-        <div
-          className="fixed inset-0 top-[70px] bg-black/20 backdrop-blur-xs z-40 lg:hidden"
-          onClick={() => setMobileMenuOpen(false)}
-          aria-hidden="true"
-        />
-      )}
+      {/* Backdrop overlay for mobile menu with smooth fade transition */}
+      <div
+        className={`fixed inset-0 top-[70px] bg-black/20 backdrop-blur-xs z-40 lg:hidden transition-all duration-300 ease-out ${
+          mobileMenuOpen
+            ? "opacity-100 pointer-events-auto visible"
+            : "opacity-0 pointer-events-none invisible"
+        }`}
+        onClick={() => setMobileMenuOpen(false)}
+        aria-hidden="true"
+      />
     </>
   );
 }

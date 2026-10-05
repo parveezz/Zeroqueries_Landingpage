@@ -25,6 +25,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       className={`${inter.variable} h-full antialiased`}
+      data-scroll-behavior="smooth"
       data-scribe-recorder-ready="true"
     >
       <body className="min-h-full flex flex-col bg-white text-gray-900 font-sans">

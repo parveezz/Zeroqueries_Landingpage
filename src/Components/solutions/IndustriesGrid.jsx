@@ -98,7 +98,7 @@ const INDUSTRIES = [
 
 export default function IndustriesGrid() {
     return (
-        <section className="relative w-full bg-gray-50 font-sans text-black pt-14 sm:pt-20 lg:pt-10 pb-14 sm:pb-20 lg:pb-28 px-4 sm:px-8 lg:px-14 overflow-hidden">
+        <section className="relative w-full bg-gray-50 font-sans text-black pt-4 sm:pt-6 lg:pt-6 pb-14 sm:pb-20 lg:pb-28 px-4 sm:px-8 lg:px-14 overflow-hidden">
             {/* Dot grid */}
             <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-30" />
 

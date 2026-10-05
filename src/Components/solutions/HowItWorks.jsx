@@ -44,6 +44,8 @@ const STEPS = [
 
 export default function HowItWorks() {
     const sectionRef = useRef(null);
+    const scrollContainerRef = useRef(null);
+    const stepRefs = useRef([]);
     const [isVisible, setIsVisible] = useState(false);
     const [activeStep, setActiveStep] = useState(-1);
 
@@ -64,11 +66,13 @@ export default function HowItWorks() {
         return () => obs.disconnect();
     }, []);
 
-    // Cycle active step
+    // Cycle active step on desktop only
     useEffect(() => {
         if (!isVisible) return;
         let i = -1;
         const tick = () => {
+            // Only auto-cycle on desktop viewports
+            if (typeof window !== "undefined" && window.innerWidth < 1024) return;
             i = (i + 1) % (STEPS.length + 1);
             setActiveStep(i);
             setTimeout(tick, i === STEPS.length ? 1400 : 900);
@@ -76,6 +80,43 @@ export default function HowItWorks() {
         const t = setTimeout(tick, 600);
         return () => clearTimeout(t);
     }, [isVisible]);
+
+    // Handle mobile horizontal scroll to update active step indicator
+    const handleMobileScroll = () => {
+        if (!scrollContainerRef.current) return;
+        const container = scrollContainerRef.current;
+        const containerCenter = container.scrollLeft + container.clientWidth / 2;
+
+        let closestIndex = 0;
+        let minDistance = Infinity;
+
+        stepRefs.current.forEach((el, index) => {
+            if (!el) return;
+            const elCenter = el.offsetLeft + el.offsetWidth / 2;
+            const distance = Math.abs(containerCenter - elCenter);
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestIndex = index;
+            }
+        });
+
+        if (closestIndex !== activeStep) {
+            setActiveStep(closestIndex);
+        }
+    };
+
+    // Scroll to a specific step on mobile when tapped
+    const scrollToStep = (index) => {
+        setActiveStep(index);
+        const target = stepRefs.current[index];
+        if (target && scrollContainerRef.current) {
+            target.scrollIntoView({
+                behavior: "smooth",
+                inline: "center",
+                block: "nearest",
+            });
+        }
+    };
 
     return (
         <section
@@ -234,18 +275,51 @@ export default function HowItWorks() {
                     </svg>
 
                     {/* ============ STICKY NOTES ============ */}
-                    <div className="relative z-10 overflow-x-auto lg:overflow-visible py-16 sm:py-20 px-6 sm:px-10 lg:px-14 no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-                        <div className="flex flex-nowrap lg:flex-wrap items-start justify-start lg:justify-center gap-5 lg:gap-6 min-w-max lg:min-w-0">
+                    <div
+                        ref={scrollContainerRef}
+                        onScroll={handleMobileScroll}
+                        className="relative z-10 overflow-x-auto lg:overflow-visible py-12 sm:py-16 lg:py-20 px-6 sm:px-10 lg:px-14 touch-pan-x overscroll-x-contain snap-x snap-mandatory scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+                        style={{ WebkitOverflowScrolling: "touch" }}
+                    >
+                        <div className="flex flex-nowrap lg:flex-wrap items-start justify-start lg:justify-center gap-5 sm:gap-6 lg:gap-6 min-w-max lg:min-w-0 pr-6 lg:pr-0">
                             {STEPS.map((step, i) => (
-                                <StickyStep
+                                <div
                                     key={step.number}
-                                    step={step}
-                                    index={i}
-                                    isActive={activeStep === i}
-                                    isVisible={isVisible}
+                                    ref={(el) => {
+                                        stepRefs.current[i] = el;
+                                    }}
+                                    className="snap-center shrink-0"
+                                >
+                                    <StickyStep
+                                        step={step}
+                                        index={i}
+                                        isActive={activeStep === i}
+                                        isVisible={isVisible}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Mobile swipe hint & pagination dots */}
+                    <div className="lg:hidden pb-6 flex flex-col items-center gap-2 relative z-20">
+                        <div className="flex items-center justify-center gap-1.5">
+                            {STEPS.map((step, i) => (
+                                <button
+                                    key={step.number}
+                                    type="button"
+                                    onClick={() => scrollToStep(i)}
+                                    className={`transition-all duration-300 rounded-full h-1.5 ${activeStep === i
+                                        ? "w-6 bg-black"
+                                        : "w-1.5 bg-black/20 hover:bg-black/40"
+                                        }`}
+                                    aria-label={`Go to step ${step.number}: ${step.title}`}
                                 />
                             ))}
                         </div>
+                        <span className="text-[11px] text-black/40 font-light flex items-center gap-1">
+                            Swipe to view all steps <span className="text-xs">→</span>
+                        </span>
                     </div>
                 </div>
 

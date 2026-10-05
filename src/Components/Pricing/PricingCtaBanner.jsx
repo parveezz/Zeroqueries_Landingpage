@@ -23,15 +23,15 @@ export default function PricingCtaBanner() {
             {/* Action Buttons */}
             <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto max-w-xs sm:max-w-none mx-auto">
               <Link
-                href="#demo"
+                href="/contact"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-[#6434F5] hover:bg-[#5527e0] active:scale-[0.98] px-6 sm:px-7 py-3 sm:py-3.5 text-sm sm:text-base font-normal text-white transition-all duration-150 font-sans shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6434F5] focus-visible:ring-offset-2"
               >
-                <span>Compare pricing models</span>
+                <span>Get in touch</span>
                 <span aria-hidden="true">&rarr;</span>
               </Link>
 
               <Link
-                href="#trial"
+                href="/demo"
                 className="w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-gray-200 bg-white hover:bg-gray-50 active:scale-[0.98] px-6 sm:px-7 py-3 sm:py-3.5 text-sm sm:text-base font-normal text-black transition-all duration-150 font-sans focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6434F5] focus-visible:ring-offset-2"
               >
                 Start free trial
