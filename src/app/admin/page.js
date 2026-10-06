@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { FiLock, FiEye, FiEyeOff, FiAlertCircle } from 'react-icons/fi';
 
 const ADMIN_PASSWORD = 'Umar@2026';
 
@@ -363,88 +364,106 @@ export default function BlogAdminPage() {
         );
     }
 
-    // Password Gate (Only password input, no email)
+    // Password Gate (Designed identically to the ZeroQueries Login Page)
     if (!isAuthenticated) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-950 via-[#0d0d14] to-black flex items-center justify-center p-4">
-                <div className="w-full max-w-md bg-white/[0.04] border border-white/10 backdrop-blur-2xl rounded-3xl p-8 sm:p-10 shadow-2xl relative overflow-hidden">
-                    {/* Ambient Glows */}
-                    <div className="absolute -top-24 -left-24 w-52 h-52 bg-[#6434F5]/30 rounded-full blur-3xl pointer-events-none" />
-                    <div className="absolute -bottom-24 -right-24 w-52 h-52 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
+            <main className="relative min-h-screen w-full bg-gray-50 font-sans text-black py-8 sm:py-16 px-4 sm:px-8 lg:px-14 flex items-center justify-center overflow-hidden">
+                {/* Background Dot Grid */}
+                <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-40" />
 
-                    <div className="relative z-10">
-                        {/* Lock Icon */}
-                        <div className="w-14 h-14 mx-auto mb-5 bg-gradient-to-tr from-[#6434F5] to-purple-400 rounded-2xl flex items-center justify-center shadow-lg shadow-[#6434F5]/30">
-                            <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                            </svg>
+                <div className="relative z-10 w-full max-w-[440px]">
+                    {/* Card */}
+                    <div className="rounded-2xl sm:rounded-3xl border border-gray-200/90 bg-white p-5 xs:p-6 sm:p-9 shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
+                        {/* Brand header */}
+                        <div className="text-center mb-6 sm:mb-8">
+                            <h1 className="text-xl sm:text-2xl lg:text-[26px] font-normal tracking-tight text-black">
+                                Admin Access
+                            </h1>
+                            <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-black/60 font-light">
+                                Enter password to access ZeroQueries Admin Center
+                            </p>
                         </div>
 
-                        {/* Title & Description */}
-                        <h1 className="text-2xl font-bold text-white text-center tracking-tight mb-2">
-                            Admin Access
-                        </h1>
-                        <p className="text-xs sm:text-sm text-gray-400 text-center mb-8">
-                            Enter the admin password to open the ZeroQueries Admin Center
-                        </p>
-
                         {/* Password-Only Form */}
-                        <form onSubmit={handleUnlock} className="space-y-4">
+                        <form onSubmit={handleUnlock} className="space-y-3.5 sm:space-y-4">
                             <div>
-                                <label className="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-2">
+                                <label
+                                    htmlFor="admin-password"
+                                    className="block text-xs font-medium text-black/80 mb-1.5"
+                                >
                                     Password
                                 </label>
                                 <div className="relative">
+                                    <FiLock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-black/40 pointer-events-none" />
                                     <input
+                                        id="admin-password"
                                         type={showPassword ? 'text' : 'password'}
+                                        autoComplete="current-password"
+                                        required
+                                        autoFocus
                                         value={password}
                                         onChange={(e) => {
                                             setPassword(e.target.value);
                                             if (passwordError) setPasswordError('');
                                         }}
-                                        placeholder="Enter password"
-                                        autoFocus
-                                        className="w-full bg-white/10 border border-white/15 focus:border-[#6434F5] focus:ring-2 focus:ring-[#6434F5]/30 text-white placeholder-gray-500 px-4 py-3 rounded-xl text-sm transition outline-none pr-14"
+                                        placeholder="••••••••••••"
+                                        className="w-full h-11 rounded-xl border border-gray-200 bg-gray-50 pl-10 pr-10 text-xs sm:text-sm text-black placeholder:text-black/40 focus:bg-white focus:border-black focus:outline-none transition-colors"
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xs font-medium px-2 py-1 rounded transition"
-                                        tabIndex={-1}
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-md text-black/40 hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
+                                        aria-label={showPassword ? 'Hide password' : 'Show password'}
                                     >
-                                        {showPassword ? 'Hide' : 'Show'}
+                                        {showPassword ? (
+                                            <FiEyeOff className="w-4 h-4" />
+                                        ) : (
+                                            <FiEye className="w-4 h-4" />
+                                        )}
                                     </button>
                                 </div>
                             </div>
 
+                            {/* Error banner */}
                             {passwordError && (
-                                <div className="p-3 rounded-xl bg-red-500/15 border border-red-500/30 text-red-300 text-xs flex items-center gap-2">
-                                    <span>⚠️</span>
-                                    <span>{passwordError}</span>
+                                <div className="flex items-start gap-2.5 rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5">
+                                    <FiAlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
+                                    <p className="text-xs text-red-700 font-normal leading-relaxed">
+                                        {passwordError}
+                                    </p>
                                 </div>
                             )}
 
+                            {/* Submit button */}
                             <button
                                 type="submit"
-                                className="w-full py-3 px-4 bg-gradient-to-r from-[#6434F5] to-purple-600 hover:from-[#5629dc] hover:to-purple-700 text-white font-semibold text-sm rounded-xl transition shadow-lg shadow-[#6434F5]/30 active:scale-[0.99] cursor-pointer"
+                                className="w-full mt-2 h-11 sm:h-12 rounded-xl bg-black px-4 text-sm font-medium text-white hover:bg-gray-800 active:scale-[0.99] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 shadow-sm cursor-pointer"
                             >
                                 Unlock Admin Panel
                             </button>
                         </form>
 
                         {/* Return to Website link */}
-                        <div className="mt-6 pt-6 border-t border-white/10 text-center">
+                        <div className="mt-5 sm:mt-6 text-center text-xs text-black/60 font-light leading-relaxed">
                             <Link
                                 href="/"
-                                className="text-xs text-gray-400 hover:text-white transition inline-flex items-center gap-1.5"
+                                className="font-medium text-black hover:underline underline-offset-4 inline-flex items-center gap-1"
                             >
                                 <span>←</span>
                                 <span>Return to Website</span>
                             </Link>
                         </div>
                     </div>
+
+                    {/* Security badge */}
+                    <p className="mt-5 sm:mt-6 text-center text-[11px] text-black/40 font-light flex flex-wrap items-center justify-center gap-1 sm:gap-1.5">
+                        <FiLock className="w-3 h-3 text-black/40 shrink-0" />
+                        <span>ZeroQueries Enterprise Security</span>
+                        <span className="hidden xs:inline">·</span>
+                        <span>256-bit SSL Encrypted</span>
+                    </p>
                 </div>
-            </div>
+            </main>
         );
     }
 
