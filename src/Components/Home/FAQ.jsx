@@ -3,9 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { FiPlus, FiMinus, FiArrowUpRight } from "react-icons/fi";
+import { useLanguage } from "@/context/LanguageContext";
 
 // --- FAQ data ---
-const FAQS = [
+const FAQS_EN = [
     {
         q: "How does ZeroQueries connect to my existing data?",
         a: "ZeroQueries reads directly from your warehouses, databases, and document stores using read-only, encrypted connections. Nothing is copied, replicated, or stored outside your perimeter — every query runs against your live data.",
@@ -32,7 +33,38 @@ const FAQS = [
     },
 ];
 
+const FAQS_AR = [
+    {
+        q: "كيف يتصل ZeroQueries ببياناتي الحالية؟",
+        a: "يقرأ ZeroQueries مباشرة من مستودعات البيانات وقواعد البيانات ومخازن المستندات لديك عبر اتصالات مشفرة للقراءة فقط. لا يتم نسخ أي شيء أو استنساخه أو تخزينه خارج نطاق شبكتك — يتم تشغيل كل استعلام مباشرة على بياناتك الحية.",
+    },
+    {
+        q: "هل أحتاج إلى كتابة SQL أو بناء لوحات معلومات؟",
+        a: "لا. أنت تطرح أسئلتك بلغة طبيعية وتحصل على إجابات مهيكلة — مخططات بيانية وجداول وملخصات. يقوم ZeroQueries تلقائياً بترجمة سؤالك إلى استعلام SQL وتشغيله على المصدر المناسب وإرجاع النتيجة فوراً.",
+    },
+    {
+        q: "ما هي قواعد ومستودعات البيانات المدعومة؟",
+        a: "ندعم بشكل أصيل Snowflake و BigQuery و Databricks و PostgreSQL و MySQL و MongoDB و SQL Server و ClickHouse و Oracle وغيرها. كما يمكن دمج المصادر غير المهيكلة مثل ملفات PDF وسجلات المكالمات وجداول البيانات جنباً إلى جنب مع مستودع البيانات الخاص بك.",
+    },
+    {
+        q: "هل بياناتي آمنة؟",
+        a: "نعم. ZeroQueries حاصل على شهادة SOC 2 Type II ويتبع سياسة صارمة لعدم الاحتفاظ بالبيانات — لا تُستخدم بياناتك أبداً لتدريب النماذج ولا يتم حفظها بعد دورة حياة الاستعلام. كما ندعم تشفير AES-256 وتشفير TLS 1.3 وخيارات النشر داخل VPC خاص أو محلياً (On-Prem).",
+    },
+    {
+        q: "كم يستغرق البدء في العمل؟",
+        a: "تتمكن معظم الفرق من ربط أول مصدر بيانات وتشغيل أول استعلام بلغة طبيعية في غضون 15 دقيقة. لا توجد خطوط أنابيب لبنائها، ولا مخططات يدوية لتجهيزها، ولا بنية تحتية معقدة.",
+    },
+    {
+        q: "هل يمكن تشغيل ZeroQueries في بيئة عمل محلية (On-Premise)؟",
+        a: "نعم. يمكن نشر ZeroQueries داخل سحابتك الخاصة VPC أو محلياً بالكامل للمؤسسات ذات المتطلبات التنظيمية الصارمة. يحتفظ فريقك بالتحكم الكامل في مكان تواجد البيانات وإمكانية الوصول إليها وسجلات التدقيق.",
+    },
+];
+
 export default function FAQ() {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
+    const faqs = isAr ? FAQS_AR : FAQS_EN;
+
     const [openIndex, setOpenIndex] = useState(0);
 
     const toggle = (i) => {
@@ -70,28 +102,38 @@ export default function FAQ() {
                     <div className="lg:col-span-7">
                         <span className="inline-flex items-center gap-2 text-[10.5px] sm:text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#7C3AED]" />
-                            Frequently Asked
+                            {isAr ? "الأسئلة الشائعة" : "Frequently Asked"}
                         </span>
 
                         <h2 className="mt-2.5 sm:mt-4 text-2xl sm:text-3xl lg:text-[44px] font-light tracking-tight text-black leading-[1.15]">
-                            Everything you were about to ask.
-                            <br />
-                            <span className="text-black/50">Answered.</span>
+                            {isAr ? (
+                                <>
+                                    كل ما يدور في ذهنك.
+                                    <br />
+                                    <span className="text-black/50">تمت الإجابة عنه.</span>
+                                </>
+                            ) : (
+                                <>
+                                    Everything you were about to ask.
+                                    <br />
+                                    <span className="text-black/50">Answered.</span>
+                                </>
+                            )}
                         </h2>
                     </div>
 
                     <div className="lg:col-span-5 lg:pl-8 lg:border-l lg:border-gray-200">
                         <p className="text-sm sm:text-base text-black/60 leading-relaxed font-light">
-                            A quick tour of what ZeroQueries does, how it handles your data,
-                            and what it takes to get started. Can&apos;t find your answer?
-                            Our team is one message away.
+                            {isAr
+                                ? "جولة سريعة حول ما يقدمه ZeroQueries، وكيفية التعامل مع بياناتك بأمان، وما يلزم للبدء. ألم تجد إجابتك؟ فريقنا جاهز لمساعدتك دائماً."
+                                : "A quick tour of what ZeroQueries does, how it handles your data, and what it takes to get started. Can't find your answer? Our team is one message away."}
                         </p>
                     </div>
                 </div>
 
                 {/* ============== FAQ LIST ============== */}
                 <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden divide-y divide-gray-100 shadow-sm">
-                    {FAQS.map((item, i) => {
+                    {faqs.map((item, i) => {
                         const isOpen = openIndex === i;
                         return (
                             <div key={i} className="group">
@@ -153,10 +195,12 @@ export default function FAQ() {
                 <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 sm:gap-6 rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-sm p-5 sm:px-8 sm:py-6">
                     <div>
                         <h3 className="text-base sm:text-lg font-medium text-black tracking-tight">
-                            Still have questions?
+                            {isAr ? "هل لا يزال لديك استفسار؟" : "Still have questions?"}
                         </h3>
                         <p className="text-xs sm:text-sm text-black/60 font-light mt-1">
-                            Our solutions engineering team responds within 24 hours.
+                            {isAr
+                                ? "فريق الحلول الهندسية لدينا يجيبك خلال 24 ساعة."
+                                : "Our solutions engineering team responds within 24 hours."}
                         </p>
                     </div>
 
@@ -164,7 +208,7 @@ export default function FAQ() {
                         href="/contact"
                         className="inline-flex items-center justify-center gap-2 rounded-full bg-black text-white w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3 text-sm font-normal hover:bg-gray-800 transition-colors group"
                     >
-                        <span>Talk to our team</span>
+                        <span>{isAr ? "تحدث مع فريقنا" : "Talk to our team"}</span>
                         <FiArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </Link>
                 </div>

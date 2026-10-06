@@ -16,8 +16,12 @@ import {
     SiPostgresql,
     SiMongodb,
 } from "react-icons/si";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function DataStackGrid() {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
+
     return (
         <section className="relative w-full bg-white font-sans text-black py-12 sm:py-16 lg:py-20 px-4 sm:px-8 lg:px-14 overflow-hidden">
             {/* Dot Grid */}
@@ -27,14 +31,15 @@ export default function DataStackGrid() {
                 {/* Section Header */}
                 <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
                     <span className="text-xs font-medium tracking-[0.2em] text-black uppercase">
-                        Under the Hood
+                        {isAr ? "نظرة في العمق" : "Under the Hood"}
                     </span>
                     <h2 className="mt-3 text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-black leading-[1.15]">
-                        Built to fit your existing stack
+                        {isAr ? "مصمم ليتوافق مع بنيتك التكنولوجية الحالية" : "Built to fit your existing stack"}
                     </h2>
                     <p className="mt-3 sm:mt-4 text-sm sm:text-base text-black/70 font-light leading-relaxed">
-                        ZeroQueries plugs into your warehouses, CRMs, and documents — no
-                        data duplication, no pipeline rebuilds.
+                        {isAr
+                            ? "يتصل ZeroQueries بمستودعات البيانات، وأنظمة إدارة علاقات العملاء، ومستنداتك مباشرة دون تكرار للبيانات أو إعادة بناء المسارات."
+                            : "ZeroQueries plugs into your warehouses, CRMs, and documents — no data duplication, no pipeline rebuilds."}
                     </p>
                 </div>
 
@@ -46,11 +51,12 @@ export default function DataStackGrid() {
                             <FiDatabase className="h-5 w-5" />
                         </div>
                         <h3 className="text-[15px] sm:text-base font-medium text-black tracking-tight">
-                            Custom Live Demo on Your Stack
+                            {isAr ? "عرض تجريبي مخصص على بنيتك الحالية" : "Custom Live Demo on Your Stack"}
                         </h3>
                         <p className="mt-1.5 text-xs sm:text-sm text-black/70 font-light leading-relaxed">
-                            Test natural language queries live across schemas, tables, Gong
-                            call transcripts, and PDF contracts.
+                            {isAr
+                                ? "اختبر الاستعلام باللغة الطبيعية مباشرة عبر الجداول، وسجلات المكالمات، ومستندات PDF التعاقدية."
+                                : "Test natural language queries live across schemas, tables, Gong call transcripts, and PDF contracts."}
                         </p>
                         <div className="mt-4 sm:mt-5 flex flex-wrap gap-1.5 sm:gap-2">
                             <span className="inline-flex items-center gap-1.5 bg-white border border-gray-200 text-black px-2.5 py-1 rounded-md text-xs font-normal">
@@ -82,11 +88,12 @@ export default function DataStackGrid() {
                             <FiShield className="h-5 w-5" />
                         </div>
                         <h3 className="text-[15px] sm:text-base font-medium text-black tracking-tight">
-                            Enterprise Security &amp; Compliance
+                            {isAr ? "أمان وامتثال المؤسسات" : "Enterprise Security & Compliance"}
                         </h3>
                         <p className="mt-1.5 text-xs sm:text-sm text-black/70 font-light leading-relaxed">
-                            Zero-training data retention guarantee, customer-managed
-                            encryption keys, and private VPC deployment options.
+                            {isAr
+                                ? "ضمان عدم تدريب النماذج، ومفاتيح تشفير يتحكم بها العميل، وخيارات نشر سحابية خاصة (VPC)."
+                                : "Zero-training data retention guarantee, customer-managed encryption keys, and private VPC deployment options."}
                         </p>
                         <div className="mt-4 sm:mt-5 flex flex-wrap gap-2.5 sm:gap-3">
                             <span className="inline-flex items-center gap-1.5 text-xs text-black/80 font-normal">
@@ -99,7 +106,7 @@ export default function DataStackGrid() {
                             </span>
                             <span className="inline-flex items-center gap-1.5 text-xs text-black/80 font-normal">
                                 <FiLock className="h-3.5 w-3.5 shrink-0 text-black" />
-                                End-to-End Encryption
+                                {isAr ? "تشفير شامل من النهاية إلى النهاية" : "End-to-End Encryption"}
                             </span>
                         </div>
                     </div>
@@ -110,20 +117,21 @@ export default function DataStackGrid() {
                             <FiZap className="h-5 w-5" />
                         </div>
                         <h3 className="text-[15px] sm:text-base font-medium text-black tracking-tight">
-                            Zero Pipeline Maintenance
+                            {isAr ? "دون صيانة لمسارات نقل البيانات" : "Zero Pipeline Maintenance"}
                         </h3>
                         <p className="mt-1.5 text-xs sm:text-sm text-black/70 font-light leading-relaxed">
-                            Eliminate fragile SQL views, static dbt pipeline overhead, and
-                            manual dashboard rebuilds forever.
+                            {isAr
+                                ? "تخلص من استعلامات SQL الهشة، وأعباء خطوط dbt الثابتة، وإعادة بناء لوحات التحكم اليدوية إلى الأبد."
+                                : "Eliminate fragile SQL views, static dbt pipeline overhead, and manual dashboard rebuilds forever."}
                         </p>
                         <div className="mt-4 sm:mt-5 flex flex-wrap gap-2.5 sm:gap-3">
                             <span className="inline-flex items-center gap-1.5 text-xs text-black/80 font-normal">
                                 <FiActivity className="h-3.5 w-3.5 shrink-0 text-black" />
-                                Sub-second Query Speed
+                                {isAr ? "سرعة استعلام أقل من ثانية" : "Sub-second Query Speed"}
                             </span>
                             <span className="inline-flex items-center gap-1.5 text-xs text-black/80 font-normal">
                                 <FiServer className="h-3.5 w-3.5 shrink-0 text-black" />
-                                Direct In-Warehouse Compute
+                                {isAr ? "معالجة مباشرة داخل مستودع البيانات" : "Direct In-Warehouse Compute"}
                             </span>
                         </div>
                     </div>
@@ -131,4 +139,4 @@ export default function DataStackGrid() {
             </div>
         </section>
     );
-}
+}

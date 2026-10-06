@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 import { ConversationalPreview } from "./previews/ConversationalPreview";
 import { InsightsPreview } from "./previews/InsightsPreview";
 import { AgenticPreview } from "./previews/AgenticPreview";
@@ -18,6 +19,8 @@ const PREVIEWS = {
 };
 
 export function FeaturePreview({ features, activeIndex, reducedMotion }) {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
     const activeFeature = features[activeIndex];
     const PreviewComponent = PREVIEWS[activeFeature?.preview];
     const [displayedId, setDisplayedId] = useState(activeFeature?.id);
@@ -74,7 +77,7 @@ export function FeaturePreview({ features, activeIndex, reducedMotion }) {
                         </span>
                     </div>
                     <span className="hidden sm:inline-flex shrink-0 items-center gap-1.5 text-[10px] font-medium tracking-[0.15em] uppercase text-black/40">
-                        Live preview
+                        {isAr ? "معاينة حية" : "Live preview"}
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                     </span>
                 </div>

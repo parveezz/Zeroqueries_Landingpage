@@ -12,17 +12,30 @@ import {
 import { FaMicrosoft, FaFileExcel, FaTelegramPlane } from "react-icons/fa";
 import { GrOracle } from "react-icons/gr";
 import { FiMessageSquare, FiFileText } from "react-icons/fi";
+import { useLanguage } from "@/context/LanguageContext";
 
-const CHAT_QUERIES = [
+const CHAT_QUERIES_EN = [
     "Why did pipeline drop 18% week-over-week? Break down by segment, stage, and rep.",
     "Show revenue by region for last quarter, grouped by product line.",
     "Which reps have the highest deal velocity this month?",
 ];
 
-const REPORT_QUERIES = [
+const CHAT_QUERIES_AR = [
+    "لماذا انخفض مسار المبيعات بنسبة 18% أسبوعياً؟ قم بالتقسيم حسب الشريحة والمرحلة والمندوب.",
+    "اعرض الإيرادات حسب المنطقة للربع الأخير، مجمعة حسب خط الإنتاج.",
+    "أي المندوبين حقق أعلى سرعة إغلاق صفقات هذا الشهر؟",
+];
+
+const REPORT_QUERIES_EN = [
     "Generate Q3 Executive Variance Report with revenue breakdowns by product & region.",
     "Create an automated weekly pipeline health report comparing SDR vs AE sourced deals.",
     "Draft an audit-ready compliance & data governance summary across warehouse connectors.",
+];
+
+const REPORT_QUERIES_AR = [
+    "إنشاء تقرير انحرافات الربع الثالث التنفيذي مع تفصيل الإيرادات حسب المنتج والمنطقة.",
+    "إنشاء تقرير أسبوعي آلي لصحة مسار المبيعات بمقارنة الصفقات الواردة من SDR مقابل AE.",
+    "صياغة ملخص جاهز للتدقيق للامتثال وحوكمة البيانات عبر موصلات مستودعات البيانات.",
 ];
 
 const LEFT_CARDS = [
@@ -86,12 +99,36 @@ const BoltIcon = () => (
 );
 
 export default function Workspace() {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
+
     const [queryIndex, setQueryIndex] = useState(0);
     const [typed, setTyped] = useState("");
     const [phase, setPhase] = useState("typing");
     const [inputMode, setInputMode] = useState("chat");
     const sectionRef = useRef(null);
     const [isVisible, setIsVisible] = useState(false);
+
+    const t = {
+        howItWorks: isAr ? "كيف يعمل" : "How It Works",
+        title1: isAr ? "اربط جميع مصادر بياناتك. " : "Connect every data source. ",
+        title2: isAr ? "اسأل عن أي شيء." : "Ask anything.",
+        desc: isAr
+            ? "يستمع ZeroQueries إلى أسئلتك، ويبحث في مستودعات بياناتك ومستنداتك في الوقت الفعلي، ويعيد رؤى منظمة — دون خطوط أنابيب بيانات، ودون SQL، ودون انتظار."
+            : "ZeroQueries listens to your question, queries your warehouses and documents in real time, and returns structured insights — no pipelines, no SQL, no waiting.",
+        allData: isAr ? "جميع بياناتك" : "All of your data",
+        structured: isAr ? "البيانات المنظمة" : "Structured Data",
+        unstructured: isAr ? "البيانات غير المنظمة" : "Unstructured Data",
+        chat: isAr ? "محادثة" : "Chat",
+        report: isAr ? "تقرير" : "Report",
+        outputs: isAr ? "المخرجات" : "Outputs",
+        rightCards: [
+            { title: isAr ? "الرؤى والتحليلات" : "Insights & Analysis", subtitle: isAr ? "تحقيق آلي متقدم" : "Automated investigation", icon: "chart" },
+            { title: isAr ? "المهام" : "Missions", subtitle: isAr ? "تشغيل تحليلك 24/7" : "Runs your analysis 24/7", icon: "target" },
+            { title: isAr ? "المخرجات الجاهزة" : "Finished Outputs", subtitle: isAr ? "جاهزة للعرض دون تعديل" : "Ready to present, no cleanup", icon: "doc" },
+            { title: isAr ? "تطبيقات الوكلاء" : "Agentic Apps", subtitle: isAr ? "أدوات خدمة ذاتية" : "Self-service tools", icon: "bolt" },
+        ],
+    };
 
     const handleModeChange = (mode) => {
         if (mode === inputMode) return;
@@ -208,7 +245,9 @@ export default function Workspace() {
     }, [updateCoords, isVisible]);
 
     useEffect(() => {
-        const queries = inputMode === "chat" ? CHAT_QUERIES : REPORT_QUERIES;
+        const queries = inputMode === "chat"
+            ? (isAr ? CHAT_QUERIES_AR : CHAT_QUERIES_EN)
+            : (isAr ? REPORT_QUERIES_AR : REPORT_QUERIES_EN);
         const current = queries[queryIndex % queries.length] || queries[0];
         let i = 0;
         setTyped("");
@@ -234,7 +273,7 @@ export default function Workspace() {
             if (timerTimeout) clearTimeout(timerTimeout);
             if (nextIndexTimeout) clearTimeout(nextIndexTimeout);
         };
-    }, [queryIndex, inputMode]);
+    }, [queryIndex, inputMode, isAr]);
 
     return (
         <section
@@ -281,18 +320,16 @@ export default function Workspace() {
                         }`}
                 >
                     <span className="text-[10.5px] sm:text-[11px] font-medium tracking-[0.2em] text-black/50 uppercase">
-                        How It Works
+                        {t.howItWorks}
                     </span>
 
                     <h2 className="mt-2.5 sm:mt-3 text-[26px] sm:text-[34px] lg:text-[40px] font-normal tracking-[-0.02em] text-black leading-[1.15]">
-                        Connect every data source.{" "}
-                        <span className="text-black/45 font-light">Ask anything.</span>
+                        {t.title1}
+                        <span className="text-black/45 font-light">{t.title2}</span>
                     </h2>
 
                     <p className="mt-3 sm:mt-3.5 text-[13.5px] sm:text-[15px] text-black/65 leading-[1.65] font-normal max-w-xl mx-auto">
-                        ZeroQueries listens to your question, queries your warehouses and documents
-                        in real time, and returns structured insights — no pipelines, no SQL, no
-                        waiting.
+                        {t.desc}
                     </p>
                 </div>
 
@@ -420,7 +457,7 @@ export default function Workspace() {
                         {/* ============ LEFT PANEL ============ */}
                         <div className="flex flex-col gap-3.5 sm:gap-5 w-full max-w-2xl mx-auto xl:max-w-none xl:w-[240px]">
                             <h3 className="text-[10px] font-medium tracking-[0.2em] text-black uppercase text-left">
-                                All of your data
+                                {t.allData}
                             </h3>
 
                             {LEFT_CARDS.map((card, ci) => {
@@ -439,7 +476,7 @@ export default function Workspace() {
                                                 )}
                                             </div>
                                             <span className="font-medium text-xs sm:text-sm text-black">
-                                                {card.title}
+                                                {ci === 0 ? t.structured : t.unstructured}
                                             </span>
                                         </div>
 
@@ -507,7 +544,7 @@ export default function Workspace() {
                                                 }`}
                                         >
                                             <FiMessageSquare className={`w-3 h-3 ${inputMode === "chat" ? "text-white" : "text-black"}`} />
-                                            Chat
+                                            {t.chat}
                                         </button>
                                         <button
                                             type="button"
@@ -518,7 +555,7 @@ export default function Workspace() {
                                                 }`}
                                         >
                                             <FiFileText className={`w-3 h-3 ${inputMode === "report" ? "text-white" : "text-black"}`} />
-                                            Report
+                                            {t.report}
                                         </button>
                                     </div>
 
@@ -527,8 +564,10 @@ export default function Workspace() {
                                         aria-label="Send query"
                                         onClick={() => {
                                             if (phase === "typing") {
-                                                const queries = inputMode === "chat" ? CHAT_QUERIES : REPORT_QUERIES;
-                                                setTyped(queries[queryIndex % queries.length] || queries[0]);
+                                                const qList = inputMode === "chat"
+                                                    ? (isAr ? CHAT_QUERIES_AR : CHAT_QUERIES_EN)
+                                                    : (isAr ? REPORT_QUERIES_AR : REPORT_QUERIES_EN);
+                                                setTyped(qList[queryIndex % qList.length] || qList[0]);
                                                 setPhase("sending");
                                             }
                                         }}
@@ -551,11 +590,11 @@ export default function Workspace() {
                         {/* ============ RIGHT PANEL ============ */}
                         <div className="flex flex-col gap-2.5 sm:gap-3 w-full max-w-2xl mx-auto xl:max-w-none xl:w-[280px] xl:translate-x-6">
                             <h3 className="text-[10px] font-medium tracking-[0.2em] text-black uppercase text-left xl:text-right xl:pr-1">
-                                Outputs
+                                {t.outputs}
                             </h3>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-2 sm:gap-2.5">
-                                {RIGHT_CARDS.map((card, i) => (
+                                {t.rightCards.map((card, i) => (
                                     <div
                                         key={i}
                                         ref={(el) => {

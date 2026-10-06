@@ -2,10 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
-  FiArrowLeft,
   FiEye,
   FiEyeOff,
   FiLock,
@@ -13,10 +11,12 @@ import {
   FiCheck,
   FiAlertCircle,
 } from "react-icons/fi";
-
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { lang } = useLanguage();
+  const isAr = lang === "ar";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +36,7 @@ export default function LoginPage() {
       setIsSuccess(true);
       // Real redirect: setTimeout(() => router.push("/dashboard"), 1200);
     } catch (err) {
-      setError(err.message || "Something went wrong. Try again.");
+      setError(err.message || (isAr ? "حدث خطأ ما. يرجى المحاولة مرة أخرى." : "Something went wrong. Try again."));
     } finally {
       setIsLoading(false);
     }
@@ -48,16 +48,17 @@ export default function LoginPage() {
       <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-40" />
 
       <div className="relative z-10 w-full max-w-[440px]">
-
         {/* Card */}
         <div className="rounded-2xl sm:rounded-3xl border border-gray-200/90 bg-white p-5 xs:p-6 sm:p-9 shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
           {/* Brand header */}
           <div className="text-center mb-6 sm:mb-8">
             <h1 className="text-xl sm:text-2xl lg:text-[26px] font-normal tracking-tight text-black">
-              Welcome back
+              {isAr ? "مرحباً بعودتك" : "Welcome back"}
             </h1>
             <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-black/60 font-light">
-              Log in to access your ZeroQueries workspace
+              {isAr
+                ? "سجل الدخول للوصول إلى مساحة عمل ZeroQueries الخاصة بك"
+                : "Log in to access your ZeroQueries workspace"}
             </p>
           </div>
 
@@ -67,17 +68,17 @@ export default function LoginPage() {
                 <FiCheck className="w-6 h-6" strokeWidth={2.5} />
               </div>
               <h2 className="text-lg font-medium text-black">
-                You&apos;re signed in
+                {isAr ? "تم تسجيل الدخول بنجاح" : "You're signed in"}
               </h2>
               <p className="mt-1 text-xs text-black/60 font-light">
-                Logged in as{" "}
+                {isAr ? "تم الدخول كـ " : "Logged in as "}
                 <span className="font-normal text-black">{email}</span>
               </p>
               <Link
                 href="/dashboard"
                 className="mt-6 inline-flex items-center justify-center rounded-xl bg-black px-5 py-2.5 text-xs font-medium text-white hover:bg-gray-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
               >
-                Continue to dashboard
+                {isAr ? "المتابعة إلى لوحة التحكم" : "Continue to dashboard"}
               </Link>
             </div>
           ) : (
@@ -90,7 +91,7 @@ export default function LoginPage() {
                     htmlFor="email"
                     className="block text-xs font-medium text-black/80 mb-1.5"
                   >
-                    Work Email
+                    {isAr ? "البريد الإلكتروني للعمل" : "Work Email"}
                   </label>
                   <div className="relative">
                     <FiMail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-black/40 pointer-events-none" />
@@ -114,13 +115,13 @@ export default function LoginPage() {
                       htmlFor="password"
                       className="block text-xs font-medium text-black/80"
                     >
-                      Password
+                      {isAr ? "كلمة المرور" : "Password"}
                     </label>
                     <Link
                       href="/forgot-password"
                       className="text-[11px] font-normal text-black hover:underline underline-offset-4"
                     >
-                      Forgot password?
+                      {isAr ? "نسيت كلمة المرور؟" : "Forgot password?"}
                     </Link>
                   </div>
                   <div className="relative">
@@ -139,7 +140,7 @@ export default function LoginPage() {
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-md text-black/40 hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black"
-                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      aria-label={showPassword ? (isAr ? "إخفاء كلمة المرور" : "Hide password") : (isAr ? "إظهار كلمة المرور" : "Show password")}
                     >
                       {showPassword ? (
                         <FiEyeOff className="w-4 h-4" />
@@ -160,7 +161,7 @@ export default function LoginPage() {
                       className="w-4 h-4 rounded border-gray-300 accent-black"
                     />
                     <span className="text-xs text-black/70">
-                      Remember this device
+                      {isAr ? "تذكر هذا الجهاز" : "Remember this device"}
                     </span>
                   </label>
                 </div>
@@ -181,27 +182,27 @@ export default function LoginPage() {
                   disabled={isLoading}
                   className="w-full mt-2 h-11 sm:h-12 rounded-xl bg-black px-4 text-sm font-medium text-white hover:bg-gray-800 active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-wait focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 shadow-sm"
                 >
-                  {isLoading ? "Signing in…" : "Sign In"}
+                  {isLoading
+                    ? (isAr ? "جاري تسجيل الدخول…" : "Signing in…")
+                    : (isAr ? "تسجيل الدخول" : "Sign In")}
                 </button>
               </form>
 
-
-
               {/* Sign up prompt */}
               <div className="mt-5 sm:mt-6 text-center text-xs text-black/60 font-light leading-relaxed">
-                Don&apos;t have an account?{" "}
+                {isAr ? "ليس لديك حساب؟ " : "Don't have an account? "}
                 <Link
                   href="/demo"
                   className="font-medium text-black hover:underline underline-offset-4"
                 >
-                  Book a demo
+                  {isAr ? "احجز عرضاً توضيحياً" : "Book a demo"}
                 </Link>{" "}
-                or{" "}
+                {isAr ? "أو " : "or "}
                 <Link
                   href="/contact"
                   className="font-medium text-black hover:underline underline-offset-4"
                 >
-                  Contact sales
+                  {isAr ? "تواصل مع المبيعات" : "Contact sales"}
                 </Link>
               </div>
             </>
@@ -211,9 +212,9 @@ export default function LoginPage() {
         {/* Security badge */}
         <p className="mt-5 sm:mt-6 text-center text-[11px] text-black/40 font-light flex flex-wrap items-center justify-center gap-1 sm:gap-1.5">
           <FiLock className="w-3 h-3 text-black/40 shrink-0" />
-          <span>SOC 2 Type II Certified</span>
+          <span>{isAr ? "معتمد بمعيار SOC 2 Type II" : "SOC 2 Type II Certified"}</span>
           <span className="hidden xs:inline">·</span>
-          <span>256-bit SSL Encrypted</span>
+          <span>{isAr ? "تشفير SSL 256-bit" : "256-bit SSL Encrypted"}</span>
         </p>
       </div>
     </main>

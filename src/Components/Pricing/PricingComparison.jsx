@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FiCheck, FiMinus, FiChevronDown } from "react-icons/fi";
+import { useLanguage } from "@/context/LanguageContext";
 
 const CheckIcon = () => (
   <div className="mx-auto flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full bg-purple-50 text-[#6434F5] border border-purple-100 transition-transform duration-200 hover:scale-105">
@@ -15,7 +16,7 @@ const MinusIcon = () => (
   </div>
 );
 
-const featureCategories = [
+const featureCategoriesEn = [
   {
     id: "usage",
     name: "Usage & Team Access",
@@ -132,7 +133,128 @@ const featureCategories = [
   },
 ];
 
+const featureCategoriesAr = [
+  {
+    id: "usage",
+    name: "الاستخدام وصلاحيات الفريق",
+    features: [
+      {
+        name: "حجم التحليلات والأسئلة الشهرية",
+        starter: "حتى 500",
+        growth: "حتى 2,000",
+        enterprise: "غير محدود",
+      },
+      {
+        name: "المستخدمون المشمولون",
+        starter: "حتى 5 مستخدمين",
+        growth: "حتى 5 مستخدمين",
+        enterprise: "غير محدود",
+      },
+      {
+        name: "مستخدمو عرض غير محدودين مجاناً",
+        starter: false,
+        growth: true,
+        enterprise: true,
+      },
+      {
+        name: "الوصول الكامل لمنصة الويب",
+        starter: true,
+        growth: true,
+        enterprise: true,
+      },
+    ],
+  },
+  {
+    id: "integrations",
+    name: "التكاملات ومصادر البيانات",
+    features: [
+      {
+        name: "الموصلات والتكاملات الأساسية",
+        starter: true,
+        growth: true,
+        enterprise: true,
+      },
+      {
+        name: "Snowflake و BigQuery و Databricks",
+        starter: false,
+        growth: true,
+        enterprise: true,
+      },
+      {
+        name: "سلاك، واتساب، الويب، وواجهة API",
+        starter: false,
+        growth: true,
+        enterprise: true,
+      },
+      {
+        name: "كافة موصلات المؤسسات المباشرة",
+        starter: false,
+        growth: false,
+        enterprise: true,
+      },
+    ],
+  },
+  {
+    id: "support-security",
+    name: "الدعم والأمان والمعمارية",
+    features: [
+      {
+        name: "أمان قياسي معتمد SOC 2",
+        starter: true,
+        growth: true,
+        enterprise: true,
+      },
+      {
+        name: "دعم بالبريد والمجتمع",
+        starter: true,
+        growth: true,
+        enterprise: true,
+      },
+      {
+        name: "سجلات تدقيق متقدمة وأدوار مخصصة",
+        starter: false,
+        growth: true,
+        enterprise: true,
+      },
+      {
+        name: "دعم ذو أولوية عبر البريد والمحادثة والهاتف",
+        starter: false,
+        growth: true,
+        enterprise: true,
+      },
+      {
+        name: "تسجيل موحد SSO، توافق SAML و HIPAA و RBAC",
+        starter: false,
+        growth: false,
+        enterprise: true,
+      },
+      {
+        name: "مهندس حلول مخصص واتفاقية خدمة 24/7",
+        starter: false,
+        growth: false,
+        enterprise: true,
+      },
+      {
+        name: "طبقة دلالية مخصصة ومحسنة",
+        starter: false,
+        growth: false,
+        enterprise: true,
+      },
+      {
+        name: "خيارات نشر محلي أو في سحابة خاصة (VPC)",
+        starter: false,
+        growth: false,
+        enterprise: true,
+      },
+    ],
+  },
+];
+
 export default function PricingComparison() {
+  const { lang } = useLanguage();
+  const isAr = lang === "ar";
+  const featureCategories = isAr ? featureCategoriesAr : featureCategoriesEn;
+
   const [openCategories, setOpenCategories] = useState({
     usage: true,
     integrations: true,
@@ -140,7 +262,7 @@ export default function PricingComparison() {
   });
 
   const [mobilePlan, setMobilePlan] = useState("growth");
-  const [mobileViewMode, setMobileViewMode] = useState("plan"); // "plan" | "table"
+  const [mobileViewMode, setMobileViewMode] = useState("plan");
 
   const toggleCategory = (id) => {
     setOpenCategories((prev) => ({
@@ -184,13 +306,12 @@ export default function PricingComparison() {
         {/* Center H2 Heading */}
         <div className="text-center mb-6 sm:mb-10">
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-light tracking-tight text-black font-sans">
-            Plan Comparison
+            {isAr ? "مقارنة الخطط والميزات" : "Plan Comparison"}
           </h2>
         </div>
 
         {/* ================= MOBILE CONTROLS (TABS & MODE SWITCH) ================= */}
         <div className="md:hidden mb-5 space-y-3">
-          {/* Mode Switch: Plan Details vs Full Table */}
           <div className="flex rounded-xl bg-gray-200/70 p-1">
             <button
               type="button"
@@ -201,7 +322,7 @@ export default function PricingComparison() {
                   : "text-black/60 hover:text-black"
               }`}
             >
-              By Plan
+              {isAr ? "حسب الخطة" : "By Plan"}
             </button>
             <button
               type="button"
@@ -212,17 +333,17 @@ export default function PricingComparison() {
                   : "text-black/60 hover:text-black"
               }`}
             >
-              Side-by-Side Table
+              {isAr ? "جدول مقارنة كامل" : "Side-by-Side Table"}
             </button>
           </div>
 
-          {/* Plan Selector Pills (When in "plan" mode) */}
+          {/* Plan Selector Pills */}
           {mobileViewMode === "plan" && (
             <div className="grid grid-cols-3 gap-1.5">
               {[
-                { id: "starter", name: "Starter" },
-                { id: "growth", name: "Growth", popular: true },
-                { id: "enterprise", name: "Enterprise" },
+                { id: "starter", name: isAr ? "المبتدئة" : "Starter" },
+                { id: "growth", name: isAr ? "النمو" : "Growth", popular: true },
+                { id: "enterprise", name: isAr ? "المؤسسات" : "Enterprise" },
               ].map((p) => {
                 const isSelected = mobilePlan === p.id;
                 return (
@@ -243,7 +364,7 @@ export default function PricingComparison() {
                           isSelected ? "text-purple-200" : "text-[#6434F5]"
                         }`}
                       >
-                        Popular
+                        {isAr ? "شائع" : "Popular"}
                       </span>
                     )}
                   </button>
@@ -257,7 +378,7 @@ export default function PricingComparison() {
         <div className="flex items-center justify-between sm:justify-end gap-3 mb-3 sm:mb-4 text-xs sm:text-sm font-normal px-1">
           {mobileViewMode === "table" && (
             <span className="text-[11px] sm:text-xs text-black/45 font-light md:hidden flex items-center gap-1">
-              <span>Swipe table horizontally</span>
+              <span>{isAr ? "اسحب الجدول أفقياً" : "Swipe table horizontally"}</span>
               <span>→</span>
             </span>
           )}
@@ -268,7 +389,7 @@ export default function PricingComparison() {
               onClick={expandAll}
               className="text-[#6434F5] hover:text-[#5527e0] transition-colors font-sans cursor-pointer focus-visible:outline-none focus-visible:underline"
             >
-              Expand all
+              {isAr ? "توسيع الكل" : "Expand all"}
             </button>
             <span className="text-gray-300">|</span>
             <button
@@ -276,7 +397,7 @@ export default function PricingComparison() {
               onClick={collapseAll}
               className="text-[#6434F5] hover:text-[#5527e0] transition-colors font-sans cursor-pointer focus-visible:outline-none focus-visible:underline"
             >
-              Collapse all
+              {isAr ? "طي الكل" : "Collapse all"}
             </button>
           </div>
         </div>
@@ -292,7 +413,6 @@ export default function PricingComparison() {
                   key={category.id}
                   className="rounded-2xl border border-gray-200/90 bg-white overflow-hidden shadow-xs"
                 >
-                  {/* Category Header */}
                   <button
                     type="button"
                     onClick={() => toggleCategory(category.id)}
@@ -308,7 +428,6 @@ export default function PricingComparison() {
                     />
                   </button>
 
-                  {/* Feature Rows */}
                   {isOpen && (
                     <div className="divide-y divide-gray-100 p-2">
                       {category.features.map((feature, idx) => {
@@ -335,7 +454,7 @@ export default function PricingComparison() {
           </div>
         )}
 
-        {/* ================= VIEW 2: FULL TABLE (Desktop Always, Mobile in "table" mode) ================= */}
+        {/* ================= VIEW 2: FULL TABLE ================= */}
         <div
           className={`${
             mobileViewMode === "table" ? "block" : "hidden md:block"
@@ -346,28 +465,28 @@ export default function PricingComparison() {
             <div className="grid grid-cols-12 items-end border-b border-gray-200 pb-3 sm:pb-4 pt-2">
               <div className="col-span-5 px-3 sm:px-6 sticky left-0 z-20 bg-white/95 backdrop-blur-md">
                 <span className="text-[10px] sm:text-xs font-medium uppercase tracking-[0.15em] text-black/40 font-sans">
-                  Feature Breakdown
+                  {isAr ? "تفاصيل الميزات" : "Feature Breakdown"}
                 </span>
               </div>
 
               {/* Starter Column */}
               <div className="col-span-2 px-2 sm:px-4 text-center">
                 <h3 className="text-sm sm:text-xl font-normal text-black font-sans">
-                  Starter
+                  {isAr ? "المبتدئة" : "Starter"}
                 </h3>
               </div>
 
               {/* Growth Column */}
               <div className="col-span-2 px-2 sm:px-4 text-center">
                 <h3 className="text-sm sm:text-xl font-normal text-black font-sans">
-                  Growth
+                  {isAr ? "النمو" : "Growth"}
                 </h3>
               </div>
 
               {/* Enterprise Column */}
               <div className="col-span-3 px-2 sm:px-4 py-2 sm:py-3 rounded-t-xl bg-purple-50 text-center border-t border-l border-r border-gray-200">
                 <h3 className="text-sm sm:text-xl font-normal text-black font-sans">
-                  Enterprise
+                  {isAr ? "المؤسسات" : "Enterprise"}
                 </h3>
               </div>
             </div>
@@ -411,7 +530,7 @@ export default function PricingComparison() {
                           key={idx}
                           className="grid grid-cols-12 items-center hover:bg-purple-50/15 transition-colors duration-150 py-3 sm:py-3.5"
                         >
-                          {/* Feature Name (Sticky on horizontal scroll) */}
+                          {/* Feature Name */}
                           <div className="col-span-5 px-3 sm:px-6 sticky left-0 z-10 bg-white/95 backdrop-blur-md text-[12.5px] sm:text-base font-light text-black/80 font-sans leading-snug shadow-[2px_0_6px_-2px_rgba(0,0,0,0.06)]">
                             {feature.name}
                           </div>

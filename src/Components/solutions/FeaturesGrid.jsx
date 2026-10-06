@@ -8,8 +8,9 @@ import {
     FiTerminal,
     FiZap,
 } from "react-icons/fi";
+import { useLanguage } from "@/context/LanguageContext";
 
-const FEATURES = [
+const FEATURES_EN = [
     {
         number: "01",
         icon: FiTerminal,
@@ -40,7 +41,42 @@ const FEATURES = [
     },
 ];
 
+const FEATURES_AR = [
+    {
+        number: "01",
+        icon: FiTerminal,
+        title: "استعلامات باللغة الطبيعية",
+        description:
+            "اطرح أسئلة بلغتك المعتادة واسترجع رؤى فورية ودقيقة من قواعد بياناتك.",
+    },
+    {
+        number: "02",
+        icon: FiShield,
+        title: "توليد استعلامات تلقائي",
+        description:
+            "مولد استعلامات SQL مدعوم بالذكاء الاصطناعي يحول لغتك إلى استعلامات قاعدة بيانات محسنة فوراً.",
+    },
+    {
+        number: "03",
+        icon: FiBarChart2,
+        title: "رسوم بيانية تفاعلية",
+        description:
+            "تُعرض النتائج تلقائياً عبر مخططات بيانية وتصورات بصرية سهلة الفهم والاستكشاف.",
+    },
+    {
+        number: "04",
+        icon: FiMessageSquare,
+        title: "واجهة حوارية ذكية",
+        description:
+            "واجهة محادثة لقواعد البيانات تجعل الوصول إلى البيانات متاحاً لكل فرد في المؤسسة بسهولة.",
+    },
+];
+
 export default function FeaturesGrid() {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
+    const features = isAr ? FEATURES_AR : FEATURES_EN;
+
     const sectionRef = useRef(null);
     const [isVisible, setIsVisible] = useState(true);
     const [activeIndex, setActiveIndex] = useState(-1);
@@ -48,13 +84,13 @@ export default function FeaturesGrid() {
     useEffect(() => {
         let current = -1;
         const tick = () => {
-            current = (current + 1) % (FEATURES.length + 1);
+            current = (current + 1) % (features.length + 1);
             setActiveIndex(current);
-            setTimeout(tick, current === FEATURES.length ? 1500 : 1000);
+            setTimeout(tick, current === features.length ? 1500 : 1000);
         };
         const start = setTimeout(tick, 600);
         return () => clearTimeout(start);
-    }, []);
+    }, [features.length]);
 
     return (
         <section
@@ -69,13 +105,23 @@ export default function FeaturesGrid() {
                 <div className="max-w-4xl mb-6 sm:mb-8 lg:mb-10">
                     <span className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
                         <span className="w-1.5 h-1.5 rounded-full bg-black" />
-                        Features
+                        {isAr ? "المميزات" : "Features"}
                     </span>
 
                     <h2 className="mt-3 text-3xl sm:text-4xl lg:text-[46px] font-light tracking-tight text-black leading-[1.1]">
-                        Everything you need.
-                        <br />
-                        <span className="text-black/40">Nothing you don&apos;t.</span>
+                        {isAr ? (
+                            <>
+                                كل ما تحتاجه.
+                                <br />
+                                <span className="text-black/40">ولا شيء مما لا يلزمك.</span>
+                            </>
+                        ) : (
+                            <>
+                                Everything you need.
+                                <br />
+                                <span className="text-black/40">Nothing you don&apos;t.</span>
+                            </>
+                        )}
                     </h2>
                 </div>
 
@@ -112,7 +158,7 @@ export default function FeaturesGrid() {
                     </svg>
 
                     <div className="grid grid-cols-4 gap-6 relative">
-                        {FEATURES.map((feature, i) => (
+                        {features.map((feature, i) => (
                             <div
                                 key={feature.title}
                                 className="relative transition-all duration-500 opacity-100 translate-y-0"
@@ -131,7 +177,7 @@ export default function FeaturesGrid() {
 
                 {/* ================= MOBILE + TABLET ================= */}
                 <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
-                    {FEATURES.map((feature) => (
+                    {features.map((feature) => (
                         <div
                             key={feature.title}
                             className="transition-all duration-300 opacity-100 translate-y-0"
@@ -142,17 +188,27 @@ export default function FeaturesGrid() {
                 </div>
 
                 {/* ================= NOTE BELOW ================= */}
-                {/* ================= NOTE BELOW ================= */}
                 <div className="mt-8 sm:mt-10 lg:mt-10 flex justify-center">
                     <div className="inline-flex items-center gap-3 rounded-full border border-gray-200 bg-white px-5 py-2.5">
                         <div className="flex items-center justify-center w-7 h-7 rounded-full bg-black">
                             <FiZap className="h-3.5 w-3.5 text-white" strokeWidth={2.5} />
                         </div>
                         <p className="text-sm font-light text-black/70">
-                            <span className="font-normal text-black">
-                                One flow, one product.
-                            </span>{" "}
-                            From question to insight.
+                            {isAr ? (
+                                <>
+                                    <span className="font-normal text-black">
+                                        مسار عمل واحد ومنتج واحد.
+                                    </span>{" "}
+                                    من السؤال إلى الرؤية المباشرة.
+                                </>
+                            ) : (
+                                <>
+                                    <span className="font-normal text-black">
+                                        One flow, one product.
+                                    </span>{" "}
+                                    From question to insight.
+                                </>
+                            )}
                         </p>
                     </div>
                 </div>

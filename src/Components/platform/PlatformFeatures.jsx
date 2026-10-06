@@ -6,8 +6,9 @@ import {
     FiShield,
     FiBarChart2,
 } from "react-icons/fi";
+import { useLanguage } from "@/context/LanguageContext";
 
-const FEATURES = [
+const FEATURES_EN = [
     {
         number: "01",
         icon: FiTerminal,
@@ -38,7 +39,42 @@ const FEATURES = [
     },
 ];
 
+const FEATURES_AR = [
+    {
+        number: "01",
+        icon: FiTerminal,
+        title: "استعلامات باللغة الطبيعية",
+        description:
+            "اطرح أسئلتك بلغة بسيطة واحصل على إجابات في ثوانٍ — بدون SQL أو لوحات معقدة أو انتظار تذاكر فريق البيانات.",
+    },
+    {
+        number: "02",
+        icon: FiZap,
+        title: "توليد استعلامات آلي",
+        description:
+            "يترجم ZeroQueries مقصد سؤالك إلى استعلامات SQL محسنة وعالية الدقة عبر كافة مصادر البيانات المتصلة فوراً.",
+    },
+    {
+        number: "03",
+        icon: FiShield,
+        title: "أمان وحوكمة المؤسسات",
+        description:
+            "اتصالات للقراءة فقط، تشفير AES-256 و TLS 1.3، توافق مع SOC 2 Type II و HIPAA، وسجلات تدقيق ومتابعة شاملة.",
+    },
+    {
+        number: "04",
+        icon: FiBarChart2,
+        title: "إجابات جاهزة للمشاركة",
+        description:
+            "مخططات وجداول وملخصات فورية متكاملة — شاركها مع فريقك مباشرة من واتساب أو سلاك أو تطبيق الويب.",
+    },
+];
+
 export default function PlatformFeatures() {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
+    const features = isAr ? FEATURES_AR : FEATURES_EN;
+
     return (
         <section className="relative w-full bg-gray-50 font-sans text-black py-20 sm:py-24 px-6 sm:px-10 lg:px-14 overflow-hidden">
             {/* Dot grid */}
@@ -49,25 +85,36 @@ export default function PlatformFeatures() {
                 <div className="max-w-3xl mb-14 sm:mb-16">
                     <span className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
                         <span className="w-1.5 h-1.5 rounded-full bg-black" />
-                        Platform
+                        {isAr ? "قدرات المنصة" : "Platform"}
                     </span>
 
                     <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[52px] font-light tracking-tight text-black leading-[1.1]">
-                        Built to move at the
-                        <br />
-                        <span className="text-black/40">speed of your decisions.</span>
+                        {isAr ? (
+                            <>
+                                صُممت لتواكب
+                                <br />
+                                <span className="text-black/40">سرعة اتخاذ قراراتك.</span>
+                            </>
+                        ) : (
+                            <>
+                                Built to move at the
+                                <br />
+                                <span className="text-black/40">speed of your decisions.</span>
+                            </>
+                        )}
                     </h2>
 
                     <p className="mt-5 text-base text-black/60 leading-relaxed font-light max-w-xl">
-                        Every piece of ZeroQueries exists to shorten the distance between a
-                        question and an answer — without compromising security or accuracy.
+                        {isAr
+                            ? "كل جزء في ZeroQueries صُمم لتقريب المسافة بين السؤال والإجابة — دون أي مساومة على الأمان أو دقة البيانات."
+                            : "Every piece of ZeroQueries exists to shorten the distance between a question and an answer — without compromising security or accuracy."}
                     </p>
                 </div>
 
                 {/* ================= FEATURES GRID ================= */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    {FEATURES.map((feature, i) => (
-                        <FeatureCard key={feature.title} feature={feature} index={i} />
+                    {features.map((feature, i) => (
+                        <FeatureCard key={feature.title} feature={feature} index={i} isAr={isAr} />
                     ))}
                 </div>
             </div>
@@ -76,7 +123,7 @@ export default function PlatformFeatures() {
 }
 
 // ============== FEATURE CARD ==============
-function FeatureCard({ feature }) {
+function FeatureCard({ feature, isAr }) {
     const Icon = feature.icon;
 
     return (
@@ -110,7 +157,7 @@ function FeatureCard({ feature }) {
             {/* Footer */}
             <div className="relative mt-6 flex items-center justify-between">
                 <span className="text-[10px] font-medium tracking-[0.15em] uppercase text-black/35 transition-colors group-hover:text-black">
-                    Step {feature.number}
+                    {isAr ? `الميزة ${feature.number}` : `Step ${feature.number}`}
                 </span>
                 <div className="w-6 h-[2px] rounded-full bg-black opacity-30 group-hover:opacity-100 group-hover:w-12 transition-all duration-500" />
             </div>

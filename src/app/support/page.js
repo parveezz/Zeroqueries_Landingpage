@@ -1,12 +1,9 @@
+"use client";
+
 import LegalPage from "@/Components/LegalPage";
+import { useLanguage } from "@/context/LanguageContext";
 
-export const metadata = {
-  title: "Security & Compliance | ZeroQueries",
-  description:
-    "How ZeroQueries keeps your data secure — encryption, compliance, and enterprise controls.",
-};
-
-const SECTIONS = [
+const SECTIONS_EN = [
   { id: "security-model", title: "Our Security Model" },
   { id: "data-protection", title: "Data Protection" },
   { id: "access-controls", title: "Access Controls" },
@@ -18,14 +15,123 @@ const SECTIONS = [
   { id: "documents", title: "Request Documents" },
 ];
 
+const SECTIONS_AR = [
+  { id: "security-model", title: "1. نموذج الأمان لدينا" },
+  { id: "data-protection", title: "2. حماية البيانات" },
+  { id: "access-controls", title: "3. ضوابط الوصول" },
+  { id: "compliance", title: "4. الامتثال والشهادات" },
+  { id: "deployment", title: "5. خيارات النشر" },
+  { id: "infrastructure", title: "6. البنية التحتية" },
+  { id: "incident-response", title: "7. الاستجابة للحوادث" },
+  { id: "disclosure", title: "8. الإفصاح المسؤول" },
+  { id: "documents", title: "9. طلب المستندات" },
+];
+
 export default function SecurityPage() {
+  const { lang } = useLanguage();
+  const isAr = lang === "ar";
+
+  if (isAr) {
+    return (
+      <LegalPage
+        title="الأمان والامتثال"
+        subtitle="كيف نحمي بياناتك، ونلبي معايير المؤسسات الكبرى، ونبقى جاهزين دائماً لعمليات التدقيق الأمني."
+        lastUpdated="2 أكتوبر 2026"
+        version="1.6"
+        sections={SECTIONS_AR}
+      >
+        <h2 id="security-model">1. نموذج الأمان لدينا</h2>
+        <p>
+          تم بناء ZeroQueries على مبدأ بسيط: <strong>بياناتك لا تغادر حدود شبكتك أبداً.</strong> تعمل الاستعلامات عبر اتصالات للقراءة فقط ببنيتك التحتية، وتتم معالجة النتائج في الذاكرة دون تخزين دائم.
+        </p>
+        <p>
+          هذا يعني أننا لسنا بحاجة إلى تخزين نسخ من بياناتك، ويمكننا تقديم ضمانات رفيعة المستوى لخصوصية البيانات والاحتفاظ بها.
+        </p>
+
+        <h2 id="data-protection">2. حماية البيانات</h2>
+        <ul>
+          <li><strong>التشفير أثناء التخزين</strong> — معيار AES-256 لأي بيانات نقوم بتخزينها (الإعدادات، سجلات التدقيق).</li>
+          <li><strong>التشفير أثناء النقل</strong> — بروتوكول TLS 1.3 لجميع حركات مرور الشبكة مع ميزة السرية التامة للأمام.</li>
+          <li><strong>مفاتيح يديرها العميل (BYOK)</strong> — أحضر مفاتيحك الخاصة لعمليات النشر المؤسسية.</li>
+          <li><strong>سياسة عدم تدريب النماذج</strong> — لا تُستخدم بيانات العملاء مطلقاً لتدريب أي نماذج ذكاء اصطناعي.</li>
+          <li><strong>لا يوجد تخزين دائم للنتائج</strong> — تتم كافة العمليات داخل الذاكرة العشوائية المؤقتة فقط.</li>
+        </ul>
+
+        <h2 id="access-controls">3. ضوابط الوصول</h2>
+        <ul>
+          <li><strong>التحكم في الوصول القائم على الأدوار (RBAC)</strong> — صلاحيات دقيقة حتى مستوى الجدول والعمود.</li>
+          <li><strong>تسجيل الدخول الأحادي (SSO و SAML 2.0)</strong> — تكامل مع Okta و Azure AD و Google Workspace.</li>
+          <li><strong>توفير حسابات SCIM</strong> — إدارة مؤتمتة لدورة حياة المستخدمين.</li>
+          <li><strong>سجلات تدقيق غير قابلة للتغيير</strong> — يتم تسجيل كل إجراء بدقة لمنع التلاعب.</li>
+          <li><strong>القوائم البيضاء لعناوين IP</strong> — تقييد الوصول للشبكات والأجهزة المعتمدة فقط.</li>
+        </ul>
+
+        <h2 id="compliance">4. الامتثال والشهادات</h2>
+        <ul>
+          <li><strong>SOC 2 Type II</strong> — خضوع لتدقيق سنوي مستقل من شركة محاسبية معتمدة.</li>
+          <li><strong>جاهز لـ HIPAA</strong> — متوافق مع أحمال عمل الرعاية الصحية المنظمة مع توفير اتفاقيات BAA.</li>
+          <li><strong>GDPR</strong> — اتفاقيات معالجة البيانات وبنود تعاقدية قياسية متاحة عند الطلب.</li>
+          <li><strong>ISO 27001</strong> — ضوابط متوافقة مع الشهادة.</li>
+        </ul>
+
+        <h2 id="deployment">5. خيارات النشر</h2>
+        <ul>
+          <li><strong>سحابة عامة</strong> — مناطق في الولايات المتحدة، والاتحاد الأوروبي، والمملكة العربية السعودية، والإمارات.</li>
+          <li><strong>سحابة خاصة (VPC)</strong> — تُنشر داخل حساب AWS أو GCP أو Azure الخاص بك.</li>
+          <li><strong>محلياً داخل الشركة (On-premise)</strong> — عمليات نشر معزولة تماماً عن الإنترنت (Air-gapped).</li>
+        </ul>
+
+        <h2 id="infrastructure">6. البنية التحتية</h2>
+        <ul>
+          <li>بيئات مستأجرين معزولة تماماً — بدون أي موارد حوسبة مشتركة.</li>
+          <li>نسخ احتياطي تلقائي مع إمكانية الاسترداد عند أي نقطة زمنية.</li>
+          <li>فحص مستمر للثغرات وترقيع أمني تلقائي.</li>
+          <li>اختبارات اختراق سنوية من جهات خارجية محايدة.</li>
+          <li>مراقبة على مدار الساعة طوال أيام الأسبوع 24/7.</li>
+        </ul>
+
+        <h2 id="incident-response">7. الاستجابة للحوادث</h2>
+        <p>
+          نحتفظ ببرنامج استجابة موثق للحوادث بمستويات خطورة محددة وبروتوكولات تواصل دقيقة:
+        </p>
+        <ul>
+          <li>اكتشاف أي نشاط غير معتاد خلال 15 دقيقة.</li>
+          <li>إشعار العميل خلال 24 ساعة من تأكيد أي حادث.</li>
+          <li>تقارير ما بعد الحادث متاحة للعملاء المتأثرين.</li>
+        </ul>
+
+        <h2 id="disclosure">8. الإفصاح المسؤول</h2>
+        <p>
+          إذا كنت تعتقد أنك اكتشفت ثغرة أمنية، يرجى مراسلتنا على{" "}
+          <a href="mailto:security@zeroqueries.com">security@zeroqueries.com</a>.
+          نرد على كافة البلاغات خلال 24 ساعة ونمنح التقدير للباحثين الذين يتبعون معايير الإفصاح المسؤول.
+        </p>
+
+        <h2 id="documents">9. طلب المستندات</h2>
+        <p>
+          يمكن لعملاء المؤسسات والجهات المهتمة بموجب اتفاقية عدم إفصاح متبادلة طلب مستندات الامتثال الخاصة بنا:
+        </p>
+        <ul>
+          <li>تقرير تدقيق SOC 2 Type II</li>
+          <li>اتفاقية شريك الأعمال HIPAA (BAA)</li>
+          <li>اتفاقية معالجة البيانات القياسية (DPA)</li>
+          <li>الملخص التنفيذي لاختبار الاختراق السنوي</li>
+        </ul>
+        <p>
+          لطلب هذه المستندات، يرجى التواصل مع ممثل حسابك أو مراسلة{" "}
+          <a href="mailto:security@zeroqueries.com">security@zeroqueries.com</a>.
+        </p>
+      </LegalPage>
+    );
+  }
+
   return (
     <LegalPage
       title="Security & Compliance"
       subtitle="How we protect your data, meet enterprise standards, and stay audit-ready."
       lastUpdated="October 2, 2026"
       version="1.6"
-      sections={SECTIONS}
+      sections={SECTIONS_EN}
     >
       <h2 id="security-model">Our Security Model</h2>
       <p>

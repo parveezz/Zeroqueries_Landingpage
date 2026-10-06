@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useLanguage } from "@/context/LanguageContext";
 
 const LOGOS = [
     { name: "The Forest", src: "/logos/the-forest-badge.png", width: 140, height: 140 },
@@ -11,12 +12,17 @@ const LOGOS = [
 ];
 
 export default function TrustedBy() {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
+
     return (
         <section className="relative w-full bg-gray-50 font-sans text-black py-10 sm:py-16 lg:py-20 overflow-hidden">
             {/* Heading */}
             <div className="text-center mb-6 sm:mb-10 px-4">
                 <p className="text-xs sm:text-sm lg:text-base text-black/60 font-light tracking-wide">
-                    Trusted by the world&apos;s most innovative teams
+                    {isAr
+                        ? "موثوق به من قِبل أكثر الفرق ابتكاراً حول العالم"
+                        : "Trusted by the world's most innovative teams"}
                 </p>
             </div>
 

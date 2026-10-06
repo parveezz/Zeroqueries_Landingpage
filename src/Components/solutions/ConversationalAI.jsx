@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { FiMessageSquare, FiZap, FiShield, FiBarChart2, FiCheck } from "react-icons/fi";
+import { useLanguage } from "@/context/LanguageContext";
 
-const STEPS = [
+const STEPS_EN = [
     {
         icon: FiMessageSquare,
         title: "Understands your question",
@@ -26,10 +27,37 @@ const STEPS = [
     },
 ];
 
-const SAMPLE_QUESTION = "Show revenue by region last quarter.";
-const SAMPLE_ANSWER = "Revenue grew by 18% in the EMEA region.";
+const STEPS_AR = [
+    {
+        icon: FiMessageSquare,
+        title: "يفهم سؤالك بدقة",
+        description: "اطرح سؤالك بلغة طبيعية، ويفهم القصد فوراً — دون الحاجة لأي صيغ استعلام.",
+    },
+    {
+        icon: FiZap,
+        title: "يبني الاستعلام الصحيح",
+        description: "يحول هدفك إلى استعلام SQL دقيق عبر جميع مصادر بياناتك المتصلة.",
+    },
+    {
+        icon: FiShield,
+        title: "يسترجع البيانات بأمان",
+        description: "وصول مشفر للقراءة فقط للبيانات الحية — لا يتم نسخ أو تخزين أي شيء.",
+    },
+    {
+        icon: FiBarChart2,
+        title: "يقدم إجابات جاهزة للاستخدام",
+        description: "رسوم بيانية وجداول وملخصات — جاهزة للمشاركة المباشرة مع فريقك.",
+    },
+];
 
 export default function ConversationalAI() {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
+
+    const steps = isAr ? STEPS_AR : STEPS_EN;
+    const sampleQuestion = isAr ? "اعرض الإيرادات حسب المنطقة للربع الأخير." : "Show revenue by region last quarter.";
+    const sampleAnswer = isAr ? "نمت الإيرادات بنسبة 18٪ في منطقة الشرق الأوسط وأوروبا." : "Revenue grew by 18% in the EMEA region.";
+
     const [typed, setTyped] = useState("");
     const [phase, setPhase] = useState("typing"); // typing | thinking | answering
 
@@ -41,8 +69,8 @@ export default function ConversationalAI() {
 
         const typer = setInterval(() => {
             i++;
-            setTyped(SAMPLE_QUESTION.slice(0, i));
-            if (i >= SAMPLE_QUESTION.length) {
+            setTyped(sampleQuestion.slice(0, i));
+            if (i >= sampleQuestion.length) {
                 clearInterval(typer);
                 setTimeout(() => setPhase("thinking"), 400);
                 setTimeout(() => setPhase("answering"), 1600);
@@ -55,7 +83,7 @@ export default function ConversationalAI() {
         }, 45);
 
         return () => clearInterval(typer);
-    }, [phase === "typing" ? typed.length === 0 : false]);
+    }, [sampleQuestion, phase === "typing" ? typed.length === 0 : false]);
 
     return (
         <section className="relative w-full bg-gray-50 font-sans text-black pt-14 sm:pt-20 lg:pt-10 pb-14 sm:pb-20 lg:pb-28 px-4 sm:px-8 lg:px-14 overflow-hidden">
@@ -68,22 +96,22 @@ export default function ConversationalAI() {
                     <div>
                         <span className="inline-flex items-center gap-2 text-[10.5px] sm:text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
                             <span className="w-1.5 h-1.5 rounded-full bg-black" />
-                            How It Works
+                            {isAr ? "كيف يعمل" : "How It Works"}
                         </span>
 
                         <h2 className="mt-3 sm:mt-4 text-2xl sm:text-3xl lg:text-[44px] font-light tracking-tight text-black leading-[1.15]">
-                            Your data, in plain English.
+                            {isAr ? "بياناتك، بلغة بسيطة ومباشرة." : "Your data, in plain English."}
                         </h2>
 
                         <p className="mt-4 sm:mt-6 text-sm sm:text-base text-black/70 leading-relaxed font-light max-w-lg">
-                            Anyone on your team can ask their data a question — and get a
-                            real answer in seconds. No SQL, no dashboards, no waiting on the
-                            data team.
+                            {isAr
+                                ? "يمكن لأي شخص في فريقك طرح سؤال على البيانات والحصول على إجابة موثوقة خلال ثوانٍ. بدون استعلامات SQL معقدة، وبدون لوحات تحكم بطيئة، وبدون انتظار فريق هندسة البيانات."
+                                : "Anyone on your team can ask their data a question — and get a real answer in seconds. No SQL, no dashboards, no waiting on the data team."}
                         </p>
 
                         {/* Steps list */}
                         <div className="mt-6 sm:mt-10 space-y-2.5 sm:space-y-3">
-                            {STEPS.map((step, i) => {
+                            {steps.map((step, i) => {
                                 const Icon = step.icon;
                                 return (
                                     <div
@@ -117,7 +145,7 @@ export default function ConversationalAI() {
                             <span className="flex items-center justify-center w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-full bg-black text-white">
                                 <FiCheck className="h-2.5 w-2.5 sm:h-3 sm:w-3" strokeWidth={3} />
                             </span>
-                            No SQL required.
+                            {isAr ? "لا حاجة لمعرفة SQL إطلاقاً." : "No SQL required."}
                         </p>
                     </div>
 
@@ -142,7 +170,7 @@ export default function ConversationalAI() {
                                         </div>
                                         <div className="text-[11px] sm:text-xs text-black/50 font-light flex items-center gap-1.5">
                                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                            Connected · Live data
+                                            {isAr ? "متصل · بيانات مباشرة" : "Connected · Live data"}
                                         </div>
                                     </div>
                                 </div>
@@ -177,7 +205,7 @@ export default function ConversationalAI() {
                                             ) : (
                                                 <>
                                                     <p className="text-[13px] sm:text-sm text-black font-normal leading-relaxed">
-                                                        {SAMPLE_ANSWER}
+                                                        {sampleAnswer}
                                                     </p>
 
                                                     {/* Mini bar chart — monochrome */}
@@ -206,7 +234,7 @@ export default function ConversationalAI() {
                                 <div className="mt-5 sm:mt-6 flex items-center gap-2.5 sm:gap-3 rounded-xl sm:rounded-2xl border border-gray-200 bg-gray-50 px-3.5 py-2.5 sm:px-4 sm:py-3">
                                     <FiMessageSquare className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-black/40 shrink-0" />
                                     <span className="text-xs sm:text-sm text-black/40 font-light italic flex-1">
-                                        Asking another question…
+                                        {isAr ? "طرح استعلام آخر…" : "Asking another question…"}
                                     </span>
                                     <button
                                         type="button"
@@ -221,7 +249,7 @@ export default function ConversationalAI() {
 
                         {/* Caption below panel */}
                         <p className="mt-4 sm:mt-6 text-center text-[11px] sm:text-xs text-black/50 font-light">
-                            Real queries. Real data. In seconds.
+                            {isAr ? "استعلامات حقيقية. بيانات مباشرة. في ثوانٍ معدودة." : "Real queries. Real data. In seconds."}
                         </p>
                     </div>
                 </div>

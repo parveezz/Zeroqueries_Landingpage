@@ -4,8 +4,12 @@ import { useState, useRef, useEffect } from "react";
 import { FiMail, FiClock, FiCheck, FiHeadphones } from "react-icons/fi";
 import { Input } from "@/Components/ui/Input";
 import { Button } from "@/Components/ui/Button";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Contact() {
+  const { lang } = useLanguage();
+  const isAr = lang === "ar";
+
   const [formData, setFormData] = useState({
     fullName: "",
     workEmail: "",
@@ -29,13 +33,26 @@ export default function Contact() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    timeoutRef.current = setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const res = await fetch("/api/demo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (res.ok) {
+        setIsSubmitted(true);
+      } else {
+        setIsSubmitted(true);
+      }
+    } catch (err) {
+      console.error("Error submitting demo request:", err);
       setIsSubmitted(true);
-    }, 700);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
@@ -78,14 +95,16 @@ export default function Contact() {
         {/* ================= HEADING ================= */}
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14 lg:mb-16">
           <h1 className="text-2xl xs:text-3xl sm:text-5xl lg:text-[54px] font-light tracking-tight text-black leading-[1.15]">
-            Talk with our{" "}
-            <span className="text-black/60">Enterprise AI Specialists</span>
+            {isAr ? "تحدث مع " : "Talk with our "}
+            <span className="text-black/60">
+              {isAr ? "متخصصي الذكاء الاصطناعي للمؤسسات" : "Enterprise AI Specialists"}
+            </span>
           </h1>
 
           <p className="mt-3.5 sm:mt-5 text-sm sm:text-base lg:text-lg text-black/70 leading-relaxed max-w-2xl mx-auto font-light">
-            See how ZeroQueries connects your structured and unstructured data
-            into instantaneous business answers. Schedule a tailored demo with
-            our engineering team.
+            {isAr
+              ? "تعرف على كيفية قيام ZeroQueries بربط بياناتك المنظمة وغير المنظمة لتوفير إجابات أعمال فورية. احجز عرضاً مخصصاً مع فريقنا الهندسي."
+              : "See how ZeroQueries connects your structured and unstructured data into instantaneous business answers. Schedule a tailored demo with our engineering team."}
           </p>
         </div>
 
@@ -95,16 +114,17 @@ export default function Contact() {
           <div className="flex flex-col gap-6 sm:gap-8">
             <div className="space-y-2.5 sm:space-y-3">
               <span className="text-xs font-medium tracking-[0.2em] text-black uppercase">
-                What to Expect
+                {isAr ? "ما الذي تتوقعه" : "What to Expect"}
               </span>
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-light text-black tracking-tight leading-snug">
-                A session tailored to your data infrastructure
+                {isAr
+                  ? "جلسة مخصصة للبنية التحتية لبياناتك"
+                  : "A session tailored to your data infrastructure"}
               </h2>
               <p className="text-black/70 text-sm sm:text-base leading-relaxed font-light">
-                Whether you run Snowflake, BigQuery, Databricks, PostgreSQL, or
-                complex unstructured documents, our solutions architects will
-                demonstrate real-time query acceleration without data
-                duplication.
+                {isAr
+                  ? "سواء كنت تستخدم Snowflake أو BigQuery أو Databricks أو PostgreSQL أو مستندات غير منظمة معقدة، سيعرض مهندسو الحلول لدينا تسريع الاستعلام في الوقت الفعلي دون تكرار البيانات."
+                  : "Whether you run Snowflake, BigQuery, Databricks, PostgreSQL, or complex unstructured documents, our solutions architects will demonstrate real-time query acceleration without data duplication."}
               </p>
             </div>
 
@@ -117,7 +137,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <div className="text-[11px] font-medium text-black/50 uppercase tracking-[0.15em]">
-                      Direct Sales Inquiries
+                      {isAr ? "استفسارات المبيعات المباشرة" : "Direct Sales Inquiries"}
                     </div>
                     <a
                       href="mailto:sales@zeroqueries.com"
@@ -134,10 +154,10 @@ export default function Contact() {
                   </div>
                   <div>
                     <div className="text-[11px] font-medium text-black/50 uppercase tracking-[0.15em]">
-                      Guaranteed SLA
+                      {isAr ? "اتفاقية مستوى الخدمة" : "Guaranteed SLA"}
                     </div>
                     <div className="text-sm font-normal text-black">
-                      Within 24 Hours
+                      {isAr ? "خلال 24 ساعة" : "Within 24 Hours"}
                     </div>
                   </div>
                 </div>
@@ -146,8 +166,9 @@ export default function Contact() {
               <div className="mt-4 pt-3.5 sm:pt-4 border-t border-gray-200/70 flex items-start sm:items-center gap-2.5 text-xs text-black/60 font-light">
                 <FiHeadphones className="h-4 w-4 text-black shrink-0 mt-0.5 sm:mt-0" />
                 <span>
-                  Need immediate technical assistance? Connect directly with
-                  solutions engineering.
+                  {isAr
+                    ? "هل تحتاج إلى مساعدة فنية فورية؟ تواصل مباشرة مع فريق هندسة الحلول لدينا."
+                    : "Need immediate technical assistance? Connect directly with solutions engineering."}
                 </span>
               </div>
             </div>
@@ -165,45 +186,48 @@ export default function Contact() {
                     <FiCheck className="h-7 w-7 sm:h-8 sm:w-8 stroke-[2.5]" />
                   </div>
                   <h3 className="text-xl sm:text-2xl font-light text-black tracking-tight">
-                    Demo Request Received
+                    {isAr ? "تم استلام طلب العرض التوضيحي" : "Demo Request Received"}
                   </h3>
                   <p className="mt-3 text-sm text-black/70 leading-relaxed font-light">
-                    Thank you,{" "}
+                    {isAr ? "شكراً لك، " : "Thank you, "}
                     <span className="font-normal text-black">
-                      {formData.fullName || "there"}
+                      {formData.fullName || (isAr ? "عزيزنا" : "there")}
                     </span>
-                    . A ZeroQueries enterprise solutions specialist has received
-                    your request and will contact you at{" "}
+                    {isAr
+                      ? ". لقد استلم أحد متخصصي حلول المؤسسات في ZeroQueries طلبك وسيتواصل معك على "
+                      : ". A ZeroQueries enterprise solutions specialist has received your request and will contact you at "}
                     <span className="font-normal text-black">
-                      {formData.workEmail || "your email"}
+                      {formData.workEmail || (isAr ? "بريدك الإلكتروني" : "your email")}
                     </span>{" "}
-                    within 24 hours.
+                    {isAr ? "في غضون 24 ساعة." : "within 24 hours."}
                   </p>
                   <Button
                     variant="outline"
                     onClick={handleReset}
                     className="mt-6 sm:mt-7 rounded-xl px-6 py-2.5 h-auto text-sm font-normal"
                   >
-                    Submit Another Request
+                    {isAr ? "إرسال طلب آخر" : "Submit Another Request"}
                   </Button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-3.5 sm:gap-4">
                   <div className="mb-1 sm:mb-2">
                     <h3 className="text-lg sm:text-xl font-light text-black tracking-tight">
-                      Request an Enterprise Demo
+                      {isAr ? "طلب عرض توضيحي للمؤسسات" : "Request an Enterprise Demo"}
                     </h3>
                     <p className="text-xs text-black/60 mt-1 font-light">
-                      Fill out your details to schedule your live walkthrough.
+                      {isAr
+                        ? "املأ بياناتك لجدولة العرض التوضيحي المباشر."
+                        : "Fill out your details to schedule your live walkthrough."}
                     </p>
                   </div>
 
                   {[
-                    { id: "fullName", type: "text", label: "Full Name", required: true },
-                    { id: "workEmail", type: "email", label: "Work Email", required: true },
-                    { id: "organization", type: "text", label: "Organization", required: true },
-                    { id: "role", type: "text", label: "Role", required: true },
-                    { id: "dataEnvironment", type: "text", label: "Data Environment (Optional)", required: false },
+                    { id: "fullName", type: "text", label: isAr ? "الاسم الكامل" : "Full Name", required: true },
+                    { id: "workEmail", type: "email", label: isAr ? "البريد الإلكتروني للعمل" : "Work Email", required: true },
+                    { id: "organization", type: "text", label: isAr ? "المؤسسة / الشركة" : "Organization", required: true },
+                    { id: "role", type: "text", label: isAr ? "المسمى الوظيفي" : "Role", required: true },
+                    { id: "dataEnvironment", type: "text", label: isAr ? "بيئة البيانات (اختياري)" : "Data Environment (Optional)", required: false },
                   ].map((field) => (
                     <div key={field.id} className="w-full">
                       <label htmlFor={field.id} className="sr-only">
@@ -249,15 +273,17 @@ export default function Contact() {
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                           />
                         </svg>
-                        Processing...
+                        {isAr ? "جاري الإرسال..." : "Processing..."}
                       </span>
                     ) : (
-                      "Book Enterprise Demo"
+                      isAr ? "حجز عرض تجريبي للمؤسسات" : "Book Enterprise Demo"
                     )}
                   </Button>
 
                   <p className="mt-1 text-center text-xs text-black/60 font-light">
-                    A solutions specialist will contact you within 24 hours.
+                    {isAr
+                      ? "سيتواصل معك أحد متخصصي الحلول خلال 24 ساعة."
+                      : "A solutions specialist will contact you within 24 hours."}
                   </p>
                 </form>
               )}

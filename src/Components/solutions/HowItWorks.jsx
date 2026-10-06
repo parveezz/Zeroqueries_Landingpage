@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import { FiSearch, FiCode, FiShield, FiBarChart2, FiCheck } from "react-icons/fi";
+import { useLanguage } from "@/context/LanguageContext";
 
-const STEPS = [
+const STEPS_EN = [
     {
         number: "01",
         icon: FiSearch,
@@ -42,7 +43,50 @@ const STEPS = [
     },
 ];
 
+const STEPS_AR = [
+    {
+        number: "01",
+        icon: FiSearch,
+        title: "تحليل وفهم",
+        label: "يفهم السؤال بالذكاء الاصطناعي",
+        tape: "rgba(124, 58, 237, 0.4)",
+        rotate: "-3deg",
+        offset: "translate-y-2",
+    },
+    {
+        number: "02",
+        icon: FiCode,
+        title: "توليد الاستعلام",
+        label: "ينشئ الاستعلام المناسب",
+        tape: "rgba(37, 99, 235, 0.4)",
+        rotate: "2deg",
+        offset: "-translate-y-1",
+    },
+    {
+        number: "03",
+        icon: FiShield,
+        title: "استرجاع آمن",
+        label: "يسترجع البيانات بأمان تام",
+        tape: "rgba(6, 182, 212, 0.4)",
+        rotate: "-1.5deg",
+        offset: "translate-y-3",
+    },
+    {
+        number: "04",
+        icon: FiBarChart2,
+        title: "الإجابة والرؤى",
+        label: "يقدم رسوماً بيانية ورؤى دقيقة",
+        tape: "rgba(236, 72, 153, 0.4)",
+        rotate: "3deg",
+        offset: "-translate-y-2",
+    },
+];
+
 export default function HowItWorks() {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
+    const steps = isAr ? STEPS_AR : STEPS_EN;
+
     const sectionRef = useRef(null);
     const scrollContainerRef = useRef(null);
     const stepRefs = useRef([]);
@@ -73,13 +117,13 @@ export default function HowItWorks() {
         const tick = () => {
             // Only auto-cycle on desktop viewports
             if (typeof window !== "undefined" && window.innerWidth < 1024) return;
-            i = (i + 1) % (STEPS.length + 1);
+            i = (i + 1) % (steps.length + 1);
             setActiveStep(i);
-            setTimeout(tick, i === STEPS.length ? 1400 : 900);
+            setTimeout(tick, i === steps.length ? 1400 : 900);
         };
         const t = setTimeout(tick, 600);
         return () => clearTimeout(t);
-    }, [isVisible]);
+    }, [isVisible, steps.length]);
 
     // Handle mobile horizontal scroll to update active step indicator
     const handleMobileScroll = () => {
@@ -150,17 +194,17 @@ export default function HowItWorks() {
                 {/* ================= HEADING ================= */}
                 <div className="text-center max-w-2xl mx-auto mb-14 sm:mb-16">
                     <span className="text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
-                        How It Works
+                        {isAr ? "كيف يعمل" : "How It Works"}
                     </span>
 
                     <h2 className="mt-3 text-3xl sm:text-4xl lg:text-[44px] font-light tracking-tight text-black leading-[1.15]">
-                        Pinned to your data.
+                        {isAr ? "متصل ومثبت على بياناتك." : "Pinned to your data."}
                     </h2>
 
                     <p className="mt-4 text-base text-black/60 leading-relaxed font-light">
-                        User asks:{" "}
+                        {isAr ? "سؤال المستخدم: " : "User asks: "}
                         <span className="text-[#7C3AED] font-normal">
-                            &quot;Show revenue by region last quarter&quot;
+                            {isAr ? "«اعرض الإيرادات حسب المنطقة للربع الأخير»" : '"Show revenue by region last quarter"'}
                         </span>
                     </p>
                 </div>
@@ -282,7 +326,7 @@ export default function HowItWorks() {
                         style={{ WebkitOverflowScrolling: "touch" }}
                     >
                         <div className="flex flex-nowrap lg:flex-wrap items-start justify-start lg:justify-center gap-5 sm:gap-6 lg:gap-6 min-w-max lg:min-w-0 pr-6 lg:pr-0">
-                            {STEPS.map((step, i) => (
+                            {steps.map((step, i) => (
                                 <div
                                     key={step.number}
                                     ref={(el) => {
@@ -304,7 +348,7 @@ export default function HowItWorks() {
                     {/* Mobile swipe hint & pagination dots */}
                     <div className="lg:hidden pb-6 flex flex-col items-center gap-2 relative z-20">
                         <div className="flex items-center justify-center gap-1.5">
-                            {STEPS.map((step, i) => (
+                            {steps.map((step, i) => (
                                 <button
                                     key={step.number}
                                     type="button"
@@ -318,7 +362,7 @@ export default function HowItWorks() {
                             ))}
                         </div>
                         <span className="text-[11px] text-black/40 font-light flex items-center gap-1">
-                            Swipe to view all steps <span className="text-xs">→</span>
+                            {isAr ? "اسحب لعرض كافة الخطوات ←" : <>Swipe to view all steps <span className="text-xs">→</span></>}
                         </span>
                     </div>
                 </div>
@@ -342,8 +386,17 @@ export default function HowItWorks() {
 
                             {/* Text */}
                             <span className="text-xs sm:text-sm font-light text-black/70">
-                                From question to{" "}
-                                <span className="font-medium text-black">insight.</span>
+                                {isAr ? (
+                                    <>
+                                        من السؤال إلى{" "}
+                                        <span className="font-medium text-black">الرؤى المباشرة.</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        From question to{" "}
+                                        <span className="font-medium text-black">insight.</span>
+                                    </>
+                                )}
                             </span>
 
                             {/* Tiny shimmer dot on the right */}

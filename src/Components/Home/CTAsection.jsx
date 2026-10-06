@@ -2,8 +2,12 @@
 
 import Link from "next/link";
 import { FiLock, FiGlobe } from "react-icons/fi";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function FinalCTA() {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
+
     return (
         <section className="relative w-full bg-gray-50 font-sans text-black overflow-hidden py-14 sm:py-24 lg:py-32 px-4 sm:px-8 lg:px-14">
             {/* ============== BACKGROUND LAYERED GRADIENTS ============== */}
@@ -42,16 +46,28 @@ export default function FinalCTA() {
             <div className="relative z-10 mx-auto max-w-3xl text-center">
                 {/* Heading */}
                 <h2 className="text-[28px] xs:text-3xl sm:text-5xl lg:text-[56px] font-light tracking-tight text-black leading-[1.15]">
-                    Start building with the{" "}
-                    <span className="text-[#2563EB]">
-                        #1 AI-native analytics platform
-                    </span>
+                    {isAr ? (
+                        <>
+                            ابدأ العمل مع{" "}
+                            <span className="text-[#2563EB]">
+                                منصة التحليلات الأولى بالذكاء الاصطناعي
+                            </span>
+                        </>
+                    ) : (
+                        <>
+                            Start building with the{" "}
+                            <span className="text-[#2563EB]">
+                                #1 AI-native analytics platform
+                            </span>
+                        </>
+                    )}
                 </h2>
 
                 {/* Description */}
                 <p className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg text-black/60 leading-relaxed font-light max-w-xl mx-auto">
-                    Book a live session to explore ZeroQueries on your own data — no
-                    pipelines, no setup, no risk.
+                    {isAr
+                        ? "احجز جلسة حية لاستكشاف ZeroQueries على بياناتك الخاصة — بدون خطوط بيانات، بدون إعداد، وبدون أي مخاطرة."
+                        : "Book a live session to explore ZeroQueries on your own data — no pipelines, no setup, no risk."}
                 </p>
 
                 {/* Action buttons */}
@@ -60,14 +76,14 @@ export default function FinalCTA() {
                         href="/demo"
                         className="inline-flex items-center justify-center w-full max-w-xs sm:max-w-none sm:w-auto rounded-full bg-black text-white px-7 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-normal hover:bg-gray-800 active:scale-[0.98] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 shadow-sm"
                     >
-                        Book a Call
+                        {isAr ? "احجز مكالمة" : "Book a Call"}
                     </Link>
 
                     <Link
                         href="/signup"
                         className="inline-flex items-center justify-center w-full max-w-xs sm:max-w-none sm:w-auto rounded-full bg-white text-black px-7 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-normal border border-gray-200 hover:border-gray-400 active:scale-[0.98] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
                     >
-                        Try for Free
+                        {isAr ? "جرّب مجاناً" : "Try for Free"}
                     </Link>
                 </div>
 
@@ -79,7 +95,7 @@ export default function FinalCTA() {
                     </div>
                     <div className="inline-flex items-center gap-1.5 sm:gap-2">
                         <FiGlobe className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                        <span>Globally Deployed</span>
+                        <span>{isAr ? "انتشار عالمي" : "Globally Deployed"}</span>
                     </div>
                 </div>
             </div>

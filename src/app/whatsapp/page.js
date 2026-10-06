@@ -15,9 +15,10 @@ import {
     FiSmartphone,
 } from "react-icons/fi";
 import { FaWhatsapp, FaFileExcel } from "react-icons/fa6";
+import { useLanguage } from "@/context/LanguageContext";
 import FinalCTA from "@/Components/Home/CTAsection";
 
-const CAPABILITIES = [
+const CAPABILITIES_EN = [
     {
         icon: FiSmartphone,
         title: "Zero Apps to Download",
@@ -56,7 +57,46 @@ const CAPABILITIES = [
     },
 ];
 
-const SETUP_STEPS = [
+const CAPABILITIES_AR = [
+    {
+        icon: FiSmartphone,
+        title: "بدون أي تطبيقات إضافية",
+        description:
+            "يفتح فريقك التنفيذي واتساب عشرات المرات يومياً. تمنحهم ZeroQueries إجابات فورية لأعمالهم مباشرة في تطبيق المراسلة المفضل لديهم.",
+    },
+    {
+        icon: FiMic,
+        title: "تحويل الملاحظات الصوتية إلى SQL",
+        description:
+            "أثناء التنقل؟ أرسل تسجيلاً صوتياً تسأل فيه: «كيف كان أداء المبيعات بالأمس؟» تقوم ZeroQueries بنسخ الصوت وتوليد الاستعلام والرد في ثوانٍ.",
+    },
+    {
+        icon: FiClock,
+        title: "موجز صباحي مجدول لمؤشرات الأداء",
+        description:
+            "استلم تقريراً تلقائياً في الساعة 8:00 صباحاً يتضمن الإيرادات والمستخدمين النشطين وتنبيهات الأداء مباشرة في محادثتك أو مجموعة الإدارة.",
+    },
+    {
+        icon: FiBarChart2,
+        title: "تصورات بيانية أنيقة لشاشات الجوال",
+        description:
+            "احصل على مخططات ورسوم بيانية واضحة ومصممة خصيصاً للقراءة السريعة على شاشات الجوال — مع إمكانية التصدير الفوري لجداول البيانات.",
+    },
+    {
+        icon: FiLock,
+        title: "توثيق موثوق برقم الهاتف المعتمد",
+        description:
+            "يرتبط وصول كل عضو برقم هاتفه المعتمد في العمل، مع تطبيق صلاحيات أمان صارمة تحدد الجداول والأعمدة المصرح بالاطلاع عليها.",
+    },
+    {
+        icon: FiShield,
+        title: "تشفير وحماية على مستوى المؤسسات",
+        description:
+            "تشفير TLS 1.3 على مستوى النقل مع بنية تمنع تخزين البيانات تماماً تضمن عدم حفظ أو تخزين استعلاماتك أو بيانات عملائك إطلاقاً.",
+    },
+];
+
+const SETUP_STEPS_EN = [
     {
         step: "01",
         title: "Start WhatsApp Chat",
@@ -77,7 +117,28 @@ const SETUP_STEPS = [
     },
 ];
 
-const FAQS = [
+const SETUP_STEPS_AR = [
+    {
+        step: "01",
+        title: "ابدأ محادثة واتساب",
+        description:
+            "انقر على «المحادثة عبر واتساب» أو امسح رمز QR لبدء محادثة مشفرة ومباشرة مع بوت ZeroQueries الرسمي للأعمال.",
+    },
+    {
+        step: "02",
+        title: "تحقق من مؤسستك",
+        description:
+            "أدخل رمز المرور المكون من 6 أرقام والمقدم من مسؤول ZeroQueries في شركتك لربط صلاحيات الوصول الخاصة بك.",
+    },
+    {
+        step: "03",
+        title: "اطرح أي سؤال حول بياناتك",
+        description:
+            "أرسل رسالة نصية أو ملاحظة صوتية تطلب فيها أي مؤشر أداء أو مقارنة، واحصل على أرقام موثوقة ورسوم بيانية فوراً.",
+    },
+];
+
+const FAQS_EN = [
     {
         q: "How does ZeroQueries verify user access in WhatsApp?",
         a: "Users authenticate via a secure one-time passkey generated in your company's ZeroQueries admin console. Access is bound to their verified business phone number and can be revoked instantly at any time.",
@@ -96,7 +157,32 @@ const FAQS = [
     },
 ];
 
+const FAQS_AR = [
+    {
+        q: "كيف تتحقق ZeroQueries من وصول المستخدم في واتساب؟",
+        a: "يتم التحقق عبر رمز مرور أمني لمرة واحدة يتم إنشاؤه من لوحة تحكم إدارة ZeroQueries في شركتك، ويكون الوصول مقترناً برقم هاتف العمل المعتمد ويمكن إلغاؤه في أي لحظة.",
+    },
+    {
+        q: "هل يمكن لـ ZeroQueries قراءة رسائلي الشخصية في واتساب؟",
+        a: "كلا على الإطلاق. ZeroQueries هو بوت أعمال رسمي لمعالجة الرسائل المرسلة مباشرة إلى محادثته المخصصة فقط، وليس لديه أي وصول لمحادثاتك الأخرى على جهازك.",
+    },
+    {
+        q: "هل تخزن ZeroQueries البيانات المعروضة في محادثات واتساب؟",
+        a: "كلا. نطبق سياسة عدم حفظ البيانات تماماً (Zero-Persistence). تُعالج الاستعلامات في الذاكرة الحية فقط عبر اتصال القراءة المشفر لقواعد بياناتك وتُمسح فور إرسال الإجابة.",
+    },
+    {
+        q: "هل يمكننا استخدام الملاحظات الصوتية لطرح الأسئلة؟",
+        a: "نعم بالتأكيد. يمكنك تسجيل ملاحظة صوتية بأي لغة طبيعية، وسيقوم البوت بنسخ الكلام بدقة وبناء استعلام SQL وإرجاع النتائج منسقة في ثوانٍ.",
+    },
+];
+
 export default function WhatsAppPage() {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
+    const capabilities = isAr ? CAPABILITIES_AR : CAPABILITIES_EN;
+    const setupSteps = isAr ? SETUP_STEPS_AR : SETUP_STEPS_EN;
+    const faqs = isAr ? FAQS_AR : FAQS_EN;
+
     const [activeFaq, setActiveFaq] = useState(null);
 
     return (
@@ -120,18 +206,29 @@ export default function WhatsAppPage() {
                     {/* Badge */}
                     <span className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-[11px] font-medium tracking-[0.15em] uppercase text-black/70 shadow-2xs">
                         <FiZap className="w-3.5 h-3.5 text-[#25D366]" strokeWidth={2.25} />
-                        Official Integration
+                        {isAr ? "تكامل رسمي معتمد" : "Official Integration"}
                     </span>
 
                     {/* Heading */}
                     <h1 className="mt-6 sm:mt-8 text-3xl sm:text-4xl lg:text-[56px] font-light tracking-tight text-black leading-[1.1]">
-                        ZeroQueries for{" "}
-                        <span className="text-[#25D366] font-normal">WhatsApp</span>
+                        {isAr ? (
+                            <>
+                                ZeroQueries عبر{" "}
+                                <span className="text-[#25D366] font-normal">واتساب</span>
+                            </>
+                        ) : (
+                            <>
+                                ZeroQueries for{" "}
+                                <span className="text-[#25D366] font-normal">WhatsApp</span>
+                            </>
+                        )}
                     </h1>
 
                     {/* Description */}
                     <p className="mt-5 sm:mt-6 text-base sm:text-lg text-black/60 leading-relaxed font-light max-w-xl mx-auto">
-                        Ask questions, query your databases, and receive instant data insights — directly inside your WhatsApp conversations.
+                        {isAr
+                            ? "اطرح الأسئلة واستعلم من قواعد بياناتك واستلم تحليلات ورؤى فورية — مباشرة داخل محادثات واتساب الخاصة بك."
+                            : "Ask questions, query your databases, and receive instant data insights — directly inside your WhatsApp conversations."}
                     </p>
 
                     {/* Primary CTA */}
@@ -144,36 +241,58 @@ export default function WhatsAppPage() {
                             aria-label="Chat with ZeroQueries on WhatsApp"
                         >
                             <FaWhatsapp className="w-5 h-5" />
-                            <span>Chat on WhatsApp</span>
+                            <span>{isAr ? "محادثة عبر واتساب" : "Chat on WhatsApp"}</span>
                         </a>
                     </div>
 
                     {/* Terms */}
                     <p className="mt-6 sm:mt-7 text-[11px] sm:text-xs text-black/50 font-light">
-                        By using ZeroQueries, you agree to our{" "}
-                        <Link
-                            href="/privacy"
-                            className="text-black/70 underline underline-offset-4 hover:text-black transition-colors"
-                        >
-                            Privacy Policy
-                        </Link>{" "}
-                        &amp;{" "}
-                        <Link
-                            href="/tos"
-                            className="text-black/70 underline underline-offset-4 hover:text-black transition-colors"
-                        >
-                            Terms of Service
-                        </Link>
-                        .
+                        {isAr ? (
+                            <>
+                                باستخدامك ZeroQueries، فإنك توافق على{" "}
+                                <Link
+                                    href="/privacy"
+                                    className="text-black/70 underline underline-offset-4 hover:text-black transition-colors"
+                                >
+                                    سياسة الخصوصية
+                                </Link>{" "}
+                                و{" "}
+                                <Link
+                                    href="/tos"
+                                    className="text-black/70 underline underline-offset-4 hover:text-black transition-colors"
+                                >
+                                    شروط الخدمة
+                                </Link>
+                                .
+                            </>
+                        ) : (
+                            <>
+                                By using ZeroQueries, you agree to our{" "}
+                                <Link
+                                    href="/privacy"
+                                    className="text-black/70 underline underline-offset-4 hover:text-black transition-colors"
+                                >
+                                    Privacy Policy
+                                </Link>{" "}
+                                &amp;{" "}
+                                <Link
+                                    href="/tos"
+                                    className="text-black/70 underline underline-offset-4 hover:text-black transition-colors"
+                                >
+                                    Terms of Service
+                                </Link>
+                                .
+                            </>
+                        )}
                     </p>
 
                     {/* Trust line */}
                     <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[11px] font-medium tracking-[0.15em] uppercase text-black/40">
-                        <span>SOC 2 Type II</span>
+                        <span>{isAr ? "شهادة SOC 2 النوع الثاني" : "SOC 2 Type II"}</span>
                         <span className="w-1 h-1 rounded-full bg-black/20" aria-hidden="true" />
-                        <span>Read-only access</span>
+                        <span>{isAr ? "وصول للقراءة فقط" : "Read-only access"}</span>
                         <span className="w-1 h-1 rounded-full bg-black/20" aria-hidden="true" />
-                        <span>No data stored</span>
+                        <span>{isAr ? "لا يتم تخزين أي بيانات" : "No data stored"}</span>
                     </div>
                 </div>
             </section>
@@ -190,7 +309,9 @@ export default function WhatsAppPage() {
                                 </div>
                                 <div>
                                     <div className="text-sm font-semibold leading-tight">ZeroQueries AI</div>
-                                    <div className="text-[11px] text-white/70">Verified Business Account</div>
+                                    <div className="text-[11px] text-white/70">
+                                        {isAr ? "حساب أعمال موثق ومعتمد" : "Verified Business Account"}
+                                    </div>
                                 </div>
                             </div>
                             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
@@ -202,7 +323,9 @@ export default function WhatsAppPage() {
                             <div className="flex justify-end">
                                 <div className="max-w-[85%] rounded-2xl rounded-tr-xs bg-[#d9fdd3] p-3 text-sm text-black shadow-xs">
                                     <p className="font-light">
-                                        Show me total monthly revenue and top performing region for this quarter.
+                                        {isAr
+                                            ? "اعرض لي إجمالي الإيرادات الشهرية وأفضل منطقة أداءً لهذا الربع."
+                                            : "Show me total monthly revenue and top performing region for this quarter."}
                                     </p>
                                     <div className="text-[10px] text-black/40 text-right mt-1">10:14 AM ✓✓</div>
                                 </div>
@@ -213,27 +336,43 @@ export default function WhatsAppPage() {
                                 <div className="max-w-[90%] rounded-2xl rounded-tl-xs bg-white p-4 text-sm text-black shadow-xs space-y-2.5">
                                     <div className="flex items-center gap-1.5 text-xs font-semibold text-[#075E54]">
                                         <span>📊</span>
-                                        <span>ZeroQueries Summary</span>
+                                        <span>{isAr ? "ملخص ZeroQueries" : "ZeroQueries Summary"}</span>
                                     </div>
                                     <p className="text-xs sm:text-sm text-black/80 font-light leading-relaxed">
-                                        Total revenue this quarter reached <strong className="text-black font-semibold">$1.42M</strong> (+14.8% QoQ).
+                                        {isAr ? (
+                                            <>
+                                                بلغ إجمالي الإيرادات هذا الربع <strong className="text-black font-semibold">1.42M$</strong> (+14.8% مقارنة بالربع السابق).
+                                            </>
+                                        ) : (
+                                            <>
+                                                Total revenue this quarter reached <strong className="text-black font-semibold">$1.42M</strong> (+14.8% QoQ).
+                                            </>
+                                        )}
                                     </p>
                                     <div className="p-2.5 rounded-lg bg-gray-50 border border-gray-100 text-xs font-mono space-y-1">
                                         <div className="flex justify-between">
-                                            <span className="text-black/60">North America:</span>
+                                            <span className="text-black/60">{isAr ? "أمريكا الشمالية:" : "North America:"}</span>
                                             <span className="font-semibold text-black">$820,000 (57.7%)</span>
                                         </div>
                                         <div className="flex justify-between">
-                                            <span className="text-black/60">EMEA:</span>
+                                            <span className="text-black/60">{isAr ? "الشرق الأوسط وأوروبا:" : "EMEA:"}</span>
                                             <span className="font-semibold text-black">$460,000 (32.4%)</span>
                                         </div>
                                         <div className="flex justify-between">
-                                            <span className="text-black/60">APAC:</span>
+                                            <span className="text-black/60">{isAr ? "آسيا والمحيط الهادئ:" : "APAC:"}</span>
                                             <span className="font-semibold text-black">$140,000 (9.9%)</span>
                                         </div>
                                     </div>
                                     <p className="text-xs text-black/60 font-light">
-                                        💡 <em>Insight: North America drove 68% of new enterprise tier upsells.</em>
+                                        {isAr ? (
+                                            <>
+                                                💡 <em>رؤية: قادت أمريكا الشمالية 68% من ترقيات الاشتراكات للشركات الكبرى.</em>
+                                            </>
+                                        ) : (
+                                            <>
+                                                💡 <em>Insight: North America drove 68% of new enterprise tier upsells.</em>
+                                            </>
+                                        )}
                                     </p>
                                     <div className="text-[10px] text-black/40 text-right pt-1">10:14 AM</div>
                                 </div>
@@ -249,15 +388,15 @@ export default function WhatsAppPage() {
                     <div className="max-w-2xl mb-14">
                         <span className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
                             <span className="w-1.5 h-1.5 rounded-full bg-black" />
-                            Capabilities
+                            {isAr ? "إمكانيات متميزة" : "Capabilities"}
                         </span>
                         <h2 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight text-black">
-                            Business intelligence built for how leaders chat.
+                            {isAr ? "ذكاء أعمال مصمم ليتناسب مع أسلوب تواصل القادة." : "Business intelligence built for how leaders chat."}
                         </h2>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {CAPABILITIES.map((cap) => {
+                        {capabilities.map((cap) => {
                             const Icon = cap.icon;
                             return (
                                 <div
@@ -286,15 +425,15 @@ export default function WhatsAppPage() {
                     <div className="text-center max-w-2xl mx-auto mb-14">
                         <span className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
                             <span className="w-1.5 h-1.5 rounded-full bg-black" />
-                            Quick Setup
+                            {isAr ? "إعداد سريع وسهل" : "Quick Setup"}
                         </span>
                         <h2 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-light tracking-tight text-black">
-                            Start chatting in two minutes.
+                            {isAr ? "ابدأ المحادثة في دقيقتين فقط." : "Start chatting in two minutes."}
                         </h2>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-                        {SETUP_STEPS.map((s) => (
+                        {setupSteps.map((s) => (
                             <div
                                 key={s.step}
                                 className="relative rounded-2xl border border-gray-200 bg-gray-50/60 p-6 sm:p-7 shadow-xs"
@@ -320,15 +459,15 @@ export default function WhatsAppPage() {
                     <div className="text-center max-w-2xl mx-auto mb-12">
                         <span className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
                             <span className="w-1.5 h-1.5 rounded-full bg-black" />
-                            Frequently Asked Questions
+                            {isAr ? "الأسئلة الشائعة" : "Frequently Asked Questions"}
                         </span>
                         <h2 className="mt-3 text-2xl sm:text-3xl font-light tracking-tight text-black">
-                            Questions about WhatsApp Integration?
+                            {isAr ? "أسئلة شائعة حول التكامل مع واتساب" : "Questions about WhatsApp Integration?"}
                         </h2>
                     </div>
 
                     <div className="space-y-3">
-                        {FAQS.map((faq, idx) => {
+                        {faqs.map((faq, idx) => {
                             const isOpen = activeFaq === idx;
                             return (
                                 <div

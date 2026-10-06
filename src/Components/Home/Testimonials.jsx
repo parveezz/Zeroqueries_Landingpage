@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import { FaQuoteRight } from "react-icons/fa";
+import { useLanguage } from "@/context/LanguageContext";
 
 // --- Testimonial data ---
-const testimonials = [
+const TESTIMONIALS_EN = [
     {
         id: 1,
         quote:
@@ -43,7 +44,50 @@ const testimonials = [
     },
 ];
 
+const TESTIMONIALS_AR = [
+    {
+        id: 1,
+        quote:
+            "لقد استبدل ZeroQueries كل تراكم طلبات ذكاء الأعمال (BI) لدينا. يطرح فريق الإيرادات أسئلته بلغة مباشرة ويحصل على الإجابات قبل بدء الاجتماع — بدون SQL وبدون انتظار المحللين. إنها المرة الأولى التي تواكب فيها البيانات سرعة اتخاذ قراراتنا حقاً.",
+        name: "أدريان رييس",
+        role: "نائب رئيس عمليات الإيرادات، Meridian Logistics",
+        avatar: "/avatars/adrian.jpg",
+        logo: "/logos/meridian.svg",
+        logoAlt: "Meridian Logistics",
+        layout: "wide",
+        bgTint: "bg-[#fdf2f8]",
+    },
+    {
+        id: 2,
+        quote:
+            "كنا بحاجة إلى مرونة لا يمكن للوحات التحكم التقليدية توفيرها. الآن يطرح فريقنا أسئلة لم نكن نتخيل طرحها من قبل، مباشرة على مستودع البيانات. ZeroQueries كأنه محلل بيانات متفرغ تحت الطلب.",
+        name: "مونيكا زاندر",
+        role: "المدير التنفيذي، Food Service Switzerland",
+        avatar: "/avatars/monika.jpg",
+        logo: "/logos/valora.svg",
+        logoAlt: "Valora",
+        layout: "half",
+        bgTint: "bg-[#f5f3ff]",
+    },
+    {
+        id: 3,
+        quote:
+            "أخيراً يحصل شركاء المبيعات لدينا على إجابات فورية دون الحاجة لفتح تذاكر دعم. يسألون فيجلب ZeroQueries النتائج — من العقود وسجلات المكالمات ومستودع البيانات في آن واحد. لقد أحدث ذلك تحولاً جذرياً في طريقة خدمة عملائنا.",
+        name: "مارتن ستودر",
+        role: "رئيس تحول التوزيع، Global Insurance",
+        avatar: "/avatars/martin.jpg",
+        logo: "/logos/axa.svg",
+        logoAlt: "Global Insurance",
+        layout: "half",
+        bgTint: "bg-[#f0f9ff]",
+    },
+];
+
 export default function Testimonials() {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
+    const testimonials = isAr ? TESTIMONIALS_AR : TESTIMONIALS_EN;
+
     const wideCard = testimonials.find((t) => t.layout === "wide");
     const halfCards = testimonials.filter((t) => t.layout === "half");
 
@@ -56,11 +100,20 @@ export default function Testimonials() {
                 {/* Heading */}
                 <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12 lg:mb-14">
                     <span className="text-[10.5px] sm:text-xs font-medium tracking-[0.2em] text-black/60 uppercase">
-                        Customer Stories
+                        {isAr ? "قصص النجاح والعملاء" : "Customer Stories"}
                     </span>
                     <h2 className="mt-2.5 sm:mt-3 text-2xl sm:text-4xl lg:text-[40px] font-light tracking-tight text-black leading-[1.15]">
-                        Real teams. Real decisions.{" "}
-                        <span className="text-black/50">Real speed.</span>
+                        {isAr ? (
+                            <>
+                                فرق حقيقية. قرارات حقيقية.{" "}
+                                <span className="text-black/50">سرعة فائقة.</span>
+                            </>
+                        ) : (
+                            <>
+                                Real teams. Real decisions.{" "}
+                                <span className="text-black/50">Real speed.</span>
+                            </>
+                        )}
                     </h2>
                 </div>
 

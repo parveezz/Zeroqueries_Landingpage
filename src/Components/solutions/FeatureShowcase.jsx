@@ -2,13 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { FiChevronLeft, FiChevronRight, FiPause, FiPlay } from "react-icons/fi";
+import { useLanguage } from "@/context/LanguageContext";
 import { FeatureNavigation } from "./FeatureNavigation";
 import { FeaturePreview } from "./FeaturePreview";
 
-// ============================================================================
-// FEATURE DATA — swap this array to change all content
-// ============================================================================
-export const FEATURES = [
+export const FEATURES_EN = [
     {
         id: "conversational",
         title: "Conversational UI",
@@ -53,10 +51,58 @@ export const FEATURES = [
     },
 ];
 
-// ============================================================================
-// FEATURE SHOWCASE
-// ============================================================================
+export const FEATURES_AR = [
+    {
+        id: "conversational",
+        title: "واجهة محادثة ذكية",
+        description:
+            "اطرح أسئلة بلغتك الطبيعية واحصل على إجابات كرسوم بيانية وجداول أو نصوص — في محادثة واحدة سلسة.",
+        preview: "conversational",
+    },
+    {
+        id: "insights",
+        title: "رؤى الذكاء الاصطناعي",
+        description:
+            "تحليل تلقائي يكشف ما تغير وسبب التغيير وما الخطوة التالية — قبل حتى أن تسأل.",
+        preview: "insights",
+    },
+    {
+        id: "agentic",
+        title: "تطبيقات الوكلاء الأذكياء",
+        description:
+            "أطلق مسارات عمل ذاتية الخدمة تعمل تلقائياً وفق جدول زمني محدد أو أحداث معينة.",
+        preview: "agentic",
+    },
+    {
+        id: "vizpads",
+        title: "لوحات السرد التوليدي",
+        description:
+            "مساحة عمل مرنة تجمع بين البيانات الحية والرسوم البيانية وسرد الذكاء الاصطناعي جنباً إلى جنب.",
+        preview: "vizpads",
+    },
+    {
+        id: "connect",
+        title: "اتصال فوري شامل",
+        description:
+            "اربط فوراً بكل مستودعات البيانات وأنظمة إدارة العملاء ومخازن المستندات التي يستخدمها فريقك.",
+        preview: "connect",
+    },
+    {
+        id: "automl",
+        title: "التعلم الآلي الذاتي",
+        description:
+            "درّب النماذج وقيّمها وانشرها مباشرة دون مغادرة مساحة عمل ZeroQueries.",
+        preview: "automl",
+    },
+];
+
+export const FEATURES = FEATURES_EN;
+
 export default function FeatureShowcase() {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
+    const features = isAr ? FEATURES_AR : FEATURES_EN;
+
     const [activeIndex, setActiveIndex] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
     const prefersReducedMotion = usePrefersReducedMotion();
@@ -65,21 +111,21 @@ export default function FeatureShowcase() {
     useEffect(() => {
         if (isPaused || prefersReducedMotion) return;
         const timer = setInterval(() => {
-            setActiveIndex((prev) => (prev + 1) % FEATURES.length);
+            setActiveIndex((prev) => (prev + 1) % features.length);
         }, 5000);
         return () => clearInterval(timer);
-    }, [isPaused, prefersReducedMotion]);
+    }, [isPaused, prefersReducedMotion, features.length]);
 
     const handleSelect = (index) => {
         setActiveIndex(index);
     };
 
     const handlePrev = () => {
-        setActiveIndex((prev) => (prev === 0 ? FEATURES.length - 1 : prev - 1));
+        setActiveIndex((prev) => (prev === 0 ? features.length - 1 : prev - 1));
     };
 
     const handleNext = () => {
-        setActiveIndex((prev) => (prev + 1) % FEATURES.length);
+        setActiveIndex((prev) => (prev + 1) % features.length);
     };
 
     return (
@@ -100,20 +146,32 @@ export default function FeatureShowcase() {
                 <div className="max-w-3xl mb-12 sm:mb-16">
                     <span className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
                         <span className="w-1.5 h-1.5 rounded-full bg-black" />
-                        The ZeroQueries Platform
+                        {isAr ? "منصة ZeroQueries" : "The ZeroQueries Platform"}
                     </span>
 
                     <h2
                         id="feature-showcase-heading"
                         className="mt-4 text-3xl sm:text-4xl lg:text-[52px] font-light tracking-tight text-black leading-[1.1]"
                     >
-                        Every capability,
-                        <br />
-                        <span className="text-black/40">in one product story.</span>
+                        {isAr ? (
+                            <>
+                                كل الإمكانيات،
+                                <br />
+                                <span className="text-black/40">في قصة منتج واحدة متكاملة.</span>
+                            </>
+                        ) : (
+                            <>
+                                Every capability,
+                                <br />
+                                <span className="text-black/40">in one product story.</span>
+                            </>
+                        )}
                     </h2>
 
                     <p className="mt-4 sm:mt-5 text-base text-black/60 leading-relaxed font-light max-w-xl">
-                        Explore how ZeroQueries works end to end — from conversational data discovery to automated AI insights and machine learning.
+                        {isAr
+                            ? "اكتشف كيف تعمل ZeroQueries من البداية حتى النهاية — من استكشاف البيانات بالمحادثة إلى الرؤى المؤتمتة بالذكاء الاصطناعي ونماذج التعلم الآلي."
+                            : "Explore how ZeroQueries works end to end — from conversational data discovery to automated AI insights and machine learning."}
                     </p>
                 </div>
 
@@ -123,7 +181,7 @@ export default function FeatureShowcase() {
                     <div className="lg:col-span-5 flex flex-col justify-between">
                         <div>
                             <FeatureNavigation
-                                features={FEATURES}
+                                features={features}
                                 activeIndex={activeIndex}
                                 onSelect={handleSelect}
                             />
@@ -150,7 +208,7 @@ export default function FeatureShowcase() {
                                         <FiChevronRight className="w-4 h-4" />
                                     </button>
                                     <span className="ml-2 text-xs font-mono text-black/50">
-                                        0{activeIndex + 1} / 0{FEATURES.length}
+                                        0{activeIndex + 1} / 0{features.length}
                                     </span>
                                 </div>
 
@@ -160,7 +218,7 @@ export default function FeatureShowcase() {
                                     className="inline-flex items-center gap-1.5 text-xs text-black/50 hover:text-black transition-colors"
                                 >
                                     {isPaused ? <FiPlay className="w-3 h-3" /> : <FiPause className="w-3 h-3" />}
-                                    <span>{isPaused ? "Play" : "Pause"}</span>
+                                    <span>{isPaused ? (isAr ? "تشغيل" : "Play") : (isAr ? "إيقاف مؤقت" : "Pause")}</span>
                                 </button>
                             </div>
                         </div>
@@ -169,7 +227,7 @@ export default function FeatureShowcase() {
                     {/* Right column — live preview */}
                     <div className="lg:col-span-7">
                         <FeaturePreview
-                            features={FEATURES}
+                            features={features}
                             activeIndex={activeIndex}
                             reducedMotion={prefersReducedMotion}
                         />
@@ -180,7 +238,7 @@ export default function FeatureShowcase() {
                 <div className="lg:hidden">
                     {/* Tab pills */}
                     <div className="flex gap-2 overflow-x-auto pb-3 mb-3 scrollbar-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                        {FEATURES.map((feature, i) => (
+                        {features.map((feature, i) => (
                             <button
                                 key={feature.id}
                                 type="button"
@@ -199,7 +257,7 @@ export default function FeatureShowcase() {
 
                     {/* Preview card */}
                     <FeaturePreview
-                        features={FEATURES}
+                        features={features}
                         activeIndex={activeIndex}
                         reducedMotion={prefersReducedMotion}
                     />
@@ -224,7 +282,7 @@ export default function FeatureShowcase() {
                                 <FiChevronRight className="w-4 h-4" />
                             </button>
                             <span className="ml-1 text-xs font-mono text-black/50">
-                                0{activeIndex + 1} / 0{FEATURES.length}
+                                0{activeIndex + 1} / 0{features.length}
                             </span>
                         </div>
 
@@ -234,7 +292,7 @@ export default function FeatureShowcase() {
                             className="inline-flex items-center gap-1.5 text-xs text-black/50 hover:text-black active:text-black"
                         >
                             {isPaused ? <FiPlay className="w-3 h-3" /> : <FiPause className="w-3 h-3" />}
-                            <span>{isPaused ? "Play" : "Pause"}</span>
+                            <span>{isPaused ? (isAr ? "تشغيل" : "Play") : (isAr ? "إيقاف مؤقت" : "Pause")}</span>
                         </button>
                     </div>
                 </div>

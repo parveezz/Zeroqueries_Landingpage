@@ -1,12 +1,9 @@
+"use client";
+
 import LegalPage from "@/Components/Shared/LegalPage";
+import { useLanguage } from "@/context/LanguageContext";
 
-export const metadata = {
-  title: "Cookie Policy & Preferences | ZeroQueries",
-  description:
-    "Understand the cookies and local storage technologies used by ZeroQueries to ensure session security and optimal platform performance.",
-};
-
-const SECTIONS = [
+const SECTIONS_EN = [
   { id: "what-are-cookies", title: "1. What Are Cookies" },
   { id: "categories", title: "2. Categories of Cookies We Use" },
   { id: "essential-cookies", title: "3. Strictly Necessary Cookies" },
@@ -16,14 +13,82 @@ const SECTIONS = [
   { id: "updates", title: "7. Policy Updates & Inquiries" },
 ];
 
+const SECTIONS_AR = [
+  { id: "what-are-cookies", title: "1. ما هي ملفات تعريف الارتباط" },
+  { id: "categories", title: "2. الفئات التي نستخدمها" },
+  { id: "essential-cookies", title: "3. ملفات تعريف الارتباط الضرورية" },
+  { id: "functional-cookies", title: "4. الملفات الوظيفية والأداء" },
+  { id: "analytics-cookies", title: "5. ملفات التحليلات" },
+  { id: "managing-preferences", title: "6. إدارة تفضيلاتك" },
+  { id: "updates", title: "7. التحديثات والاستفسارات" },
+];
+
 export default function CookiePolicyPage() {
+  const { lang } = useLanguage();
+  const isAr = lang === "ar";
+
+  if (isAr) {
+    return (
+      <LegalPage
+        title="تفضيلات وسياسة ملفات تعريف الارتباط"
+        subtitle="كيف يستخدم ZeroQueries ملفات تعريف الارتباط وتقنيات التخزين السحابي لحماية حسابك وضمان أفضل أداء تحليلي."
+        lastUpdated="2 أكتوبر 2026"
+        version="3.0"
+        sections={SECTIONS_AR}
+      >
+        <h2 id="what-are-cookies">1. ما هي ملفات تعريف الارتباط</h2>
+        <p>
+          ملفات تعريف الارتباط هي ملفات نصية صغيرة يتم وضعها على جهازك بواسطة المواقع التي تزورها. تُستخدم على نطاق واسع لجعل تطبيقات الويب تعمل بأمان وتذكر تفضيلاتك وتقديم تحليلات مجمعة دون تحديد هويات المستخدمين الفردية.
+        </p>
+
+        <h2 id="categories">2. الفئات التي نستخدمها</h2>
+        <p>
+          يتبع ZeroQueries نهجاً يركز على الخصوصية. نقسم ملفات تعريف الارتباط إلى ثلاث فئات:
+        </p>
+        <ul>
+          <li><strong>ضرورية للغاية:</strong> حيوية للمصادقة وتأمين الجلسات والحماية ضد هجمات CSRF.</li>
+          <li><strong>وظيفية وتفضيلات:</strong> تتذكر المظهر واللغة وتنسيق الواجهة التي اخترتها.</li>
+          <li><strong>الأداء والتحليلات:</strong> بيانات قياس مجهولة الهوية ومجمعة لمتابعة سرعة الاستجابة واستقرار النظام.</li>
+        </ul>
+
+        <h2 id="essential-cookies">3. ملفات تعريف الارتباط الضرورية</h2>
+        <p>
+          هذه الملفات لا غنى عنها للتشغيل الأساسي لمنصة العمل ولا يمكن تعطيلها في أنظمتنا. يتم تعيينها استجابة لإجراءات تتخذها بنفسك مثل تسجيل الدخول أو إعداد تفضيلات الخصوصية.
+        </p>
+
+        <h2 id="functional-cookies">4. الملفات الوظيفية والأداء</h2>
+        <p>
+          تتيح هذه الملفات تخصيصاً أفضل للواجهة، مثل تذكر حالة الشريط الجانبي المطوي وتفضيلات الألوان ومحركات استعلام SQL الافتراضية.
+        </p>
+
+        <h2 id="analytics-cookies">5. ملفات التحليلات</h2>
+        <p>
+          نستخدم أدوات تحليل تركز على الخصوصية مع إخفاء هوية عناوين IP لتقييم الاتجاهات العامة والكشف عن أي اختناقات في سرعة المعالجة. <strong>نحن لا نستخدم مطلقاً أي ملفات تعريف ارتباط للإعلانات أو التتبع من أطراف ثالثة.</strong>
+        </p>
+
+        <h2 id="managing-preferences">6. إدارة تفضيلاتك</h2>
+        <p>
+          يمكنك تكوين متصفحك لحظر أو تنبيهك بشأن ملفات تعريف الارتباط أو مسحها في أي وقت من خلال إعدادات المتصفح لديك.
+        </p>
+
+        <h2 id="updates">7. التحديثات والاستفسارات</h2>
+        <p>
+          قد نقوم بتحديث هذه السياسة من حين لآخر لتعكس التغييرات التنظيمية أو التكنولوجية. لأي استفسارات، يرجى مراسلة:
+        </p>
+        <ul>
+          <li>فريق الخصوصية: <a href="mailto:privacy@zeroqueries.com">privacy@zeroqueries.com</a></li>
+        </ul>
+      </LegalPage>
+    );
+  }
+
   return (
     <LegalPage
       title="Cookie Preferences &amp; Policy"
       subtitle="How ZeroQueries uses cookies and modern web storage to protect your account and deliver a responsive analytics workspace."
       lastUpdated="October 2, 2026"
       version="3.0"
-      sections={SECTIONS}
+      sections={SECTIONS_EN}
     >
       <h2 id="what-are-cookies">1. What Are Cookies</h2>
       <p>

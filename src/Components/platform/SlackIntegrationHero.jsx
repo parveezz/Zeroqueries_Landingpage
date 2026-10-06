@@ -1,10 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { FiZap, FiArrowUpRight } from "react-icons/fi";
+import { FiZap } from "react-icons/fi";
 import { FaSlack } from "react-icons/fa6";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function SlackIntegrationHero() {
+  const { lang } = useLanguage();
+  const isAr = lang === "ar";
+
   return (
     <section className="relative w-full bg-gray-50 font-sans text-black pt-16 sm:pt-20 lg:pt-24 pb-14 sm:pb-20 px-6 sm:px-10 lg:px-14 overflow-hidden border-b border-gray-200">
       {/* Dot grid */}
@@ -24,19 +28,29 @@ export default function SlackIntegrationHero() {
         {/* ================= BADGE ================= */}
         <span className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-[11px] font-medium tracking-[0.15em] uppercase text-black/70 shadow-2xs">
           <FiZap className="w-3.5 h-3.5 text-black" strokeWidth={2.25} />
-          Official Integration
+          {isAr ? "تكامل رسمي معتمد" : "Official Integration"}
         </span>
 
         {/* ================= HEADING ================= */}
         <h1 className="mt-6 sm:mt-8 text-3xl sm:text-4xl lg:text-[56px] font-light tracking-tight text-black leading-[1.1]">
-          ZeroQueries for{" "}
-          <span className="text-black/50">Slack</span>
+          {isAr ? (
+            <>
+              ZeroQueries عبر{" "}
+              <span className="text-black/50">سلاك</span>
+            </>
+          ) : (
+            <>
+              ZeroQueries for{" "}
+              <span className="text-black/50">Slack</span>
+            </>
+          )}
         </h1>
 
         {/* ================= DESCRIPTION ================= */}
         <p className="mt-5 sm:mt-6 text-base sm:text-lg text-black/60 leading-relaxed font-light max-w-xl mx-auto">
-          Ask questions, query your databases, and receive instant data
-          insights — without ever leaving your Slack workspace.
+          {isAr
+            ? "اطرح الأسئلة واستعلم من قواعد بياناتك واحصل على تحليلات فورية — دون مغادرة مساحة عمل سلاك إطلاقاً."
+            : "Ask questions, query your databases, and receive instant data insights — without ever leaving your Slack workspace."}
         </p>
 
         {/* ================= PRIMARY CTA ================= */}
@@ -49,41 +63,63 @@ export default function SlackIntegrationHero() {
             aria-label="Add ZeroQueries to your Slack workspace"
           >
             <FaSlack className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
-            <span>Add to Slack</span>
+            <span>{isAr ? "إضافة إلى Slack" : "Add to Slack"}</span>
           </a>
         </div>
 
         {/* ================= TERMS LINE ================= */}
         <p className="mt-6 sm:mt-7 text-[11px] sm:text-xs text-black/50 font-light">
-          By installing ZeroQueries, you agree to our{" "}
-          <Link
-            href="/privacy"
-            className="text-black/70 underline underline-offset-4 hover:text-black transition-colors"
-          >
-            Privacy Policy
-          </Link>{" "}
-          &amp;{" "}
-          <Link
-            href="/tos"
-            className="text-black/70 underline underline-offset-4 hover:text-black transition-colors"
-          >
-            Terms of Service
-          </Link>
-          .
+          {isAr ? (
+            <>
+              بتثبيت ZeroQueries، فإنك توافق على{" "}
+              <Link
+                href="/privacy"
+                className="text-black/70 underline underline-offset-4 hover:text-black transition-colors"
+              >
+                سياسة الخصوصية
+              </Link>{" "}
+              و{" "}
+              <Link
+                href="/tos"
+                className="text-black/70 underline underline-offset-4 hover:text-black transition-colors"
+              >
+                شروط الخدمة
+              </Link>
+              .
+            </>
+          ) : (
+            <>
+              By installing ZeroQueries, you agree to our{" "}
+              <Link
+                href="/privacy"
+                className="text-black/70 underline underline-offset-4 hover:text-black transition-colors"
+              >
+                Privacy Policy
+              </Link>{" "}
+              &amp;{" "}
+              <Link
+                href="/tos"
+                className="text-black/70 underline underline-offset-4 hover:text-black transition-colors"
+              >
+                Terms of Service
+              </Link>
+              .
+            </>
+          )}
         </p>
 
         {/* ================= TRUST & COMPLIANCE LINE ================= */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[11px] font-medium tracking-[0.12em] uppercase text-black/50">
-          <span>SOC 2 Type II</span>
+          <span>{isAr ? "شهادة SOC 2 النوع الثاني" : "SOC 2 Type II"}</span>
           <span className="w-1 h-1 rounded-full bg-black/20" aria-hidden="true" />
-          <span>Read-only access</span>
+          <span>{isAr ? "وصول للقراءة فقط" : "Read-only access"}</span>
           <span className="w-1 h-1 rounded-full bg-black/20" aria-hidden="true" />
           <a href="#ai-disclaimer" className="text-amber-800 underline underline-offset-4 hover:text-amber-900 transition-colors">
-            AI Disclaimer
+            {isAr ? "إخلاء مسؤولية الذكاء الاصطناعي" : "AI Disclaimer"}
           </a>
           <span className="w-1 h-1 rounded-full bg-black/20" aria-hidden="true" />
           <a href="#data-retention" className="text-[#6434F5] underline underline-offset-4 hover:text-black transition-colors">
-            LLM Retention Policy
+            {isAr ? "سياسة الاحتفاظ بالبيانات" : "LLM Retention Policy"}
           </a>
         </div>
       </div>

@@ -9,13 +9,14 @@ import {
   FiShield,
   FiCheckCircle,
 } from "react-icons/fi";
+import { useLanguage } from "@/context/LanguageContext";
 
 const ALL_POLICIES = [
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Terms of Service", href: "/tos" },
-  { label: "Security & Compliance", href: "/support" },
-  { label: "Authorized Sub-Processors", href: "/sub-processor" },
-  { label: "Cookie Preferences", href: "/cookies" },
+  { label: "Privacy Policy", labelAr: "سياسة الخصوصية", href: "/privacy" },
+  { label: "Terms of Service", labelAr: "شروط الخدمة", href: "/tos" },
+  { label: "Security & Compliance", labelAr: "الأمان والامتثال", href: "/support" },
+  { label: "Authorized Sub-Processors", labelAr: "المعالجون الفرعيون المعتمدون", href: "/sub-processor" },
+  { label: "Cookie Preferences", labelAr: "تفضيلات ملفات تعريف الارتباط", href: "/cookies" },
 ];
 
 export default function LegalPage({
@@ -27,6 +28,8 @@ export default function LegalPage({
   related = ALL_POLICIES,
   children,
 }) {
+  const { lang } = useLanguage();
+  const isAr = lang === "ar";
   const [activeId, setActiveId] = useState("");
   const pathname = usePathname();
 
@@ -70,8 +73,6 @@ export default function LegalPage({
       <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-35" />
 
       <div className="relative z-10 mx-auto max-w-7xl">
-
-
         {/* Two-Column Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* ============ LEFT ASIDE: TABLE OF CONTENTS ============ */}
@@ -79,10 +80,10 @@ export default function LegalPage({
             <div className="rounded-2xl border border-gray-200/90 bg-white p-5 shadow-[0_2px_16px_rgba(0,0,0,0.03)]">
               <div className="flex items-center justify-between pb-3.5 mb-3 border-b border-gray-100">
                 <p className="text-[11px] font-medium tracking-[0.18em] uppercase text-black/45">
-                  On this page
+                  {isAr ? "في هذه الصفحة" : "On this page"}
                 </p>
                 <span className="text-[11px] font-mono text-black/40">
-                  {sections.length} sections
+                  {sections.length} {isAr ? "أقسام" : "sections"}
                 </span>
               </div>
 
@@ -110,7 +111,7 @@ export default function LegalPage({
                 {lastUpdated && (
                   <div className="flex items-center gap-1.5">
                     <FiClock className="w-3 h-3 text-black/40" />
-                    <span>Updated {lastUpdated}</span>
+                    <span>{isAr ? `تم التحديث: ${lastUpdated}` : `Updated ${lastUpdated}`}</span>
                   </div>
                 )}
                 {version && (
@@ -118,12 +119,12 @@ export default function LegalPage({
                     <span className="inline-flex items-center justify-center px-1.5 py-0.5 rounded-md bg-gray-100 text-[9px] font-mono font-medium text-black/70">
                       v{version}
                     </span>
-                    <span>Legal Revision</span>
+                    <span>{isAr ? "مراجعة قانونية" : "Legal Revision"}</span>
                   </div>
                 )}
                 <div className="flex items-center gap-1.5 text-emerald-600 font-normal pt-1">
                   <FiCheckCircle className="w-3 h-3" />
-                  <span>Enforceable &amp; Verified</span>
+                  <span>{isAr ? "نافذة وقانونية ومعتمدة" : "Enforceable & Verified"}</span>
                 </div>
               </div>
             </div>
@@ -136,10 +137,10 @@ export default function LegalPage({
               <details className="lg:hidden mb-8 rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-2xs">
                 <summary className="cursor-pointer list-none px-5 py-3.5 flex items-center justify-between">
                   <span className="text-sm font-medium text-black">
-                    Jump to section
+                    {isAr ? "انتقل إلى قسم" : "Jump to section"}
                   </span>
                   <span className="text-xs text-black/40">
-                    {sections.length} sections
+                    {sections.length} {isAr ? "أقسام" : "sections"}
                   </span>
                 </summary>
                 <nav className="flex flex-col border-t border-gray-100 p-2 space-y-1 bg-gray-50/50">
@@ -164,7 +165,7 @@ export default function LegalPage({
                 <div className="flex items-center gap-2">
                   <span className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-[#6434F5] uppercase bg-purple-50 px-2.5 py-1 rounded-full border border-purple-100">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#6434F5]" />
-                    Legal Document
+                    {isAr ? "وثيقة قانونية" : "Legal Document"}
                   </span>
                 </div>
 
@@ -183,12 +184,12 @@ export default function LegalPage({
                   {lastUpdated && (
                     <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-black/60">
                       <FiClock className="w-3 h-3 text-black/40" />
-                      Updated {lastUpdated}
+                      {isAr ? `محدث: ${lastUpdated}` : `Updated ${lastUpdated}`}
                     </span>
                   )}
                   {version && (
                     <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-black/60">
-                      Version {version}
+                      {isAr ? `الإصدار ${version}` : `Version ${version}`}
                     </span>
                   )}
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-black/60">
@@ -207,7 +208,7 @@ export default function LegalPage({
               {related.length > 0 && (
                 <div className="mt-16 pt-10 border-t border-gray-100">
                   <p className="text-[11px] font-medium tracking-[0.18em] uppercase text-black/40 mb-5">
-                    Other Legal &amp; Compliance Policies
+                    {isAr ? "سياسات قانونية وأمنية أخرى" : "Other Legal & Compliance Policies"}
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {related
@@ -219,7 +220,7 @@ export default function LegalPage({
                           className="group flex items-center justify-between gap-3 rounded-2xl border border-gray-200/90 bg-gray-50/40 p-4 text-sm text-black hover:bg-white hover:border-[#6434F5]/50 hover:shadow-xs transition-all duration-200"
                         >
                           <span className="font-normal group-hover:text-[#6434F5] transition-colors">
-                            {r.label}
+                            {isAr ? (r.labelAr || r.label) : r.label}
                           </span>
                           <FiExternalLink className="w-4 h-4 text-black/30 group-hover:text-[#6434F5] transition-colors" />
                         </Link>
@@ -234,3 +235,4 @@ export default function LegalPage({
     </main>
   );
 }
+

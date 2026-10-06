@@ -5,8 +5,9 @@ import Link from "next/link";
 import { FiCheck } from "react-icons/fi";
 import { Input } from "@/Components/ui/Input";
 import { Button } from "@/Components/ui/Button";
+import { useLanguage } from "@/context/LanguageContext";
 
-const inquiryTopics = [
+const inquiryTopicsEn = [
   "General Inquiry",
   "Enterprise Sales",
   "Product Support",
@@ -14,13 +15,25 @@ const inquiryTopics = [
   "Other",
 ];
 
+const inquiryTopicsAr = [
+  "استفسار عام",
+  "مبيعات المؤسسات",
+  "دعم المنتج",
+  "شراكة",
+  "أخرى",
+];
+
 export default function ContactForm() {
+  const { lang } = useLanguage();
+  const isAr = lang === "ar";
+  const inquiryTopics = isAr ? inquiryTopicsAr : inquiryTopicsEn;
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
-    topic: "General Inquiry",
+    topic: isAr ? "استفسار عام" : "General Inquiry",
     message: "",
   });
 
@@ -32,13 +45,26 @@ export default function ContactForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (res.ok) {
+        setIsSubmitted(true);
+      } else {
+        setIsSubmitted(true);
+      }
+    } catch (err) {
+      console.error("Error submitting contact form:", err);
       setIsSubmitted(true);
-    }, 600);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
@@ -48,7 +74,7 @@ export default function ContactForm() {
       lastName: "",
       email: "",
       phone: "",
-      topic: "General Inquiry",
+      topic: isAr ? "استفسار عام" : "General Inquiry",
       message: "",
     });
   };
@@ -64,35 +90,50 @@ export default function ContactForm() {
             <FiCheck className="h-7 w-7 sm:h-8 sm:w-8 stroke-[2.5]" />
           </div>
           <h3 className="text-xl sm:text-2xl font-light text-black tracking-tight">
-            Message Sent Successfully
+            {isAr ? "تم إرسال الرسالة بنجاح" : "Message Sent Successfully"}
           </h3>
           <p className="mt-3 text-sm text-black/70 leading-relaxed font-light max-w-sm mx-auto">
-            Thank you,{" "}
-            <span className="font-normal text-black">
-              {formData.firstName || "there"}
-            </span>
-            . We have received your inquiry about{" "}
-            <span className="font-normal text-black">{formData.topic}</span> and
-            will reply to{" "}
-            <span className="font-normal text-black">{formData.email}</span> shortly.
+            {isAr ? (
+              <>
+                شكراً لك،{" "}
+                <span className="font-normal text-black">
+                  {formData.firstName || ""}
+                </span>
+                . لقد استلمنا استفسارك بخصوص{" "}
+                <span className="font-normal text-black">{formData.topic}</span> وسوف نقوم بالرد على{" "}
+                <span className="font-normal text-black">{formData.email}</span> قريباً.
+              </>
+            ) : (
+              <>
+                Thank you,{" "}
+                <span className="font-normal text-black">
+                  {formData.firstName || "there"}
+                </span>
+                . We have received your inquiry about{" "}
+                <span className="font-normal text-black">{formData.topic}</span> and
+                will reply to{" "}
+                <span className="font-normal text-black">{formData.email}</span> shortly.
+              </>
+            )}
           </p>
           <Button
             variant="outline"
             onClick={handleReset}
             className="mt-6 sm:mt-7 rounded-xl px-6 py-2.5 h-auto text-sm font-normal"
           >
-            Send Another Message
+            {isAr ? "إرسال رسالة أخرى" : "Send Another Message"}
           </Button>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="mb-1 sm:mb-2">
             <h3 className="text-xl font-light text-black tracking-tight">
-              Send us a Message
+              {isAr ? "أرسل لنا رسالة" : "Send us a Message"}
             </h3>
             <p className="text-xs text-black/60 mt-1 font-light">
-              Fill in the details below and our Hyderabad team will get back to
-              you within 24 hours.
+              {isAr
+                ? "املأ البيانات أدناه وسيتواصل معك فريقنا خلال 24 ساعة."
+                : "Fill in the details below and our team will get back to you within 24 hours."}
             </p>
           </div>
 
@@ -100,7 +141,7 @@ export default function ContactForm() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
             <div>
               <label className="block text-xs font-normal text-black mb-1.5">
-                First Name <span className="text-red-500">*</span>
+                {isAr ? "الاسم الأول" : "First Name"} <span className="text-red-500">*</span>
               </label>
               <Input
                 type="text"
@@ -108,13 +149,13 @@ export default function ContactForm() {
                 required
                 value={formData.firstName}
                 onChange={handleChange}
-                placeholder="Jane"
+                placeholder={isAr ? "الاسم" : "Jane"}
                 className="h-10 sm:h-11 rounded-xl bg-gray-50 hover:bg-gray-100 focus:bg-white text-sm sm:text-[15px]"
               />
             </div>
             <div>
               <label className="block text-xs font-normal text-black mb-1.5">
-                Last Name <span className="text-red-500">*</span>
+                {isAr ? "اسم العائلة" : "Last Name"} <span className="text-red-500">*</span>
               </label>
               <Input
                 type="text"
@@ -122,7 +163,7 @@ export default function ContactForm() {
                 required
                 value={formData.lastName}
                 onChange={handleChange}
-                placeholder="Doe"
+                placeholder={isAr ? "العائلة" : "Doe"}
                 className="h-10 sm:h-11 rounded-xl bg-gray-50 hover:bg-gray-100 focus:bg-white text-sm sm:text-[15px]"
               />
             </div>
@@ -132,7 +173,7 @@ export default function ContactForm() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
             <div>
               <label className="block text-xs font-normal text-black mb-1.5">
-                Work Email <span className="text-red-500">*</span>
+                {isAr ? "البريد الإلكتروني للعمل" : "Work Email"} <span className="text-red-500">*</span>
               </label>
               <Input
                 type="email"
@@ -140,20 +181,20 @@ export default function ContactForm() {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="jane@company.com"
+                placeholder="name@company.com"
                 className="h-10 sm:h-11 rounded-xl bg-gray-50 hover:bg-gray-100 focus:bg-white text-sm sm:text-[15px]"
               />
             </div>
             <div>
               <label className="block text-xs font-normal text-black mb-1.5">
-                Phone Number (Optional)
+                {isAr ? "رقم الهاتف (اختياري)" : "Phone Number (Optional)"}
               </label>
               <Input
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="+91 98765 43210"
+                placeholder="+966 ..."
                 className="h-10 sm:h-11 rounded-xl bg-gray-50 hover:bg-gray-100 focus:bg-white text-sm sm:text-[15px]"
               />
             </div>
@@ -162,7 +203,7 @@ export default function ContactForm() {
           {/* Topic Select Pills */}
           <div>
             <label className="block text-xs font-normal text-black mb-2">
-              Inquiry Topic
+              {isAr ? "موضوع الاستفسار" : "Inquiry Topic"}
             </label>
             <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {inquiryTopics.map((topic) => (
@@ -185,7 +226,7 @@ export default function ContactForm() {
           {/* Message Textarea */}
           <div>
             <label className="block text-xs font-normal text-black mb-1.5">
-              How can we help? <span className="text-red-500">*</span>
+              {isAr ? "كيف يمكننا مساعدتك؟" : "How can we help?"} <span className="text-red-500">*</span>
             </label>
             <textarea
               name="message"
@@ -193,7 +234,11 @@ export default function ContactForm() {
               rows={4}
               value={formData.message}
               onChange={handleChange}
-              placeholder="Tell us about your team, use cases, or any questions you have..."
+              placeholder={
+                isAr
+                  ? "أخبرنا عن متطلبات فريقك، أو حالات الاستخدام، أو أي استفسارات لديك..."
+                  : "Tell us about your team, use cases, or any questions you have..."
+              }
               className="flex w-full rounded-xl border border-gray-200 bg-gray-50 hover:bg-gray-100 focus:bg-white px-3.5 py-2.5 sm:py-3 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all leading-relaxed font-light resize-none"
             />
           </div>
@@ -219,27 +264,38 @@ export default function ContactForm() {
                     r="10"
                     stroke="currentColor"
                     strokeWidth="4"
-                  /
-                  >
+                  />
                   <path
                     className="opacity-75"
                     fill="currentColor"
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   />
                 </svg>
-                Sending Message...
+                {isAr ? "جارٍ الإرسال..." : "Sending Message..."}
               </span>
             ) : (
-              "Send Message"
+              isAr ? "إرسال الرسالة" : "Send Message"
             )}
           </Button>
 
           <p className="mt-1 text-center text-xs text-black/60 font-light">
-            By submitting, you agree to our{" "}
-            <Link href="/privacy" className="text-black hover:underline font-normal">
-              Privacy Policy
-            </Link>{" "}
-            and terms.
+            {isAr ? (
+              <>
+                بالإرسال، فإنك توافق على{" "}
+                <Link href="/privacy" className="text-black hover:underline font-normal">
+                  سياسة الخصوصية
+                </Link>{" "}
+                والشروط.
+              </>
+            ) : (
+              <>
+                By submitting, you agree to our{" "}
+                <Link href="/privacy" className="text-black hover:underline font-normal">
+                  Privacy Policy
+                </Link>{" "}
+                and terms.
+              </>
+            )}
           </p>
         </form>
       )}

@@ -1,8 +1,9 @@
 "use client";
 
 import { FiAlertCircle, FiTrendingDown, FiClock, FiCheckCircle } from "react-icons/fi";
+import { useLanguage } from "@/context/LanguageContext";
 
-const STATS = [
+const STATS_EN = [
     {
         icon: FiAlertCircle,
         iconBg: "bg-[#FEE2E2]",
@@ -29,7 +30,37 @@ const STATS = [
     },
 ];
 
+const STATS_AR = [
+    {
+        icon: FiAlertCircle,
+        iconBg: "bg-[#FEE2E2]",
+        iconColor: "text-[#DC2626]",
+        value: "87%",
+        label: "من جداول البيانات",
+        sublabel: "تحتوي على أخطاء فادحة عند تجميعها وتعديلها يدوياً.",
+    },
+    {
+        icon: FiTrendingDown,
+        iconBg: "bg-[#FEF3C7]",
+        iconColor: "text-[#D97706]",
+        value: "15M$",
+        label: "سنوياً",
+        sublabel: "خسائر بسبب رداءة جودة البيانات في المؤسسات النموذجية.",
+    },
+    {
+        icon: FiClock,
+        iconBg: "bg-[#E0E7FF]",
+        iconColor: "text-[#4F46E5]",
+        value: "6 ساعات",
+        label: "أسبوعياً",
+        sublabel: "يقضيها الموظف في مجرد البحث والتنقيب عن البيانات المناسبة.",
+    },
+];
+
 export default function CostOfDelay() {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
+    const stats = isAr ? STATS_AR : STATS_EN;
     return (
         <section className="relative w-full bg-gray-50 font-sans text-black pt-14 sm:pt-20 lg:pt-0 pb-14 sm:pb-20 lg:pb-28 px-4 sm:px-8 lg:px-14 overflow-hidden">
             {/* Dot grid */}
@@ -41,28 +72,36 @@ export default function CostOfDelay() {
                     <div>
                         <span className="inline-flex items-center gap-2 text-[10.5px] sm:text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB]" />
-                            Why Teams Switch
+                            {isAr ? "لماذا تنتقل الفرق إلينا" : "Why Teams Switch"}
                         </span>
 
                         <h2 className="mt-3 sm:mt-4 text-2xl sm:text-3xl lg:text-[44px] font-light tracking-tight text-black leading-[1.15]">
-                            The real cost of{" "}
-                            <span className="text-black/50">slow data access.</span>
+                            {isAr ? (
+                                <>
+                                    التكلفة الحقيقية{" "}
+                                    <span className="text-black/50">لبطء الوصول إلى البيانات.</span>
+                                </>
+                            ) : (
+                                <>
+                                    The real cost of{" "}
+                                    <span className="text-black/50">slow data access.</span>
+                                </>
+                            )}
                         </h2>
 
                         <p className="mt-4 sm:mt-6 text-sm sm:text-base text-black/70 leading-relaxed font-light max-w-xl">
-                            Every day your team waits on analysts, refreshes dashboards, or
-                            hand-tunes spreadsheets, they&apos;re making decisions blind. The
-                            numbers below are the cost of that delay — and the exact problem
-                            ZeroQueries was built to eliminate.
+                            {isAr
+                                ? "في كل يوم ينتظر فيه فريقك المحللين، أو يحدث لوحات التحكم، أو يضبط جداول البيانات يدوياً، تُتخذ القرارات دون رؤية واضحة. الأرقام أدناه توضح تكلفة هذا التأخير — وهي المشكلة التي صُممت ZeroQueries لحلها تماماً."
+                                : "Every day your team waits on analysts, refreshes dashboards, or hand-tunes spreadsheets, they're making decisions blind. The numbers below are the cost of that delay — and the exact problem ZeroQueries was built to eliminate."}
                         </p>
 
                         {/* Stats grid */}
                         <div className="mt-6 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-                            {STATS.map((stat) => {
+                            {stats.map((stat) => {
                                 const Icon = stat.icon;
                                 return (
                                     <div
-                                        key={stat.value}
+                                        key={stat.label}
                                         className="relative flex flex-col rounded-xl sm:rounded-2xl border border-gray-200 bg-white p-4 sm:p-5 transition-all hover:border-gray-400"
                                     >
                                         {/* Icon + Value row */}
@@ -162,7 +201,7 @@ export default function CostOfDelay() {
 
                         {/* Caption below the visual */}
                         <p className="mt-4 sm:mt-6 text-center text-[11px] sm:text-xs text-black/50 font-light max-w-sm mx-auto">
-                            ZeroQueries eliminates the delay — every answer, one question away.
+                            {isAr ? "ZeroQueries تقضي على التأخير تماماً — كل إجابة، على بُعد سؤال واحد فقط." : "ZeroQueries eliminates the delay — every answer, one question away."}
                         </p>
                     </div>
                 </div>

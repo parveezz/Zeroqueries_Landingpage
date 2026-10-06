@@ -4,44 +4,66 @@ import { useState } from "react";
 import { FaQuoteRight } from "react-icons/fa";
 import { FaStar } from "react-icons/fa6";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useLanguage } from "@/context/LanguageContext";
 
 const reviews = [
     {
         id: 1,
         name: "Reem Al-Farsi",
+        nameAr: "ريم الفارسي",
         role: "Director of Analytics, National Digital Authority",
+        roleAr: "مديرة التحليلات، الهيئة الرقمية الوطنية",
         initials: "RA",
         color: "bg-[#0EA5E9]",
         primary:
             "What stood out instantly was how ZeroQueries translates plain business language into reliable SQL on its own. Our analysts no longer burn hours drafting queries — they simply ask and receive.",
+        primaryAr:
+            "ما لفت انتباهنا على الفور هو كيفية ترجمة ZeroQueries للغة الأعمال العادية إلى استعلامات SQL موثوقة تلقائياً. لم يعد محللونا يقضون ساعات في كتابة الاستعلامات — بل يسألون ويحصلون على النتائج فوراً.",
         secondary:
             "Within the first quarter, our team cut reporting turnaround time nearly in half and uncovered regional trends we had been overlooking for years.",
+        secondaryAr:
+            "خلال الربع الأول، قلص فريقنا وقت إنجاز التقارير إلى النصف تقريباً واكتشف اتجاهات إقليمية كنا نغفل عنها لسنوات.",
     },
     {
         id: 2,
         name: "Daniel Okafor",
+        nameAr: "دانيال أوكافور",
         role: "Founder & CTO, Helix Data Labs",
+        roleAr: "المؤسس والرئيس التنفيذي للتكنولوجيا، Helix Data Labs",
         initials: "DO",
         color: "bg-[#14B8A6]",
         primary:
             "We evaluated six natural-language BI tools before choosing ZeroQueries. It was the only one that handled both our warehouse tables and unstructured contract PDFs in a single workflow.",
+        primaryAr:
+            "قمنا بتقييم ست أدوات ذكاء أعمال باللغة الطبيعية قبل اختيار ZeroQueries. كانت الأداة الوحيدة التي تعاملت مع جداول مستودع بياناتنا وعقود PDF غير المنظمة ضمن مسار عمل موحد.",
         secondary:
             "The onboarding team was sharp, the API is clean, and every release has shipped features we actually use. That combination is genuinely rare.",
+        secondaryAr:
+            "كان فريق التهيئة رائعاً، وواجهة برمجة التطبيقات نظيفة للغاية، وكل إصدار جديد يضيف ميزات نستخدمها بالفعل.",
     },
     {
         id: 3,
         name: "Priya Venkatesan",
+        nameAr: "بريا فينكاتيسان",
         role: "VP of Operations Strategy, Northwind Logistics",
+        roleAr: "نائبة رئيس استراتيجية العمليات، Northwind Logistics",
         initials: "PV",
         color: "bg-[#8B5CF6]",
         primary:
             "Rolling out ZeroQueries across our operations group was remarkably smooth. Executives finally have self-service answers without waiting on the data team for every question.",
+        primaryAr:
+            "كان إطلاق ZeroQueries في مجموعة العمليات سلساً للغاية. أصبح لدى المديرين التنفيذيين أخيراً إجابات ذاتية الخدمة دون انتظار فريق البيانات لكل سؤال.",
         secondary:
             "It strikes the perfect balance — approachable for leadership, yet deep enough for our senior analysts to trust the underlying queries.",
+        secondaryAr:
+            "إنه يحقق التوازن المثالي — سهل الاستخدام للقيادة، وفي الوقت ذاته عميق بما يكفي ليثق كبار المحللين في الاستعلامات التأسيسية.",
     },
 ];
 
 export default function TestimonialsSection() {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
+
     const [current, setCurrent] = useState(0);
     const review = reviews[current];
 
@@ -72,7 +94,7 @@ export default function TestimonialsSection() {
             <div className="max-w-6xl mx-auto relative z-10">
                 {/* Heading */}
                 <h2 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-light text-center text-black mb-10 sm:mb-14 lg:mb-16 tracking-tight leading-[1.15]">
-                    What Teams Say About{" "}
+                    {isAr ? "ماذا تقول فرق العمل عن " : "What Teams Say About "}
                     <span className="text-black/50">ZeroQueries</span>
                 </h2>
 
@@ -101,10 +123,10 @@ export default function TestimonialsSection() {
 
                                     <div className="flex-1 min-w-0 pr-6">
                                         <h4 className="font-normal text-sm sm:text-base text-black truncate">
-                                            {person.name}
+                                            {isAr ? person.nameAr : person.name}
                                         </h4>
                                         <p className="text-xs sm:text-sm leading-snug font-light text-black/60 truncate">
-                                            {person.role}
+                                            {isAr ? person.roleAr : person.role}
                                         </p>
                                     </div>
 
@@ -121,8 +143,8 @@ export default function TestimonialsSection() {
 
                         {/* Quote text */}
                         <div className="relative z-10 space-y-4 sm:space-y-6 text-black/75 text-[15px] sm:text-[17px] leading-relaxed font-light">
-                            <p>{review.primary}</p>
-                            <p className="text-black/60">{review.secondary}</p>
+                            <p>{isAr ? review.primaryAr : review.primary}</p>
+                            <p className="text-black/60">{isAr ? review.secondaryAr : review.secondary}</p>
                         </div>
 
                         {/* Bottom row: stars on left, arrows on right */}
@@ -157,4 +179,4 @@ export default function TestimonialsSection() {
             </div>
         </section>
     );
-}
+}

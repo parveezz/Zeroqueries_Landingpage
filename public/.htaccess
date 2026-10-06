@@ -1,0 +1,56 @@
+# ========================================================
+# ZeroQueries - Hostinger Apache / LiteSpeed Configuration
+# Ensures Clean URLs, API Routing, and Arabic UTF-8 Support
+# ========================================================
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # 1. API Endpoint Routing (Clean URLs to PHP)
+    # Matches /api/blogs/:slug -> /api/blogs.php?slug=:slug
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^api/blogs/([^/]+)/?$ api/blogs.php?slug=$1 [QSA,L]
+
+    # Matches /api/blogs -> /api/blogs.php
+    RewriteRule ^api/blogs/?$ api/blogs.php [QSA,L]
+
+    # Matches /api/contact -> /api/contact.php
+    RewriteRule ^api/contact/?$ api/contact.php [QSA,L]
+
+    # Matches /api/demo -> /api/demo.php
+    RewriteRule ^api/demo/?$ api/demo.php [QSA,L]
+
+    # Matches /api/newsletter -> /api/newsletter.php
+    RewriteRule ^api/newsletter/?$ api/newsletter.php [QSA,L]
+
+    # 2. Next.js Static Export Clean URLs (removes need for .html extension)
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+    RewriteRule ^(.*)$ $1.html [L]
+</IfModule>
+
+# 3. UTF-8 Character Encoding (Guarantees Arabic text renders properly)
+AddDefaultCharset UTF-8
+<IfModule mod_mime.c>
+    AddCharset UTF-8 .html .css .js .json .php
+</IfModule>
+
+# 4. Security: Protect sensitive configuration and SQL files from direct download
+<FilesMatch "(schema\.sql|\.env|\.git|\.md)">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# 5. Enable CORS headers for API
+<IfModule mod_headers.c>
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+</IfModule>

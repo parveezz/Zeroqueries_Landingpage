@@ -1,6 +1,9 @@
-import { FiMail, FiHelpCircle, FiGlobe, FiArrowRight } from "react-icons/fi";
+"use client";
 
-const contactChannels = [
+import { FiMail, FiHelpCircle, FiGlobe, FiArrowRight } from "react-icons/fi";
+import { useLanguage } from "@/context/LanguageContext";
+
+const contactChannelsEn = [
   {
     icon: FiMail,
     title: "Sales & Inquiries",
@@ -29,15 +32,48 @@ const contactChannels = [
   },
 ];
 
+const contactChannelsAr = [
+  {
+    icon: FiMail,
+    title: "المبيعات والاستفسارات",
+    description:
+      "تحدث مع فريقنا حول الباقات والأسعار وخيارات النشر المخصصة.",
+    contact: "sales@zeroqueries.com",
+    href: "mailto:sales@zeroqueries.com",
+    badge: "استجابة خلال أقل من ساعتين",
+  },
+  {
+    icon: FiHelpCircle,
+    title: "الدعم الفني",
+    description:
+      "مساعدة في ربط الموصلات والتكاملات وإعداد مساحات العمل.",
+    contact: "support@zeroqueries.com",
+    href: "mailto:support@zeroqueries.com",
+    badge: "على مدار الساعة للمؤسسات",
+  },
+  {
+    icon: FiGlobe,
+    title: "الشراكات والإعلام",
+    description: "التعاون المشترك، والتحالفات التقنية، وطلبات الوسائط.",
+    contact: "partners@zeroqueries.com",
+    href: "mailto:partners@zeroqueries.com",
+    badge: "علاقات دولية",
+  },
+];
+
 export default function ContactChannels() {
+  const { lang } = useLanguage();
+  const isAr = lang === "ar";
+  const contactChannels = isAr ? contactChannelsAr : contactChannelsEn;
+
   return (
     <div className="mt-12 sm:mt-16 pt-10 sm:pt-12 border-t border-gray-200">
       <div className="text-center mb-8 sm:mb-10">
         <h2 className="text-2xl sm:text-3xl font-light text-black tracking-tight">
-          Other ways to reach us
+          {isAr ? "طرق أخرى للتواصل معنا" : "Other ways to reach us"}
         </h2>
         <p className="mt-2 text-sm text-black/60 font-light">
-          Pick the channel that best fits your inquiry.
+          {isAr ? "اختر القناة الأنسب لنوع استفسارك." : "Pick the channel that best fits your inquiry."}
         </p>
       </div>
 

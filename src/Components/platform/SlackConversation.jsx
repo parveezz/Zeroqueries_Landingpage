@@ -2,8 +2,12 @@
 
 import { FiHash, FiBarChart2 } from "react-icons/fi";
 import { FaSlack, FaFileExcel } from "react-icons/fa6";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function SlackConversation() {
+  const { lang } = useLanguage();
+  const isAr = lang === "ar";
+
   return (
     <section className="relative w-full bg-gray-50 font-sans text-black py-14 sm:py-20 px-4 sm:px-8 lg:px-14 overflow-hidden border-b border-gray-200">
       {/* Dot grid */}
@@ -30,14 +34,14 @@ export default function SlackConversation() {
                   data-intelligence
                 </span>
                 <span className="hidden sm:inline text-xs text-black/40 font-light ml-1">
-                  | 60 members
+                  | {isAr ? "60 عضواً" : "60 members"}
                 </span>
               </div>
             </div>
 
             {/* Yesterday chip */}
             <span className="hidden sm:inline-flex shrink-0 rounded-md border border-gray-200 bg-white px-2.5 py-1 text-[11px] font-medium text-black/60">
-              Yesterday
+              {isAr ? "أمس" : "Yesterday"}
             </span>
           </div>
 
@@ -67,7 +71,7 @@ export default function SlackConversation() {
                   <span className="inline-flex items-center rounded bg-gray-100 px-1.5 py-0.5 text-[13px] font-medium text-black mr-1.5">
                     @ZeroQueries
                   </span>
-                  What is the total number of users?
+                  {isAr ? "ما هو إجمالي عدد المستخدمين؟" : "What is the total number of users?"}
                 </p>
               </div>
             </div>
@@ -89,7 +93,7 @@ export default function SlackConversation() {
                       ZeroQueriesBot
                     </span>
                     <span className="inline-flex items-center rounded border border-gray-300 bg-white px-1.5 py-0.5 text-[9px] font-medium tracking-[0.1em] uppercase text-black/60">
-                      App
+                      {isAr ? "تطبيق" : "App"}
                     </span>
                     <span className="text-[11px] text-black/40 font-light">
                       9:36 AM
@@ -102,9 +106,9 @@ export default function SlackConversation() {
                   <span>✅</span>
                   <span>2</span>
                   <span className="w-px h-3 bg-gray-200" />
-                  <span>React</span>
+                  <span>{isAr ? "تفاعل" : "React"}</span>
                   <span className="w-px h-3 bg-gray-200" />
-                  <span>Reply</span>
+                  <span>{isAr ? "رد" : "Reply"}</span>
                 </div>
               </div>
 
@@ -115,7 +119,7 @@ export default function SlackConversation() {
                 <div className="flex items-center gap-2">
                   <span className="text-base leading-none">✨</span>
                   <span className="text-sm font-semibold text-black tracking-tight">
-                    ZeroQueries Intelligent Analysis
+                    {isAr ? "التحليل الذكي من ZeroQueries" : "ZeroQueries Intelligent Analysis"}
                   </span>
                 </div>
 
@@ -124,12 +128,21 @@ export default function SlackConversation() {
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="text-sm leading-none">📊</span>
                     <span className="text-[13px] font-semibold text-black">
-                      Answer:
+                      {isAr ? "الإجابة:" : "Answer:"}
                     </span>
                   </div>
                   <p className="text-sm text-black/70 font-light leading-relaxed pl-6">
-                    The total number of users in the dataset is{" "}
-                    <span className="font-medium text-black">60</span>.
+                    {isAr ? (
+                      <>
+                        إجمالي عدد المستخدمين في مجموعة البيانات هو{" "}
+                        <span className="font-medium text-black">60</span> مستخدماً.
+                      </>
+                    ) : (
+                      <>
+                        The total number of users in the dataset is{" "}
+                        <span className="font-medium text-black">60</span>.
+                      </>
+                    )}
                   </p>
                 </div>
 
@@ -138,7 +151,7 @@ export default function SlackConversation() {
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="text-sm leading-none">💻</span>
                     <span className="text-[13px] font-semibold text-black">
-                      Executed SQL:
+                      {isAr ? "استعلام SQL المنفذ:" : "Executed SQL:"}
                     </span>
                   </div>
 
@@ -164,14 +177,16 @@ export default function SlackConversation() {
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="text-sm leading-none">📈</span>
                     <span className="text-[13px] font-semibold text-black">
-                      Key Performance Indicators (KPIs):
+                      {isAr ? "مؤشرات الأداء الرئيسية (KPIs):" : "Key Performance Indicators (KPIs):"}
                     </span>
                   </div>
                   <ul className="pl-6 space-y-1.5">
                     <li className="relative text-sm text-black/70 font-light leading-relaxed pl-4">
                       <span className="absolute left-0 top-2 w-1 h-1 rounded-full bg-black/60" />
-                      <span className="font-medium text-black">Total Users:</span>{" "}
-                      60 (The total count of unique users in the dataset.)
+                      <span className="font-medium text-black">{isAr ? "إجمالي المستخدمين:" : "Total Users:"}</span>{" "}
+                      {isAr
+                        ? "60 (العدد الإجمالي للمستخدمين الفريدين المسجلين في مجموعة البيانات.)"
+                        : "60 (The total count of unique users in the dataset.)"}
                     </li>
                   </ul>
                 </div>
@@ -181,25 +196,23 @@ export default function SlackConversation() {
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="text-sm leading-none">💡</span>
                     <span className="text-[13px] font-semibold text-black">
-                      Insights:
+                      {isAr ? "الرؤى والتحليلات:" : "Insights:"}
                     </span>
                   </div>
                   <ul className="pl-6 space-y-2">
                     <li className="relative text-sm text-black/70 font-light leading-relaxed pl-4">
                       <span className="absolute left-0 top-2 w-1 h-1 rounded-full bg-black/60" />
-                      <span className="font-medium text-black">User Distribution:</span>{" "}
-                      The dataset contains 60 unique users, indicating a diverse
-                      user base. Understanding the demographics, behaviors, and
-                      preferences of these users can help tailor products or
-                      services to better meet their needs.
+                      <span className="font-medium text-black">{isAr ? "توزيع المستخدمين:" : "User Distribution:"}</span>{" "}
+                      {isAr
+                        ? "تحتوي مجموعة البيانات على 60 مستخدماً فريداً، مما يشير إلى قاعدة مستخدمين متنوعة. يساعد فهم الخصائص الديموغرافية والسلوكيات في تخصيص المنتجات أو الخدمات لتلبية احتياجاتهم على نحو أفضل."
+                        : "The dataset contains 60 unique users, indicating a diverse user base. Understanding the demographics, behaviors, and preferences of these users can help tailor products or services to better meet their needs."}
                     </li>
                     <li className="relative text-sm text-black/70 font-light leading-relaxed pl-4">
                       <span className="absolute left-0 top-2 w-1 h-1 rounded-full bg-black/60" />
-                      <span className="font-medium text-black">User Growth:</span>{" "}
-                      The total number of users has reached 60, showing potential
-                      growth in user acquisition or registration over time.
-                      Monitoring this trend can help assess the effectiveness of
-                      marketing strategies or product offerings.
+                      <span className="font-medium text-black">{isAr ? "نمو المستخدمين:" : "User Growth:"}</span>{" "}
+                      {isAr
+                        ? "وصل إجمالي عدد المستخدمين إلى 60، مما يظهر نمواً واعداً في اكتساب المستخدمين وتسجيلهم بمرور الوقت. يساعد رصد هذا الاتجاه في تقييم فعالية استراتيجيات التسويق والمنتجات."
+                        : "The total number of users has reached 60, showing potential growth in user acquisition or registration over time. Monitoring this trend can help assess the effectiveness of marketing strategies or product offerings."}
                     </li>
                   </ul>
                 </div>
@@ -209,7 +222,7 @@ export default function SlackConversation() {
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="text-sm leading-none">📄</span>
                     <span className="text-[13px] font-semibold text-black">
-                      Data Preview:
+                      {isAr ? "معاينة البيانات:" : "Data Preview:"}
                     </span>
                   </div>
                   <div className="rounded-lg border border-gray-200 bg-gray-50 p-3">
@@ -226,7 +239,7 @@ export default function SlackConversation() {
                   <div className="flex items-center gap-2 mb-2.5">
                     <span className="text-sm leading-none">📊</span>
                     <span className="text-[13px] font-semibold text-black">
-                      Analysis Chart
+                      {isAr ? "مخطط التحليل البياني" : "Analysis Chart"}
                     </span>
                   </div>
 
@@ -235,7 +248,7 @@ export default function SlackConversation() {
                     {/* Chart header */}
                     <div className="flex items-center justify-between px-4 py-2.5 border-b border-gray-100">
                       <span className="text-xs font-medium text-black">
-                        User Distribution
+                        {isAr ? "توزيع المستخدمين" : "User Distribution"}
                       </span>
                       <span className="text-black/30 text-xs">⋮</span>
                     </div>
@@ -253,7 +266,7 @@ export default function SlackConversation() {
 
                       {/* X-axis label */}
                       <div className="mt-3 pt-2 border-t border-gray-100 text-center text-[11px] text-black/50 font-light">
-                        Total Users
+                        {isAr ? "إجمالي المستخدمين" : "Total Users"}
                       </div>
                     </div>
                   </div>
@@ -264,7 +277,7 @@ export default function SlackConversation() {
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-sm leading-none">📊</span>
                     <span className="text-[13px] font-semibold text-black">
-                      Excel Spreadsheet
+                      {isAr ? "جدول بيانات Excel" : "Excel Spreadsheet"}
                     </span>
                   </div>
 
@@ -284,7 +297,7 @@ export default function SlackConversation() {
                         Report_053bf29c-16a6-48f0-a3f0-25f24175cb8...
                       </div>
                       <div className="text-[11px] text-black/50 font-light">
-                        Excel Spreadsheet
+                        {isAr ? "جدول بيانات Excel" : "Excel Spreadsheet"}
                       </div>
                     </div>
                   </a>
@@ -297,7 +310,9 @@ export default function SlackConversation() {
 
         {/* Optional caption below */}
         <p className="mt-5 text-center text-[11px] sm:text-xs text-black/50 font-light">
-          ZeroQueries works inside the Slack channels your team already uses.
+          {isAr
+            ? "تعمل ZeroQueries داخل قنوات سلاك التي يستخدمها فريقك بالفعل كل يوم."
+            : "ZeroQueries works inside the Slack channels your team already uses."}
         </p>
       </div>
     </section>

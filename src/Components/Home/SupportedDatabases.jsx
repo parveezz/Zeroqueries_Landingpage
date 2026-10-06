@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FiArrowUpRight } from "react-icons/fi";
+import { useLanguage } from "@/context/LanguageContext";
 import {
     SiClickhouse,
     SiPostgresql,
@@ -90,22 +91,26 @@ const DATABASES = [
 ];
 
 export default function SupportedDatabases() {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
+
     return (
         <section className="relative w-full bg-transparent font-sans text-black py-14 sm:py-20 lg:py-28 px-4 sm:px-8 lg:px-14 overflow-hidden">
             <div className="relative z-10 mx-auto max-w-7xl">
                 {/* ============== HEADING ============== */}
                 <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12 lg:mb-16">
                     <span className="text-[10.5px] sm:text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
-                        Connect Your Stack
+                        {isAr ? "اربط منظومة أدواتك" : "Connect Your Stack"}
                     </span>
 
                     <h2 className="mt-2.5 sm:mt-3 text-2xl sm:text-3xl lg:text-[44px] font-light tracking-tight text-black leading-[1.15]">
-                        Every source, one place.
+                        {isAr ? "كل مصدر، في مكان واحد." : "Every source, one place."}
                     </h2>
 
                     <p className="mt-3 sm:mt-4 text-sm sm:text-base text-black/60 leading-relaxed font-light">
-                        ZeroQueries speaks natively to the databases, warehouses, and
-                        spreadsheets your team already runs. Connect in minutes.
+                        {isAr
+                            ? "يتكامل ZeroQueries بشكل أصيل ومباشر مع قواعد البيانات، ومستودعات البيانات، وجداول البيانات التي يعتمد عليها فريقك. الربط يتم في دقائق معدودة."
+                            : "ZeroQueries speaks natively to the databases, warehouses, and spreadsheets your team already runs. Connect in minutes."}
                     </p>
                 </div>
 
@@ -180,14 +185,29 @@ export default function SupportedDatabases() {
                 {/* ============== BOTTOM LINE ============== */}
                 <div className="mt-8 sm:mt-12 lg:mt-14 text-center">
                     <p className="text-xs sm:text-sm text-black/60 font-light">
-                        Don&apos;t see yours?{" "}
-                        <Link
-                            href="/contact"
-                            className="text-black font-normal hover:underline underline-offset-4"
-                        >
-                            We probably support it
-                        </Link>{" "}
-                        — just ask.
+                        {isAr ? (
+                            <>
+                                ألا تجد نظامك هنا؟{" "}
+                                <Link
+                                    href="/contact"
+                                    className="text-black font-normal hover:underline underline-offset-4"
+                                >
+                                    على الأرجح نحن ندعمه
+                                </Link>{" "}
+                                — فقط تواصل معنا.
+                            </>
+                        ) : (
+                            <>
+                                Don&apos;t see yours?{" "}
+                                <Link
+                                    href="/contact"
+                                    className="text-black font-normal hover:underline underline-offset-4"
+                                >
+                                    We probably support it
+                                </Link>{" "}
+                                — just ask.
+                            </>
+                        )}
                     </p>
                 </div>
             </div>

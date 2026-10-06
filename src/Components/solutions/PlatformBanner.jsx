@@ -3,8 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FiArrowUpRight, FiPlay } from "react-icons/fi";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function PlatformBanner() {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
+
     return (
         <section
             className="relative w-full bg-gray-50 font-sans text-black overflow-hidden"
@@ -29,7 +33,7 @@ export default function PlatformBanner() {
                     <div className="lg:col-span-6">
                         <span className="inline-flex items-center gap-2 text-[10.5px] sm:text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
                             <span className="w-1.5 h-1.5 rounded-full bg-black" />
-                            The ZeroQueries Platform
+                            {isAr ? "منصة ZeroQueries" : "The ZeroQueries Platform"}
                         </span>
 
                         {/* H1 — SEO. The whole page's main heading. */}
@@ -37,18 +41,30 @@ export default function PlatformBanner() {
                             id="platform-banner-heading"
                             className="mt-3 sm:mt-4 text-3xl sm:text-4xl lg:text-[52px] font-light tracking-tight text-black leading-[1.1]"
                         >
-                            One platform.
-                            <br />
-                            <span className="text-black/50">
-                                Every answer you need.
-                            </span>
+                            {isAr ? (
+                                <>
+                                    منصة واحدة.
+                                    <br />
+                                    <span className="text-black/50">
+                                        لكل الإجابات التي تحتاجها.
+                                    </span>
+                                </>
+                            ) : (
+                                <>
+                                    One platform.
+                                    <br />
+                                    <span className="text-black/50">
+                                        Every answer you need.
+                                    </span>
+                                </>
+                            )}
                         </h1>
 
-                        {/* Supporting paragraph — includes target keywords naturally. */}
+                        {/* Supporting paragraph */}
                         <p className="mt-5 sm:mt-6 text-sm sm:text-base lg:text-[17px] text-black/70 leading-relaxed font-light max-w-xl">
-                            ZeroQueries is a modular natural language analytics platform that
-                            connects to your databases, warehouses, and documents - turning
-                            plain questions into live, verified business answers.
+                            {isAr
+                                ? "ZeroQueries هي منصة تحليلات معيارية باللغة الطبيعية تتصل بقواعد بياناتك ومستودعاتك ومستنداتك — لتحويل الأسئلة البسيطة إلى إجابات أعمال حية وموثوقة."
+                                : "ZeroQueries is a modular natural language analytics platform that connects to your databases, warehouses, and documents - turning plain questions into live, verified business answers."}
                         </p>
 
                         {/* CTAs */}
@@ -60,7 +76,7 @@ export default function PlatformBanner() {
                                 aria-label="Watch the ZeroQueries product demo"
                             >
                                 <FiPlay className="w-3.5 h-3.5" />
-                                <span>Watch a 2-minute demo</span>
+                                <span>{isAr ? "شاهد عرضاً سريعاً" : "Watch a 2-minute demo"}</span>
                             </Link>
 
                             {/* Secondary — Talk to expert */}
@@ -69,14 +85,16 @@ export default function PlatformBanner() {
                                 className="group inline-flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white text-black px-6 py-3.5 text-sm font-normal hover:border-gray-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
                                 aria-label="Contact a ZeroQueries product specialist"
                             >
-                                <span>Talk to a specialist</span>
+                                <span>{isAr ? "تحدث مع مختص" : "Talk to a specialist"}</span>
                                 <FiArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                             </Link>
                         </div>
 
-                        {/* Trust line — SEO-friendly, keyword-rich */}
+                        {/* Trust line */}
                         <p className="mt-6 text-[11px] sm:text-xs text-black/50 font-light">
-                            SOC 2 Type II certified · HIPAA-ready · Available in cloud, VPC, or on-premise
+                            {isAr
+                                ? "معتمد SOC 2 Type II · جاهز للتوافق مع HIPAA · متاح سحابياً أو في VPC أو محلياً"
+                                : "SOC 2 Type II certified · HIPAA-ready · Available in cloud, VPC, or on-premise"}
                         </p>
                     </div>
 
@@ -107,7 +125,9 @@ export default function PlatformBanner() {
                                     {/* Subtle bottom gradient & overlay badge */}
                                     <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/50 via-black/20 to-transparent pointer-events-none" />
                                     <div className="absolute bottom-2.5 left-3 right-3 sm:bottom-3.5 sm:left-4 sm:right-4 flex items-center justify-between text-white text-[10px] sm:text-[11.5px] font-medium pointer-events-none">
-                                        <span className="truncate drop-shadow-sm">Enterprise Intelligence</span>
+                                        <span className="truncate drop-shadow-sm">
+                                            {isAr ? "ذكاء الأعمال للمؤسسات" : "Enterprise Intelligence"}
+                                        </span>
                                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
                                     </div>
                                 </div>
@@ -117,7 +137,7 @@ export default function PlatformBanner() {
                                     <div className="flex items-center justify-between gap-1 mb-1 sm:mb-1.5">
                                         <div className="flex items-center gap-1.5 min-w-0">
                                             <span className="text-[9px] sm:text-[11px] font-medium text-black/60 uppercase tracking-wider truncate">
-                                                AI Insight
+                                                {isAr ? "تحليل ذكي" : "AI Insight"}
                                             </span>
                                         </div>
 
@@ -127,7 +147,7 @@ export default function PlatformBanner() {
                                     </div>
 
                                     <div className="text-[11px] sm:text-[13px] font-medium text-black leading-tight truncate">
-                                        Revenue conversion
+                                        {isAr ? "معدل تحويل الإيرادات" : "Revenue conversion"}
                                     </div>
 
                                     <div className="mt-1.5 sm:mt-2 h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
@@ -138,7 +158,7 @@ export default function PlatformBanner() {
                                 {/* Card 3 — Floating Metrics Tile (bottom-left) */}
                                 <div className="absolute left-0 sm:-left-2 bottom-[2%] sm:bottom-[4%] w-[44%] sm:w-[40%] rounded-xl sm:rounded-2xl border border-gray-200/90 bg-white/95 backdrop-blur-md p-2.5 sm:p-3.5 shadow-[0_14px_35px_-15px_rgba(0,0,0,0.16)] z-10">
                                     <div className="text-[9px] sm:text-[10px] font-medium tracking-[0.15em] text-black/40 uppercase mb-1">
-                                        Quarterly
+                                        {isAr ? "ربعي" : "Quarterly"}
                                     </div>
                                     <div className="text-xs sm:text-base font-semibold text-black mb-1.5">
                                         $248,500

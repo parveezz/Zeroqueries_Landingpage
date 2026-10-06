@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { FiArrowUpRight, FiGlobe } from "react-icons/fi";
 import { FaWhatsapp, FaSlack } from "react-icons/fa6";
+import { useLanguage } from "@/context/LanguageContext";
 
-const CHANNELS = [
+const CHANNELS_EN = [
     {
         name: "WhatsApp",
         icon: FaWhatsapp,
@@ -34,7 +35,41 @@ const CHANNELS = [
     },
 ];
 
+const CHANNELS_AR = [
+    {
+        name: "واتساب",
+        icon: FaWhatsapp,
+        description:
+            "اسأل ZeroQueries مباشرة من تطبيق واتساب — احصل على إجابات ومخططات وملخصات فورية كأنك تتحدث مع زميلك في العمل.",
+        status: "متاح الآن",
+        color: "#25D366",
+        href: "/whatsapp",
+    },
+    {
+        name: "سلاك",
+        icon: FaSlack,
+        description:
+            "استدعِ ZeroQueries في أي قناة عبر أمر /ask. تظهر الإجابات مباشرة حيث يعمل فريقك دون الحاجة للتنقل بين التطبيقات.",
+        status: "متاح الآن",
+        color: "#611f69",
+        href: "/slack",
+    },
+    {
+        name: "تطبيق الويب",
+        icon: FiGlobe,
+        description:
+            "منصة ZeroQueries المتكاملة — لوحات معلومات، تحليلات معمقة، واستعلامات متقدمة للفرق التي تفضل العمل عبر المتصفح.",
+        status: "متاح في كافة الباقات",
+        color: "#111827",
+        href: "/login",
+    },
+];
+
 export default function PlatformChannels() {
+    const { lang } = useLanguage();
+    const isAr = lang === "ar";
+    const channels = isAr ? CHANNELS_AR : CHANNELS_EN;
+
     return (
         <section className="relative w-full bg-white font-sans text-black py-20 sm:py-24 px-6 sm:px-10 lg:px-14 overflow-hidden">
             {/* Dot grid */}
@@ -45,25 +80,35 @@ export default function PlatformChannels() {
                 <div className="max-w-3xl mb-14 sm:mb-16">
                     <span className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
                         <span className="w-1.5 h-1.5 rounded-full bg-black" />
-                        Where You Can Use It
+                        {isAr ? "أين يمكنك استخدامه" : "Where You Can Use It"}
                     </span>
 
                     <h2 className="mt-4 text-3xl sm:text-4xl lg:text-[52px] font-light tracking-tight text-black leading-[1.1]">
-                        Ask from anywhere.
-                        <br />
-                        <span className="text-black/40">Answers follow you.</span>
+                        {isAr ? (
+                            <>
+                                اطرح أسئلتك من أي مكان.
+                                <br />
+                                <span className="text-black/40">الإجابات تصلك أينما كنت.</span>
+                            </>
+                        ) : (
+                            <>
+                                Ask from anywhere.
+                                <br />
+                                <span className="text-black/40">Answers follow you.</span>
+                            </>
+                        )}
                     </h2>
 
                     <p className="mt-5 text-base text-black/60 leading-relaxed font-light max-w-xl">
-                        ZeroQueries lives inside the tools your team already uses. Same
-                        questions, same answers — whether you&apos;re on WhatsApp, in Slack,
-                        or on the web.
+                        {isAr
+                            ? "يعمل ZeroQueries داخل الأدوات التي يستعملها فريقك يومياً. نفس الأسئلة وبنفس الدقة — سواء كنت على واتساب أو سلاك أو عبر الويب."
+                            : "ZeroQueries lives inside the tools your team already uses. Same questions, same answers — whether you're on WhatsApp, in Slack, or on the web."}
                     </p>
                 </div>
 
                 {/* ================= CHANNELS GRID ================= */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-                    {CHANNELS.map((channel) => (
+                    {channels.map((channel) => (
                         <ChannelCard key={channel.name} channel={channel} />
                     ))}
                 </div>
@@ -71,9 +116,10 @@ export default function PlatformChannels() {
                 {/* ================= FOOTNOTE ================= */}
                 <div className="mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 pt-8 border-t border-gray-200">
                     <p className="text-xs text-black/50 font-light">
-                        More channels rolling out — including Microsoft Teams and Email.
+                        {isAr
+                            ? "قنوات إضافية قيد الإطلاق قريباً — تشمل Microsoft Teams والبريد الإلكتروني."
+                            : "More channels rolling out — including Microsoft Teams and Email."}
                     </p>
-
                 </div>
             </div>
         </section>
