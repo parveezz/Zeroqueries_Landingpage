@@ -1,0 +1,112 @@
+================================================================================
+ZEROQUERIES - SEO, ANALYTICS & DEPLOYMENT FILES BACKUP / REFERENCE
+================================================================================
+
+1. GOOGLE SEARCH CONSOLE VERIFICATION
+--------------------------------------------------------------------------------
+Token Meta Tag:
+<meta name="google-site-verification" content="kcQaVBhgDkNvdOFbwnmTEXcfPZKNzvGJbo-CBuD-LGg" />
+
+Verification File Content (google54b1496112c5c8bf.html):
+google-site-verification=kcQaVBhgDkNvdOFbwnmTEXcfPZKNzvGJbo-CBuD-LGg
+
+
+2. GOOGLE ANALYTICS (gtag.js)
+--------------------------------------------------------------------------------
+Measurement ID: G-BXL9GZ0W7S
+
+Code Snippet (placed in <head>):
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BXL9GZ0W7S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-BXL9GZ0W7S');
+</script>
+
+
+3. GOOGLE TAG MANAGER (GTM)
+--------------------------------------------------------------------------------
+Container ID: GTM-KQBK96S9
+
+Head Script:
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KQBK96S9');</script>
+<!-- End Google Tag Manager -->
+
+Body Script (noscript):
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQBK96S9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+4. WEB APP MANIFEST (public/manifest.json)
+--------------------------------------------------------------------------------
+{
+  "short_name": "ZeroQueries",
+  "name": "ZeroQueries | Natural Language to SQL AI Platform",
+  "icons": [
+    {
+      "src": "/Home/ZQ_APP_icon.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#030014",
+  "theme_color": "#030014",
+  "display": "standalone",
+  "orientation": "portrait"
+}
+
+HTML Head Tag:
+<link rel="manifest" href="/manifest.json" />
+
+
+5. APPLE TOUCH ICON & FAVICON TAGS
+--------------------------------------------------------------------------------
+Icon files located in public/:
+- public/apple-touch-icon.png (180x180 / 512x512 iOS touch icon)
+- public/Home/ZQ_APP_icon.png (192x192 favicon)
+
+HTML Head Tags:
+<link rel="icon" type="image/png" href="/Home/ZQ_APP_icon.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+
+
+
+7. ROBOTS DIRECTIVES (public/robots.txt)
+--------------------------------------------------------------------------------
+User-agent: *
+Allow: /
+
+Host: https://zeroqueries.com
+Sitemap: https://zeroqueries.com/sitemap.xml
+
+
+8. MICROSOFT CLARITY TRACKING (y0lj9an7aq)
+--------------------------------------------------------------------------------
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "y0lj9an7aq");
+</script>
+
+================================================================================

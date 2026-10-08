@@ -2,6 +2,25 @@ import fs from 'fs/promises';
 import path from 'path';
 
 const DATA_FILE_PATH = path.join(process.cwd(), 'src', 'data', 'blogs.json');
+const PUBLIC_DATA_FILE_PATH = path.join(process.cwd(), 'public', 'api', 'data', 'blogs.json');
+
+// Helper to save blogs to both Next.js data and Hostinger PHP public data
+async function saveBlogsData(blogs) {
+    const jsonContent = JSON.stringify(blogs, null, 2);
+    try {
+        await fs.mkdir(path.dirname(DATA_FILE_PATH), { recursive: true });
+        await fs.writeFile(DATA_FILE_PATH, jsonContent, 'utf-8');
+    } catch (err) {
+        console.error('Error saving to src/data/blogs.json:', err);
+    }
+
+    try {
+        await fs.mkdir(path.dirname(PUBLIC_DATA_FILE_PATH), { recursive: true });
+        await fs.writeFile(PUBLIC_DATA_FILE_PATH, jsonContent, 'utf-8');
+    } catch (err) {
+        console.error('Error syncing to public/api/data/blogs.json:', err);
+    }
+}
 
 // Helper to ensure data file exists and return blogs array
 export async function getAllBlogs() {
@@ -56,7 +75,7 @@ export async function createBlog(newBlogData) {
     };
 
     blogs.unshift(newPost);
-    await fs.writeFile(DATA_FILE_PATH, JSON.stringify(blogs, null, 2), 'utf-8');
+    await saveBlogsData(blogs);
     return newPost;
 }
 
@@ -79,7 +98,7 @@ export async function updateBlog(slug, updatedData) {
     };
 
     blogs[index] = mergedPost;
-    await fs.writeFile(DATA_FILE_PATH, JSON.stringify(blogs, null, 2), 'utf-8');
+    await saveBlogsData(blogs);
     return mergedPost;
 }
 
@@ -93,6 +112,6 @@ export async function deleteBlog(slug) {
     }
 
     const deleted = blogs.splice(index, 1);
-    await fs.writeFile(DATA_FILE_PATH, JSON.stringify(blogs, null, 2), 'utf-8');
+    await saveBlogsData(blogs);
     return deleted[0] || true;
 }

@@ -9,11 +9,14 @@ if ($method === 'POST') {
     $raw_input = file_get_contents('php://input');
     $input = json_decode($raw_input, true);
 
-    $fullName        = trim($input['fullName'] ?? '');
-    $workEmail       = trim($input['workEmail'] ?? '');
-    $organization    = trim($input['organization'] ?? '');
+    $fullName        = trim($input['fullName'] ?? $input['name'] ?? '');
+    $workEmail       = trim($input['workEmail'] ?? $input['email'] ?? '');
+    $phone           = trim($input['phone'] ?? $input['phoneNumber'] ?? '');
+    $organization    = trim($input['organization'] ?? $input['company'] ?? '');
     $role            = trim($input['role'] ?? '');
-    $dataEnvironment = trim($input['dataEnvironment'] ?? '');
+    $dataEnvironment = trim($input['dataEnvironment'] ?? $input['environment'] ?? '');
+    $teamSize        = trim($input['teamSize'] ?? '');
+    $message         = trim($input['message'] ?? $input['notes'] ?? '');
 
     if (empty($workEmail) || !filter_var($workEmail, FILTER_VALIDATE_EMAIL)) {
         json_response(['success' => false, 'error' => 'A valid work email is required'], 400);
@@ -26,7 +29,7 @@ if ($method === 'POST') {
     }
 
     // ========================================================
-    // Send Email Notifications via PHP mail()
+    // Send Email Notifications via PHP / SMTP
     // ========================================================
     // 1. Email to Admin
     $admin_subject = "🚀 [ZeroQueries Demo] New Request: " . $fullName . " (" . $organization . ")";
@@ -45,6 +48,7 @@ if ($method === 'POST') {
                 <td style="padding: 8px 0; color: #6b7280;">Work Email:</td>
                 <td style="padding: 8px 0; color: #2563eb; font-weight: 500;"><a href="mailto:' . htmlspecialchars($workEmail) . '" style="color: #2563eb; text-decoration: none;">' . htmlspecialchars($workEmail) . '</a></td>
             </tr>
+            ' . (!empty($phone) ? '<tr><td style="padding: 8px 0; color: #6b7280;">Phone:</td><td style="padding: 8px 0; color: #111827;">' . htmlspecialchars($phone) . '</td></tr>' : '') . '
             <tr>
                 <td style="padding: 8px 0; color: #6b7280;">Organization:</td>
                 <td style="padding: 8px 0; color: #111827; font-weight: 600;">' . htmlspecialchars($organization) . '</td>
@@ -57,6 +61,8 @@ if ($method === 'POST') {
                 <td style="padding: 8px 0; color: #6b7280;">Data Environment:</td>
                 <td style="padding: 8px 0; color: #111827;"><span style="display: inline-block; padding: 4px 12px; background: #eff6ff; color: #1d4ed8; border-radius: 20px; font-size: 12px; font-weight: 600;">' . htmlspecialchars($dataEnvironment ?: 'Enterprise Data Lake') . '</span></td>
             </tr>
+            ' . (!empty($teamSize) ? '<tr><td style="padding: 8px 0; color: #6b7280;">Team Size:</td><td style="padding: 8px 0; color: #111827;">' . htmlspecialchars($teamSize) . '</td></tr>' : '') . '
+            ' . (!empty($message) ? '<tr><td style="padding: 8px 0; color: #6b7280; vertical-align: top;">Notes:</td><td style="padding: 8px 0; color: #111827;">' . nl2br(htmlspecialchars($message)) . '</td></tr>' : '') . '
             <tr>
                 <td style="padding: 8px 0; color: #6b7280;">Requested At:</td>
                 <td style="padding: 8px 0; color: #111827;">' . date('F j, Y, g:i a') . '</td>
@@ -128,9 +134,12 @@ if ($method === 'POST') {
         'id'              => count($entries) + 1,
         'fullName'        => $fullName,
         'workEmail'       => $workEmail,
+        'phone'           => $phone,
         'organization'    => $organization,
         'role'            => $role,
         'dataEnvironment' => $dataEnvironment,
+        'teamSize'        => $teamSize,
+        'message'         => $message,
         'createdAt'       => date('c')
     ];
     array_unshift($entries, $newEntry);

@@ -1,0 +1,23 @@
+{
+  "short_name": "ZeroQueries",
+  "name": "ZeroQueries | Natural Language to SQL AI Platform",
+  "icons": [
+    {
+      "src": "/Home/ZQ_APP_icon.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#030014",
+  "theme_color": "#030014",
+  "display": "standalone",
+  "orientation": "portrait"
+}

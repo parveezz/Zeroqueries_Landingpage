@@ -17,7 +17,7 @@ async function getEntries() {
 export async function POST(request) {
     try {
         const body = await request.json();
-        const { firstName, lastName, email, phone, topic, message } = body;
+        const { firstName, lastName, email, phone, company, topic, message } = body;
 
         if (!email || !email.includes('@')) {
             return NextResponse.json({ success: false, error: 'A valid email is required' }, { status: 400 });
@@ -33,6 +33,7 @@ export async function POST(request) {
             lastName: lastName || '',
             email,
             phone: phone || '',
+            company: company || '',
             topic: topic || 'General Inquiry',
             message: message || '',
             createdAt: new Date().toISOString()

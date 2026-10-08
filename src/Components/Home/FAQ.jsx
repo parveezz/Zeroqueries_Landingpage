@@ -5,7 +5,7 @@ import Link from "next/link";
 import { FiPlus, FiMinus, FiArrowUpRight } from "react-icons/fi";
 import { useLanguage } from "@/context/LanguageContext";
 
-// --- FAQ data ---
+// --- FAQ data (UNCHANGED) ---
 const FAQS_EN = [
     {
         q: "How does ZeroQueries connect to my existing data?",
@@ -72,146 +72,180 @@ export default function FAQ() {
     };
 
     return (
-        <section className="relative w-full bg-gray-50 font-sans text-black py-14 sm:py-20 lg:py-28 px-4 sm:px-8 lg:px-14 overflow-hidden">
-            {/* Dot grid */}
-            <div className="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-30" />
+        <section 
+            dir={isAr ? "rtl" : "ltr"}
+            className="relative w-full bg-white font-sans text-black py-16 sm:py-24 lg:py-32 px-4 sm:px-8 lg:px-14 overflow-hidden"
+        >
+            {/* Dot grid background */}
+            <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-40" />
 
-            {/* ============== PURPLE GLOW — TOP LEFT ============== */}
+            {/* Ambient purple glow — top right */}
             <div
-                className="pointer-events-none absolute -top-24 sm:-top-40 -left-24 sm:-left-40 w-[350px] sm:w-[600px] lg:w-[750px] h-[350px] sm:h-[600px] lg:h-[750px] rounded-full"
+                className="pointer-events-none absolute -top-32 -right-32 w-[400px] sm:w-[600px] lg:w-[800px] h-[400px] sm:h-[600px] lg:h-[800px] rounded-full"
                 style={{
                     background:
-                        "radial-gradient(circle, rgba(139, 92, 246, 0.30) 0%, rgba(167, 139, 250, 0.14) 40%, rgba(196, 181, 253, 0) 70%)",
-                    filter: "blur(80px)",
+                        "radial-gradient(circle, rgba(139, 92, 246, 0.20) 0%, rgba(167, 139, 250, 0.08) 40%, rgba(196, 181, 253, 0) 70%)",
+                    filter: "blur(100px)",
                 }}
             />
 
-            {/* ============== PURPLE GLOW — BOTTOM RIGHT ============== */}
+            {/* Ambient purple glow — bottom left */}
             <div
-                className="pointer-events-none absolute -bottom-24 sm:-bottom-40 -right-24 sm:-right-40 w-[350px] sm:w-[600px] lg:w-[750px] h-[350px] sm:h-[600px] lg:h-[750px] rounded-full"
+                className="pointer-events-none absolute -bottom-32 -left-32 w-[400px] sm:w-[600px] lg:w-[800px] h-[400px] sm:h-[600px] lg:h-[800px] rounded-full"
                 style={{
                     background:
-                        "radial-gradient(circle, rgba(139, 92, 246, 0.30) 0%, rgba(167, 139, 250, 0.14) 40%, rgba(196, 181, 253, 0) 70%)",
-                    filter: "blur(80px)",
+                        "radial-gradient(circle, rgba(139, 92, 246, 0.20) 0%, rgba(167, 139, 250, 0.08) 40%, rgba(196, 181, 253, 0) 70%)",
+                    filter: "blur(100px)",
                 }}
             />
 
-            <div className="relative z-10 mx-auto max-w-6xl">
-                {/* ============== SPLIT HEADER ============== */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 lg:gap-16 items-end mb-8 sm:mb-12 lg:mb-16">
-                    <div className="lg:col-span-7">
-                        <span className="inline-flex items-center gap-2 text-[10.5px] sm:text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#7C3AED]" />
-                            {isAr ? "الأسئلة الشائعة" : "Frequently Asked"}
-                        </span>
+            <div className="relative z-10 mx-auto max-w-7xl">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
 
-                        <h2 className="mt-2.5 sm:mt-4 text-2xl sm:text-3xl lg:text-[44px] font-light tracking-tight text-black leading-[1.15]">
-                            {isAr ? (
-                                <>
-                                    كل ما يدور في ذهنك.
-                                    <br />
-                                    <span className="text-black/50">تمت الإجابة عنه.</span>
-                                </>
-                            ) : (
-                                <>
-                                    Everything you were about to ask.
-                                    <br />
-                                    <span className="text-black/50">Answered.</span>
-                                </>
-                            )}
-                        </h2>
+                    {/* ============== LEFT/RIGHT: HEADER (STICKY) ============== */}
+                    <div className="lg:col-span-5">
+                        <div className={`lg:sticky lg:top-16 ${isAr ? 'text-right' : 'text-left'}`}>
+                            <span className="inline-flex items-center gap-2 text-[10.5px] sm:text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#7C3AED]" />
+                                {isAr ? "الأسئلة الشائعة" : "Frequently Asked"}
+                            </span>
+
+                            <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-black leading-[1.1]">
+                                {isAr ? (
+                                    <>
+                                        كل ما يدور في ذهنك.
+                                        <br />
+                                        <span className="text-black/40 italic font-serif">تمت الإجابة عنه.</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        Everything you were about to ask.
+                                        <br />
+                                        <span className="text-black/40 italic font-serif">Answered.</span>
+                                    </>
+                                )}
+                            </h2>
+
+                            <p className="mt-6 text-sm sm:text-base text-black/60 leading-relaxed font-light max-w-md">
+                                {isAr
+                                    ? "جولة سريعة حول ما يقدمه ZeroQueries، وكيفية التعامل مع بياناتك بأمان، وما يلزم للبدء. ألم تجد إجابتك؟ فريقنا جاهز لمساعدتك دائماً."
+                                    : "A quick tour of what ZeroQueries does, how it handles your data, and what it takes to get started. Can't find your answer? Our team is one message away."}
+                            </p>
+
+                            <div className="mt-8 hidden lg:flex items-center gap-3">
+                                <div className="h-px flex-1 bg-gray-200 max-w-[80px]" />
+                                <span className="text-xs text-black/40 tracking-widest uppercase">
+                                    {isAr ? "الأسئلة" : "Questions"}
+                                </span>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="lg:col-span-5 lg:pl-8 lg:border-l lg:border-gray-200">
-                        <p className="text-sm sm:text-base text-black/60 leading-relaxed font-light">
-                            {isAr
-                                ? "جولة سريعة حول ما يقدمه ZeroQueries، وكيفية التعامل مع بياناتك بأمان، وما يلزم للبدء. ألم تجد إجابتك؟ فريقنا جاهز لمساعدتك دائماً."
-                                : "A quick tour of what ZeroQueries does, how it handles your data, and what it takes to get started. Can't find your answer? Our team is one message away."}
-                        </p>
-                    </div>
-                </div>
-
-                {/* ============== FAQ LIST ============== */}
-                <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden divide-y divide-gray-100 shadow-sm">
-                    {faqs.map((item, i) => {
-                        const isOpen = openIndex === i;
-                        return (
-                            <div key={i} className="group">
-                                <button
-                                    type="button"
-                                    onClick={() => toggle(i)}
-                                    aria-expanded={isOpen}
-                                    className="w-full flex items-start justify-between gap-4 sm:gap-6 text-left px-4 sm:px-8 py-4 sm:py-6 transition-colors hover:bg-gray-50/60 focus-visible:outline-none focus-visible:bg-gray-50"
-                                >
-                                    {/* Question */}
-                                    <div className="flex items-start gap-3 sm:gap-5 flex-1 min-w-0">
-                                        <span className="hidden sm:inline-block text-[11px] font-medium tracking-[0.15em] text-black/40 mt-1.5 shrink-0">
-                                            {String(i + 1).padStart(2, "0")}
-                                        </span>
-                                        <span
-                                            className={`text-[15px] sm:text-[17px] font-normal tracking-tight leading-snug transition-colors ${isOpen ? "text-black" : "text-black/80 group-hover:text-black"
-                                                }`}
-                                        >
-                                            {item.q}
-                                        </span>
-                                    </div>
-
-                                    {/* Toggle icon */}
-                                    <span
-                                        className={`shrink-0 mt-0.5 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full border transition-all duration-300 ${isOpen
-                                                ? "bg-black border-black text-white"
-                                                : "bg-white border-gray-200 text-black/60 group-hover:border-black group-hover:text-black"
-                                            }`}
-                                    >
-                                        {isOpen ? (
-                                            <FiMinus className="h-3.5 w-3.5" />
-                                        ) : (
-                                            <FiPlus className="h-3.5 w-3.5" />
-                                        )}
-                                    </span>
-                                </button>
-
-                                {/* Answer — animated collapse */}
+                    {/* ============== FAQ LIST ============== */}
+                    <div className="lg:col-span-7 flex flex-col gap-3">
+                        {faqs.map((item, i) => {
+                            const isOpen = openIndex === i;
+                            return (
                                 <div
-                                    className={`grid transition-all duration-300 ease-out ${isOpen
-                                            ? "grid-rows-[1fr] opacity-100"
-                                            : "grid-rows-[0fr] opacity-0"
+                                    key={i}
+                                    className={`group relative rounded-2xl border transition-all duration-300 ${isOpen
+                                            ? "bg-white border-gray-200 shadow-[0_8px_30px_rgb(0,0,0,0.06)]"
+                                            : "bg-white/60 border-gray-100 hover:bg-white hover:border-gray-200 hover:shadow-[0_4px_20px_rgb(0,0,0,0.04)]"
                                         }`}
                                 >
-                                    <div className="overflow-hidden">
-                                        <div className="px-4 pb-4 sm:px-8 sm:pb-7 sm:pl-[68px]">
-                                            <p className="text-[13.5px] sm:text-[15px] text-black/70 font-light leading-relaxed max-w-3xl">
-                                                {item.a}
-                                            </p>
+                                    <button
+                                        type="button"
+                                        onClick={() => toggle(i)}
+                                        aria-expanded={isOpen}
+                                        className={`w-full flex items-start justify-between gap-4 sm:gap-6 px-5 sm:px-7 py-5 sm:py-6 focus-visible:outline-none ${isAr ? 'text-right' : 'text-left'}`}
+                                    >
+                                        {/* Number + Question */}
+                                        <div className="flex items-start gap-4 sm:gap-5 flex-1 min-w-0">
+                                            <span
+                                                className={`hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-full text-[11px] font-semibold tracking-wider shrink-0 transition-colors ${isOpen
+                                                        ? "bg-[#7C3AED] text-white"
+                                                        : "bg-purple-50 text-[#7C3AED] group-hover:bg-purple-100"
+                                                    }`}
+                                            >
+                                                {String(i + 1).padStart(2, "0")}
+                                            </span>
+                                            <span
+                                                className={`text-[15px] sm:text-[17px] font-normal tracking-tight leading-snug transition-colors mt-1 sm:mt-1.5 ${isOpen ? "text-black" : "text-black/85 group-hover:text-black"
+                                                    }`}
+                                            >
+                                                {item.q}
+                                            </span>
+                                        </div>
+
+                                        {/* Toggle icon */}
+                                        <span
+                                            className={`shrink-0 mt-0.5 flex items-center justify-center w-8 h-8 rounded-full border transition-all duration-300 ${isOpen
+                                                    ? "bg-black border-black text-white rotate-180"
+                                                    : "bg-white border-gray-200 text-black/60 group-hover:border-black group-hover:text-black"
+                                                }`}
+                                        >
+                                            {isOpen ? (
+                                                <FiMinus className="h-3.5 w-3.5" />
+                                            ) : (
+                                                <FiPlus className="h-3.5 w-3.5" />
+                                            )}
+                                        </span>
+                                    </button>
+
+                                    {/* Answer — animated collapse */}
+                                    <div
+                                        className={`grid transition-all duration-300 ease-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                                            }`}
+                                    >
+                                        <div className="overflow-hidden">
+                                            <div className={`px-5 pb-5 sm:px-7 sm:pb-7 ${isAr ? 'sm:pr-[72px] text-right' : 'sm:pl-[72px] text-left'}`}>
+                                                <div className="h-px w-full bg-gray-100 mb-4" />
+                                                <p className="text-[13.5px] sm:text-[15px] text-black/65 font-light leading-relaxed max-w-2xl">
+                                                    {item.a}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })}
-                </div>
-
-                {/* ============== STILL HAVE QUESTIONS CTA ============== */}
-                <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 sm:gap-6 rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-sm p-5 sm:px-8 sm:py-6">
-                    <div>
-                        <h3 className="text-base sm:text-lg font-medium text-black tracking-tight">
-                            {isAr ? "هل لا يزال لديك استفسار؟" : "Still have questions?"}
-                        </h3>
-                        <p className="text-xs sm:text-sm text-black/60 font-light mt-1">
-                            {isAr
-                                ? "فريق الحلول الهندسية لدينا يجيبك خلال 24 ساعة."
-                                : "Our solutions engineering team responds within 24 hours."}
-                        </p>
+                            );
+                        })}
                     </div>
-
-                    <Link
-                        href="/contact"
-                        className="inline-flex items-center justify-center gap-2 rounded-full bg-black text-white w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3 text-sm font-normal hover:bg-gray-800 transition-colors group"
-                    >
-                        <span>{isAr ? "تحدث مع فريقنا" : "Talk to our team"}</span>
-                        <FiArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </Link>
                 </div>
+
+                {/* ============== BOTTOM CTA ============== */}
+                <div className="mt-16 sm:mt-20 relative overflow-hidden rounded-3xl bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 p-8 sm:p-10 lg:p-12">
+                    {/* Decorative glow inside CTA */}
+                    <div
+                        className="pointer-events-none absolute -top-20 -right-20 w-[400px] h-[400px] rounded-full"
+                        style={{
+                            background:
+                                "radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(139, 92, 246, 0) 70%)",
+                            filter: "blur(60px)",
+                        }}
+                    />
+
+                    <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 sm:gap-8">
+                        <div className={`max-w-md ${isAr ? 'text-right' : 'text-left'}`}>
+                            <h3 className="text-xl sm:text-2xl font-medium text-white tracking-tight">
+                                {isAr ? "هل لا يزال لديك استفسار؟" : "Still have questions?"}
+                            </h3>
+                            <p className="text-sm sm:text-base text-white/60 font-light mt-2 leading-relaxed">
+                                {isAr
+                                    ? "فريق الحلول الهندسية لدينا يجيبك خلال 24 ساعة."
+                                    : "Our solutions engineering team responds within 24 hours."}
+                            </p>
+                        </div>
+
+                        <Link
+                            href="/contact"
+                            className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-black w-full sm:w-auto px-6 sm:px-7 py-3 sm:py-3.5 text-sm font-medium hover:bg-gray-100 transition-colors group shrink-0"
+                        >
+                            <span>{isAr ? "تحدث مع فريقنا" : "Talk to our team"}</span>
+                            <FiArrowUpRight className={`h-4 w-4 transition-transform ${isAr ? '-scale-x-100 group-hover:-translate-x-0.5 group-hover:-translate-y-0.5' : 'group-hover:translate-x-0.5 group-hover:-translate-y-0.5'}`} />
+                        </Link>
+                    </div>
+                </div>
+
             </div>
         </section>
     );

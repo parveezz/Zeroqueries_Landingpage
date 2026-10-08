@@ -95,10 +95,67 @@ export default function SupportedDatabases() {
     const isAr = lang === "ar";
 
     return (
-        <section className="relative w-full bg-transparent font-sans text-black py-14 sm:py-20 lg:py-28 px-4 sm:px-8 lg:px-14 overflow-hidden">
-            <div className="relative z-10 mx-auto max-w-7xl">
+        <section 
+            dir={isAr ? "rtl" : "ltr"}
+            className="relative w-full font-sans text-black py-0 overflow-hidden border-y border-[#dfd0be]"
+        >
+            {/* ============ WARM WALL BASE (FULL WIDTH) ============ */}
+            <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                    background:
+                        "linear-gradient(180deg, #f5ede2 0%, #ebe0d1 40%, #e3d6c4 100%)",
+                }}
+            />
+
+            {/* ============ WOOD GRAIN / CORK TEXTURE (FULL WIDTH) ============ */}
+            <div
+                className="absolute inset-0 pointer-events-none opacity-[0.35] mix-blend-multiply"
+                style={{
+                    backgroundImage: `
+                        radial-gradient(circle at 30% 20%, #b8a68c 0%, transparent 25%),
+                        radial-gradient(circle at 70% 60%, #c9b69a 0%, transparent 20%),
+                        radial-gradient(circle at 15% 75%, #b8a68c 0%, transparent 22%),
+                        radial-gradient(circle at 85% 30%, #c9b69a 0%, transparent 18%),
+                        radial-gradient(circle at 50% 90%, #b8a68c 0%, transparent 25%),
+                        radial-gradient(circle at 25% 45%, #d4c3aa 0%, transparent 20%)
+                    `,
+                    backgroundSize:
+                        "400px 400px, 500px 500px, 450px 450px, 380px 380px, 520px 520px, 480px 480px",
+                }}
+            />
+
+            {/* ============ FINE GRAIN DOTS (FULL WIDTH) ============ */}
+            <div
+                className="absolute inset-0 pointer-events-none opacity-[0.15]"
+                style={{
+                    backgroundImage:
+                        "radial-gradient(circle, #8b7355 0.8px, transparent 1.2px)",
+                    backgroundSize: "6px 6px",
+                }}
+            />
+
+            {/* ============ SOFT VIGNETTE (FULL WIDTH) ============ */}
+            <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                    background:
+                        "radial-gradient(ellipse at center, transparent 40%, rgba(90, 70, 50, 0.08) 100%)",
+                }}
+            />
+
+            {/* ============ INNER SHADOW (FULL WIDTH) ============ */}
+            <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                    boxShadow:
+                        "inset 0 0 60px rgba(90, 70, 50, 0.06), inset 0 0 12px rgba(90, 70, 50, 0.04)",
+                }}
+            />
+
+            <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-8 lg:px-14">
                 {/* ============== HEADING ============== */}
-                <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12 lg:mb-16">
+                <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14 lg:mb-16">
                     <span className="text-[10.5px] sm:text-[11px] font-medium tracking-[0.2em] text-black/60 uppercase">
                         {isAr ? "اربط منظومة أدواتك" : "Connect Your Stack"}
                     </span>
@@ -114,76 +171,17 @@ export default function SupportedDatabases() {
                     </p>
                 </div>
 
-                {/* ============================================================
-            CORK BOARD
-        ============================================================ */}
-                <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm">
-                    {/* ============ WARM WALL BASE ============ */}
-                    <div
-                        className="absolute inset-0 pointer-events-none"
-                        style={{
-                            background:
-                                "linear-gradient(180deg, #f5ede2 0%, #ebe0d1 40%, #e3d6c4 100%)",
-                        }}
-                    />
-
-                    {/* ============ WOOD GRAIN / CORK TEXTURE ============ */}
-                    <div
-                        className="absolute inset-0 pointer-events-none opacity-[0.35] mix-blend-multiply"
-                        style={{
-                            backgroundImage: `
-                radial-gradient(circle at 30% 20%, #b8a68c 0%, transparent 25%),
-                radial-gradient(circle at 70% 60%, #c9b69a 0%, transparent 20%),
-                radial-gradient(circle at 15% 75%, #b8a68c 0%, transparent 22%),
-                radial-gradient(circle at 85% 30%, #c9b69a 0%, transparent 18%),
-                radial-gradient(circle at 50% 90%, #b8a68c 0%, transparent 25%),
-                radial-gradient(circle at 25% 45%, #d4c3aa 0%, transparent 20%)
-              `,
-                            backgroundSize:
-                                "400px 400px, 500px 500px, 450px 450px, 380px 380px, 520px 520px, 480px 480px",
-                        }}
-                    />
-
-                    {/* ============ FINE GRAIN DOTS ============ */}
-                    <div
-                        className="absolute inset-0 pointer-events-none opacity-[0.15]"
-                        style={{
-                            backgroundImage:
-                                "radial-gradient(circle, #8b7355 0.8px, transparent 1.2px)",
-                            backgroundSize: "6px 6px",
-                        }}
-                    />
-
-                    {/* ============ SOFT VIGNETTE ============ */}
-                    <div
-                        className="pointer-events-none absolute inset-0"
-                        style={{
-                            background:
-                                "radial-gradient(ellipse at center, transparent 40%, rgba(90, 70, 50, 0.10) 100%)",
-                        }}
-                    />
-
-                    {/* ============ INNER SHADOW ============ */}
-                    <div
-                        className="pointer-events-none absolute inset-0 rounded-2xl sm:rounded-3xl"
-                        style={{
-                            boxShadow:
-                                "inset 0 0 60px rgba(90, 70, 50, 0.08), inset 0 0 12px rgba(90, 70, 50, 0.05)",
-                        }}
-                    />
-
-                    {/* ============ THE STICKY NOTES ============ */}
-                    <div className="relative z-10 overflow-x-auto lg:overflow-visible py-10 sm:py-16 lg:py-20 px-4 sm:px-10 lg:px-14 no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-                        <div className="flex flex-nowrap lg:flex-wrap items-start justify-start lg:justify-center gap-4 sm:gap-5 lg:gap-6 min-w-max lg:min-w-0">
-                            {DATABASES.map((db) => (
-                                <StickyNote key={db.name} db={db} />
-                            ))}
-                        </div>
+                {/* ============ THE STICKY NOTES ============ */}
+                <div className="relative z-10 overflow-x-auto lg:overflow-visible py-4 sm:py-6 lg:py-8 px-2 sm:px-6 lg:px-8 no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex flex-nowrap lg:flex-wrap items-start justify-start lg:justify-center gap-4 sm:gap-5 lg:gap-6 min-w-max lg:min-w-0">
+                        {DATABASES.map((db) => (
+                            <StickyNote key={db.name} db={db} />
+                        ))}
                     </div>
                 </div>
 
                 {/* ============== BOTTOM LINE ============== */}
-                <div className="mt-8 sm:mt-12 lg:mt-14 text-center">
+                <div className="mt-10 sm:mt-14 lg:mt-16 text-center">
                     <p className="text-xs sm:text-sm text-black/60 font-light">
                         {isAr ? (
                             <>

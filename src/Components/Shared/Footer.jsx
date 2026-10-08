@@ -30,7 +30,7 @@ const socialLinks = [
   },
 ];
 
-// Translations
+// Translations (Kept exactly as your original)
 const content = {
   en: {
     tagline:
@@ -92,9 +92,10 @@ export default function Footer({ lang: propLang }) {
   const { lang: contextLang } = useLanguage();
   const lang = propLang || contextLang || "en";
   const t = content[lang] || content.en;
+  const isAr = lang === "ar";
 
   const [newsletterEmail, setNewsletterEmail] = useState("");
-  const [newsletterStatus, setNewsletterStatus] = useState("idle"); // idle | loading | success | error
+  const [newsletterStatus, setNewsletterStatus] = useState("idle");
   const [newsletterMsg, setNewsletterMsg] = useState("");
 
   const handleNewsletterSubmit = async (e) => {
@@ -130,63 +131,120 @@ export default function Footer({ lang: propLang }) {
   };
 
   return (
-    <footer className="w-full border-t border-gray-200/80 bg-gray-50/70 font-sans text-black">
-      <div className="mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-14 pt-12 sm:pt-16 pb-8 sm:pb-12">
+    <footer className="w-full font-sans" dir={isAr ? "rtl" : "ltr"}>
+      {/* Main Container */}
+      <div className="relative w-full bg-gradient-to-br from-[#0f172a] via-[#134e4a] to-[#020617] text-white overflow-hidden rounded-t-[2rem]">
 
-        {/* ================= MAIN FOOTER ================= */}
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
-          {/* Brand Info & Social */}
-          <div className="lg:col-span-5 xl:col-span-5 space-y-5 sm:space-y-6 text-left">
-            <Link href="/" className="inline-flex items-center gap-2.5">
-              <Image
-                src="/zerologo.png"
-                alt="ZeroQueries logo"
-                width={50}
-                height={35}
-                className="h-8 sm:h-9 w-auto object-contain"
-              />
-              <span className="text-[20px] sm:text-[22px] font-light tracking-tight text-black">
-                ZeroQueries
-              </span>
-            </Link>
+        {/* Subtle overlay for the diagonal light ray effect */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
 
-            <p className="text-sm sm:text-[15px] leading-relaxed text-black/60 font-light max-w-sm">
-              {t.tagline}
-            </p>
+        {/* Reduced overall padding: pt-10 pb-6 (was pt-20 pb-10) */}
+        <div className="relative mx-auto max-w-[1440px] px-6 sm:px-12 lg:px-20 pt-10 pb-6">
 
-            {/* Newsletter Subscription */}
-            <div className="pt-1 max-w-sm">
-              <label className="block text-xs font-medium uppercase tracking-[0.1em] text-black/50 mb-2">
-                {lang === "ar" ? "اشترك في النشرة الإخبارية" : "Subscribe to Updates"}
-              </label>
-              <form onSubmit={handleNewsletterSubmit} className="flex gap-2">
-                <input
-                  type="email"
-                  required
-                  placeholder={lang === "ar" ? "بريدك الإلكتروني" : "Enter your email"}
-                  value={newsletterEmail}
-                  onChange={(e) => setNewsletterEmail(e.target.value)}
-                  className="flex-1 min-w-0 px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-gray-200 bg-white placeholder-black/30 focus:outline-none focus:border-[#6434F5] focus:ring-1 focus:ring-[#6434F5]"
-                />
-                <button
-                  type="submit"
-                  disabled={newsletterStatus === "loading"}
-                  className="px-4 py-2 text-xs sm:text-sm font-medium rounded-xl bg-black text-white hover:bg-[#6434F5] transition-colors disabled:opacity-50 whitespace-nowrap cursor-pointer"
-                >
-                  {newsletterStatus === "loading"
-                    ? (lang === "ar" ? "..." : "...")
-                    : (lang === "ar" ? "اشتراك" : "Join")}
-                </button>
-              </form>
-              {newsletterMsg && (
-                <p className={`text-xs mt-1.5 font-light ${newsletterStatus === "success" ? "text-emerald-600" : "text-rose-500"}`}>
-                  {newsletterMsg}
-                </p>
-              )}
+          {/* ================= TOP CTA SECTION ================= */}
+          {/* Reduced bottom margin/padding: mb-8 pb-6 (was mb-16 pb-12) */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8 pb-6 border-b border-white/10">
+            <div className="max-w-xl text-left">
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
+                {isAr ? "ابدأ تجربتك المجانية لمدة 30 يوماً" : "Start your 30-day free trial"}
+              </h2>
+              <p className="text-white/70 text-sm sm:text-base leading-relaxed">
+                {isAr
+                  ? "بدون أي ضغط - سنوضح لك كيفية عمل منصتنا، لتقرر ما إذا كانت التجربة مناسبة لك."
+                  : "No pressure—we’ll show you how our platform works, so you can decide if a trial is right for you."}
+              </p>
             </div>
 
-            {/* Social Icons */}
-            <div className="flex items-center gap-2.5 sm:gap-3 pt-1 justify-start">
+            <Link
+              href="/signup"
+              className="shrink-0 bg-white text-[#0f172a] px-6 py-2.5 rounded-xl font-semibold text-sm hover:bg-gray-100 transition-colors shadow-lg active:scale-95"
+            >
+              {isAr ? "ابدأ مجاناً" : "Start For Free"}
+            </Link>
+          </div>
+
+          {/* ================= MAIN FOOTER LINKS ================= */}
+          {/* Reduced gap: gap-8 lg:gap-6 (was gap-12 lg:gap-8) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 text-left">
+
+            {/* Logo Column */}
+            <div className="lg:col-span-3">
+              <Link href="/" className="inline-flex items-center gap-2.5 mb-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 bg-white/10 rounded flex items-center justify-center backdrop-blur-sm">
+                    <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                    </svg>
+                  </div>
+                  <span className="text-xl font-semibold tracking-tight text-white">
+                    ZeroQueries
+                  </span>
+                </div>
+              </Link>
+            </div>
+
+            {/* Links Columns */}
+            <div className="lg:col-span-9 grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-6">
+
+              {/* Company Column */}
+              <div>
+                <h3 className="text-xs font-semibold text-white/50 mb-3 tracking-wide">
+                  {t.columns.company}
+                </h3>
+                <ul className="space-y-2">
+                  {t.company.map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href} className="text-sm font-medium text-white hover:text-[#5eead4] transition-colors">
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Integrations Column */}
+              <div>
+                <h3 className="text-xs font-semibold text-white/50 mb-3 tracking-wide">
+                  {t.columns.integrations}
+                </h3>
+                <ul className="space-y-2">
+                  {t.integrations.map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href} className="text-sm font-medium text-white hover:text-[#5eead4] transition-colors">
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Legal Column */}
+              <div>
+                <h3 className="text-xs font-semibold text-white/50 mb-3 tracking-wide">
+                  {t.columns.legal}
+                </h3>
+                <ul className="space-y-2">
+                  {t.legal.map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href} className="text-sm font-medium text-white hover:text-[#5eead4] transition-colors">
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+            </div>
+          </div>
+
+          {/* ================= BOTTOM COPYRIGHT & SOCIAL ================= */}
+          {/* Reduced top margin/padding: mt-10 pt-6 (was mt-20 pt-8) */}
+          <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-white/60 font-light">
+              {t.copyright}
+            </p>
+
+            <div className="flex items-center gap-4">
               {socialLinks.map((item) => {
                 const Icon = item.icon;
                 return (
@@ -196,7 +254,7 @@ export default function Footer({ lang: propLang }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={item.name}
-                    className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl border border-gray-200 bg-white text-black/60 transition-colors hover:border-[#6434F5] hover:bg-purple-50 hover:text-[#6434F5] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6434F5] focus-visible:ring-offset-2"
+                    className="text-white/70 hover:text-[#5eead4] transition-colors"
                   >
                     <Icon className="h-4 w-4" />
                   </a>
@@ -205,70 +263,6 @@ export default function Footer({ lang: propLang }) {
             </div>
           </div>
 
-          {/* Links Columns */}
-          <div className="grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3 sm:gap-8 lg:col-span-7 xl:col-span-7 pt-2 lg:pt-0 text-left">
-            {/* Company */}
-            <div>
-              <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-black/40">
-                {t.columns.company}
-              </h3>
-              <ul className="mt-4 space-y-2.5 sm:space-y-3">
-                {t.company.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="inline-flex items-center gap-1 py-0.5 text-[13.5px] sm:text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
-                    >
-                      <span>{link.name}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Integrations */}
-            <div>
-              <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-black/40">
-                {t.columns.integrations}
-              </h3>
-              <ul className="mt-4 space-y-2.5 sm:space-y-3">
-                {t.integrations.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="inline-flex items-center gap-1 py-0.5 text-[13.5px] sm:text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
-                    >
-                      <span>{link.name}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Legal */}
-            <div className="col-span-2 sm:col-span-1">
-              <h3 className="text-xs font-medium uppercase tracking-[0.15em] text-black/40">
-                {t.columns.legal}
-              </h3>
-              <ul className="mt-4 space-y-2.5 sm:space-y-3">
-                {t.legal.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="inline-block py-0.5 text-[13.5px] sm:text-sm font-normal text-black/70 transition-colors hover:text-[#6434F5]"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* ================= COPYRIGHT ================= */}
-        <div className="mt-12 sm:mt-14 pt-6 sm:pt-8 border-t border-gray-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-black/50 font-light text-left">
-          <p>{t.copyright}</p>
         </div>
       </div>
     </footer>

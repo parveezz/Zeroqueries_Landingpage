@@ -13,6 +13,7 @@ if ($method === 'POST') {
     $lastName  = trim($input['lastName'] ?? '');
     $email     = trim($input['email'] ?? '');
     $phone     = trim($input['phone'] ?? '');
+    $company   = trim($input['company'] ?? $input['organization'] ?? '');
     $topic     = trim($input['topic'] ?? 'General Inquiry');
     $message   = trim($input['message'] ?? '');
 
@@ -44,6 +45,7 @@ if ($method === 'POST') {
                 <td style="padding: 8px 0; color: #6434F5; font-weight: 500;"><a href="mailto:' . htmlspecialchars($email) . '" style="color: #6434F5; text-decoration: none;">' . htmlspecialchars($email) . '</a></td>
             </tr>
             ' . (!empty($phone) ? '<tr><td style="padding: 8px 0; color: #6b7280;">Phone:</td><td style="padding: 8px 0; color: #111827;">' . htmlspecialchars($phone) . '</td></tr>' : '') . '
+            ' . (!empty($company) ? '<tr><td style="padding: 8px 0; color: #6b7280;">Company:</td><td style="padding: 8px 0; color: #111827;">' . htmlspecialchars($company) . '</td></tr>' : '') . '
             <tr>
                 <td style="padding: 8px 0; color: #6b7280;">Topic:</td>
                 <td style="padding: 8px 0; color: #111827;"><span style="display: inline-block; padding: 3px 10px; background: #f3f0ff; color: #6434F5; border-radius: 20px; font-size: 12px; font-weight: 500;">' . htmlspecialchars($topic) . '</span></td>
@@ -122,6 +124,7 @@ if ($method === 'POST') {
         'lastName'  => $lastName,
         'email'     => $email,
         'phone'     => $phone,
+        'company'   => $company,
         'topic'     => $topic,
         'message'   => $message,
         'createdAt' => date('c')

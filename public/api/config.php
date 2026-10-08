@@ -23,10 +23,9 @@ define('DB_USER', getenv('DB_USER') ?: 'umar');
 define('DB_PASS', getenv('DB_PASS') ?: 'Umar@1234');
 define('DB_CHARSET', 'utf8mb4');
 
-// Mail Notification Settings (Hostinger PHP mail())
-// Set your admin recipient email below:
-define('ADMIN_EMAIL', getenv('ADMIN_EMAIL') ?: 'contact@zeroqueries.com');
-define('SYSTEM_SENDER_EMAIL', getenv('SYSTEM_SENDER_EMAIL') ?: 'no-reply@zeroqueries.com');
+// Mail Notification Settings (Hostinger SMTP)
+define('ADMIN_EMAIL', getenv('ADMIN_EMAIL') ?: 'info@invertiosolutions.com');
+define('SYSTEM_SENDER_EMAIL', getenv('SYSTEM_SENDER_EMAIL') ?: 'info@invertiosolutions.com');
 
 // Fallback JSON file path
 define('DATA_FILE', __DIR__ . '/data/blogs.json');
@@ -295,7 +294,15 @@ function save_all_blogs($blogs) {
     if (!is_dir(__DIR__ . '/data')) {
         mkdir(__DIR__ . '/data', 0755, true);
     }
-    return file_put_contents(DATA_FILE, json_encode($blogs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+    $json = json_encode($blogs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    $res = file_put_contents(DATA_FILE, $json);
+
+    // Also sync to Next.js local src/data/blogs.json if in development
+    $src_data = dirname(__DIR__, 2) . '/src/data/blogs.json';
+    if (file_exists(dirname($src_data))) {
+        @file_put_contents($src_data, $json);
+    }
+    return $res;
 }
 
 // Helper to generate a clean URL slug from English title
@@ -316,10 +323,21 @@ function json_response($data, $status = 200) {
     exit();
 }
 
-// Mail Dispatcher using PHP mail()
+// Mail Dispatcher using Hostinger SMTP (with PHP mail() fallback)
 function send_system_mail($to, $subject, $html_body, $reply_to = null) {
     if (empty($to) || !filter_var($to, FILTER_VALIDATE_EMAIL)) {
         return false;
+    }
+
+    $smtpHelperPath = __DIR__ . '/smtp_helper.php';
+    if (file_exists($smtpHelperPath)) {
+        require_once $smtpHelperPath;
+        if (function_exists('sendSmtpEmail')) {
+            $res = sendSmtpEmail($to, $subject, $html_body, $reply_to ?? '');
+            if (!empty($res['success'])) {
+                return true;
+            }
+        }
     }
 
     $headers = [];

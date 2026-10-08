@@ -15,7 +15,7 @@ if (empty($slug_param) && !empty($_SERVER['PATH_INFO'])) {
 }
 if (empty($slug_param) && !empty($_SERVER['REQUEST_URI'])) {
     $uri_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    if (preg_match('#/(?:api/)?blogs(?:\.php)?/([^/?#]+)#i', $uri_path, $matches)) {
+    if (preg_match('~/(?:api/)?blogs(?:\.php)?/([^/?#]+)~i', $uri_path, $matches)) {
         $slug_param = urldecode($matches[1]);
     }
 }

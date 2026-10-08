@@ -526,10 +526,13 @@ export default function Workspace() {
                                 ref={centerInputRef}
                                 className="bg-white border border-gray-200 rounded-xl p-3 sm:p-6 min-h-[130px] sm:min-h-[140px] flex flex-col justify-between shadow-xs"
                             >
-                                <p className="text-[14.5px] sm:text-base font-light leading-relaxed text-black min-h-[46px] sm:min-h-[52px]">
+                                <p 
+                                    dir={isAr ? "rtl" : "ltr"}
+                                    className={`text-[14.5px] sm:text-base font-light leading-relaxed text-black min-h-[46px] sm:min-h-[52px] ${isAr ? 'text-right' : 'text-left'}`}
+                                >
                                     {typed}
                                     {phase === "typing" && (
-                                        <span className="inline-block w-[2px] h-[1.1em] align-middle bg-black ml-0.5 animate-pulse" />
+                                        <span className={`inline-block w-[2px] h-[1.1em] align-middle bg-black animate-pulse ${isAr ? 'mr-1' : 'ml-0.5'}`} />
                                     )}
                                 </p>
 

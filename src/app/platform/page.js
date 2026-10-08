@@ -2,6 +2,7 @@ import PlatformHero from "@/Components/platform/PlatformHero";
 import PlatformChannels from "@/Components/platform/PlatformChannels";
 import PlatformFeatures from "@/Components/platform/PlatformFeatures";
 import FinalCTA from "@/Components/Home/CTAsection";
+import FeatureShowcase from "@/Components/solutions/FeatureShowcase";
 
 export const metadata = {
   title: "Platform | ZeroQueries",
@@ -14,6 +15,7 @@ export default function PlatformPage() {
     <main className="w-full">
       <PlatformHero />
       <PlatformChannels />
+      <FeatureShowcase />
       <PlatformFeatures />
       <FinalCTA />
     </main>

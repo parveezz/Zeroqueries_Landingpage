@@ -33,6 +33,7 @@ export default function ContactForm() {
     lastName: "",
     email: "",
     phone: "",
+    company: "",
     topic: isAr ? "استفسار عام" : "General Inquiry",
     message: "",
   });
@@ -49,10 +50,14 @@ export default function ContactForm() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
+      const payload = {
+        ...formData,
+        form_type: "contact",
+      };
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
       if (res.ok) {
         setIsSubmitted(true);
@@ -74,6 +79,7 @@ export default function ContactForm() {
       lastName: "",
       email: "",
       phone: "",
+      company: "",
       topic: isAr ? "استفسار عام" : "General Inquiry",
       message: "",
     });
@@ -198,6 +204,21 @@ export default function ContactForm() {
                 className="h-10 sm:h-11 rounded-xl bg-gray-50 hover:bg-gray-100 focus:bg-white text-sm sm:text-[15px]"
               />
             </div>
+          </div>
+
+          {/* Company / Organization */}
+          <div>
+            <label className="block text-xs font-normal text-black mb-1.5">
+              {isAr ? "الشركة / المؤسسة (اختياري)" : "Company / Organization (Optional)"}
+            </label>
+            <Input
+              type="text"
+              name="company"
+              value={formData.company}
+              onChange={handleChange}
+              placeholder={isAr ? "اسم شركتك" : "Acme Inc."}
+              className="h-10 sm:h-11 rounded-xl bg-gray-50 hover:bg-gray-100 focus:bg-white text-sm sm:text-[15px]"
+            />
           </div>
 
           {/* Topic Select Pills */}

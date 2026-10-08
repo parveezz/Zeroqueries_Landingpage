@@ -17,7 +17,7 @@ async function getEntries() {
 export async function POST(request) {
     try {
         const body = await request.json();
-        const { fullName, workEmail, organization, role, dataEnvironment } = body;
+        const { fullName, workEmail, phone, organization, role, dataEnvironment, teamSize, message } = body;
 
         if (!workEmail || !workEmail.includes('@')) {
             return NextResponse.json({ success: false, error: 'A valid work email is required' }, { status: 400 });
@@ -34,9 +34,12 @@ export async function POST(request) {
             id: entries.length + 1,
             fullName,
             workEmail,
+            phone: phone || '',
             organization,
             role: role || '',
             dataEnvironment: dataEnvironment || '',
+            teamSize: teamSize || '',
+            message: message || '',
             createdAt: new Date().toISOString()
         };
 

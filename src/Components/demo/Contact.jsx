@@ -13,9 +13,12 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     fullName: "",
     workEmail: "",
+    phone: "",
     organization: "",
     role: "",
     dataEnvironment: "",
+    teamSize: "",
+    message: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,10 +40,14 @@ export default function Contact() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
+      const payload = {
+        ...formData,
+        form_type: "demo",
+      };
       const res = await fetch("/api/demo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
       if (res.ok) {
         setIsSubmitted(true);
@@ -60,9 +67,12 @@ export default function Contact() {
     setFormData({
       fullName: "",
       workEmail: "",
+      phone: "",
       organization: "",
       role: "",
       dataEnvironment: "",
+      teamSize: "",
+      message: "",
     });
   };
 
@@ -225,9 +235,11 @@ export default function Contact() {
                   {[
                     { id: "fullName", type: "text", label: isAr ? "الاسم الكامل" : "Full Name", required: true },
                     { id: "workEmail", type: "email", label: isAr ? "البريد الإلكتروني للعمل" : "Work Email", required: true },
+                    { id: "phone", type: "tel", label: isAr ? "رقم الهاتف (اختياري)" : "Phone Number (Optional)", required: false },
                     { id: "organization", type: "text", label: isAr ? "المؤسسة / الشركة" : "Organization", required: true },
                     { id: "role", type: "text", label: isAr ? "المسمى الوظيفي" : "Role", required: true },
-                    { id: "dataEnvironment", type: "text", label: isAr ? "بيئة البيانات (اختياري)" : "Data Environment (Optional)", required: false },
+                    { id: "dataEnvironment", type: "text", label: isAr ? "بيئة البيانات (مثل: PostgreSQL, Snowflake)" : "Data Environment (e.g. PostgreSQL, Snowflake)", required: false },
+                    { id: "teamSize", type: "text", label: isAr ? "حجم الفريق / المستخدمين المتوقعين (اختياري)" : "Team Size / Expected Users (Optional)", required: false },
                   ].map((field) => (
                     <div key={field.id} className="w-full">
                       <label htmlFor={field.id} className="sr-only">
@@ -245,6 +257,21 @@ export default function Contact() {
                       />
                     </div>
                   ))}
+
+                  <div className="w-full">
+                    <label htmlFor="demo-message" className="sr-only">
+                      {isAr ? "ملاحظات أو متطلبات إضافية" : "Additional Notes / Specific Requirements"}
+                    </label>
+                    <textarea
+                      id="demo-message"
+                      name="message"
+                      rows={3}
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder={isAr ? "متطلبات محددة أو ملاحظات إضافية (اختياري)..." : "Specific requirements or notes (Optional)..."}
+                      className="flex w-full rounded-xl border border-gray-200 bg-gray-50 hover:bg-gray-100 focus:bg-white px-3.5 py-2.5 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all leading-relaxed font-light resize-none"
+                    />
+                  </div>
 
                   <Button
                     type="submit"

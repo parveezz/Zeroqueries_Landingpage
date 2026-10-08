@@ -16,7 +16,10 @@ export default function TrustedBy() {
     const isAr = lang === "ar";
 
     return (
-        <section className="relative w-full bg-gray-50 font-sans text-black py-10 sm:py-16 lg:py-20 overflow-hidden">
+        <section 
+            dir={isAr ? "rtl" : "ltr"}
+            className="relative w-full bg-gray-50 font-sans text-black py-10 sm:py-16 lg:py-20 overflow-hidden"
+        >
             {/* Heading */}
             <div className="text-center mb-6 sm:mb-10 px-4">
                 <p className="text-xs sm:text-sm lg:text-base text-black/60 font-light tracking-wide">
