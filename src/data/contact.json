@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "id": 1,
+    "firstName": "parveez",
+    "lastName": "Shaik",
+    "email": "shaikparveez290@gmail.com",
+    "phone": "+916302122429",
+    "company": "Invertio solutions",
+    "topic": "Enterprise Sales",
+    "message": "testing",
+    "createdAt": "2026-10-09T05:12:13.568Z"
+  }
+]

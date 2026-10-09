@@ -37,6 +37,13 @@ export default function ResourcesPage() {
       ? allPosts
       : allPosts.filter((post) => post.category === activeCategory);
 
+  const POSTS_PER_PAGE = 6;
+  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
+  const paginatedPosts = filteredPosts.slice(
+    (currentPage - 1) * POSTS_PER_PAGE,
+    currentPage * POSTS_PER_PAGE
+  );
+
   return (
     <main className="w-full bg-white font-sans text-black min-h-screen">
       {/* 1. Header with title and subtitle */}
@@ -79,15 +86,20 @@ export default function ResourcesPage() {
               </p>
             </div>
           ) : (
-            <BlogGrid posts={filteredPosts} />
+            <BlogGrid posts={paginatedPosts} />
           )}
 
           {/* 5. Pagination */}
-          {filteredPosts.length > 6 && (
+          {totalPages > 1 && (
             <Pagination
               currentPage={currentPage}
-              totalPages={Math.ceil(filteredPosts.length / 6)}
-              onPageChange={setCurrentPage}
+              totalPages={totalPages}
+              onPageChange={(page) => {
+                setCurrentPage(page);
+                if (typeof window !== "undefined") {
+                  window.scrollTo({ top: 400, behavior: "smooth" });
+                }
+              }}
             />
           )}
         </>

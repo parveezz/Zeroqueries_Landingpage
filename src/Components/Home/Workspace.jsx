@@ -110,12 +110,12 @@ export default function Workspace() {
     const [isVisible, setIsVisible] = useState(false);
 
     const t = {
-        howItWorks: isAr ? "كيف يعمل" : "How It Works",
+        howItWorks: isAr ? "كيف يعمل" : "How ZeroQueries Works",
         title1: isAr ? "اربط جميع مصادر بياناتك. " : "Connect every data source. ",
-        title2: isAr ? "اسأل عن أي شيء." : "Ask anything.",
+        title2: isAr ? "اسأل عن أي شيء." : "& Ask to ZeroQueries",
         desc: isAr
             ? "يستمع ZeroQueries إلى أسئلتك، ويبحث في مستودعات بياناتك ومستنداتك في الوقت الفعلي، ويعيد رؤى منظمة — دون خطوط أنابيب بيانات، ودون SQL، ودون انتظار."
-            : "ZeroQueries listens to your question, queries your warehouses and documents in real time, and returns structured insights — no pipelines, no SQL, no waiting.",
+            : "ZeroQueries listens to your question, queries your warehouses and documents in real time, and returns structured insights - no pipelines, no SQL, no waiting.",
         allData: isAr ? "جميع بياناتك" : "All of your data",
         structured: isAr ? "البيانات المنظمة" : "Structured Data",
         unstructured: isAr ? "البيانات غير المنظمة" : "Unstructured Data",
@@ -526,7 +526,7 @@ export default function Workspace() {
                                 ref={centerInputRef}
                                 className="bg-white border border-gray-200 rounded-xl p-3 sm:p-6 min-h-[130px] sm:min-h-[140px] flex flex-col justify-between shadow-xs"
                             >
-                                <p 
+                                <p
                                     dir={isAr ? "rtl" : "ltr"}
                                     className={`text-[14.5px] sm:text-base font-light leading-relaxed text-black min-h-[46px] sm:min-h-[52px] ${isAr ? 'text-right' : 'text-left'}`}
                                 >

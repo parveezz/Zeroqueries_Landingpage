@@ -1,11 +1,8 @@
 -- ========================================================
 -- ZeroQueries Blog Database Schema for Hostinger (MySQL)
 -- Charset: utf8mb4 (Full multilingual & Arabic support)
--- Compatible with phpMyAdmin, MySQL 5.7+, and MariaDB
+-- Compatible with Hostinger phpMyAdmin, MySQL 5.7+, and MariaDB
 -- ========================================================
-
-CREATE DATABASE IF NOT EXISTS `umar_zeroqueries` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `umar_zeroqueries`;
 
 -- Drop existing table if recreating
 -- DROP TABLE IF EXISTS `blogs`;
